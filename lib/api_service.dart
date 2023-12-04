@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 
 import 'models/user.dart';
 
+//API service
 class ApiService {
   static String url(int nrResults) {
     return 'http://api.randomuser.me/?results=$nrResults';
