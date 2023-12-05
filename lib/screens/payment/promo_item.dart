@@ -36,7 +36,7 @@ class PromoItem extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 Text(
-                                  'Boat Rockerz 400 On-Ear Bluetooth Headphones',
+                                  'Dog Shampoo (Perfumed) - 250ml',
                                   textAlign: TextAlign.right,
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
@@ -53,7 +53,7 @@ class PromoItem extends StatelessWidget {
                                     children: <Widget>[
                                       ColorOption(Colors.red),
                                       Text(
-                                        '\$58.24',
+                                        '\Rs. 58.24',
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
                                             color: darkGrey,
@@ -131,8 +131,8 @@ class PromoItem extends StatelessWidget {
             top: 5,
             child: ShopProductDisplay(
               Product(
-                  'assets/headphones.png',
-                  'Boat roackerz 400 On-Ear Bluetooth Headphones',
+                  'assets/product_thumb_1.png',
+                  'Dog Shampoo (Perfumed) - 250ml',
                   'description',
                   45.3),
               onPressed: () {},

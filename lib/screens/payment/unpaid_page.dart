@@ -83,13 +83,13 @@ class _UnpaidPageState extends State<UnpaidPage> {
                                 mainAxisSize: MainAxisSize.min,
                                 children: <Widget>[
                                   ListTile(
-                                    title: Text('Boat Rockerz 350 On-Ear ..'),
+                                    title: Text('Dog Shampoo (Perfumed) - 250ml'),
                                     trailing: Text('74.68'),
                                   ),
-                                  ListTile(
-                                    title: Text('Tax'),
-                                    trailing: Text('1.25'),
-                                  ),
+                                  // ListTile(
+                                  //   title: Text('Tax'),
+                                  //   trailing: Text('1.25'),
+                                  // ), TODO : Add taxes
                                   ListTile(
                                     title: Text('Subtotal'),
                                     trailing: Text('76.93'),
@@ -107,7 +107,7 @@ class _UnpaidPageState extends State<UnpaidPage> {
                                           fontWeight: FontWeight.bold),
                                     ),
                                     trailing: Text(
-                                      '\$ 66.93',
+                                      'Rs. 66.93',
                                       style: TextStyle(
                                           fontSize: 20,
                                           fontWeight: FontWeight.bold),

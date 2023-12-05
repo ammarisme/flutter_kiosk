@@ -51,21 +51,21 @@ class ProfilePage extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: <Widget>[
-                        // Column(
-                        //   mainAxisAlignment: MainAxisAlignment.center,
-                        //   children: <Widget>[
-                        //     IconButton(
-                        //       icon: Image.asset('assets/icons/wallet.png'),
-                        //       onPressed:()=> Navigator.of(context).push(
-                        //           MaterialPageRoute(
-                        //               builder: (_) => WalletPage())),
-                        //     ),
-                        //     Text(
-                        //       'Wallet',
-                        //       style: TextStyle(fontWeight: FontWeight.bold),
-                        //     )
-                        //   ],
-                        // ), //TODO : Wallet
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            IconButton(
+                              icon: Image.asset('assets/icons/wallet.png'),
+                              onPressed:()=> Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                      builder: (_) => WalletPage())),
+                            ),
+                            Text(
+                              'Wallet',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            )
+                          ],
+                        ), //TODO : Wallet
                         Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
