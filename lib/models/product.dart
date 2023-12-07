@@ -1,8 +1,17 @@
-class Product{
-  String image;
+part 'product.g.dart';
+
+class Product {
   String name;
   String description;
-  double price;
+  String price;
 
-  Product(this.image, this.name, this.description, this.price);
+  Product({
+    required this.name,
+    required this.description,
+    required this.price,
+  });
+
+  factory Product.fromJson(Map<String, dynamic> json) => _$ProductFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ProductToJson(this);
 }

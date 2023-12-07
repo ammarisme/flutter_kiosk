@@ -73,7 +73,7 @@ class ShopProductDisplay extends StatelessWidget {
               height: 80,
               width: 80,
               child: Image.asset(
-                '${product.image}',
+                'assets/product_thumb_1.png',//'${product.image}',
                 fit: BoxFit.contain,
               )),
         ),
