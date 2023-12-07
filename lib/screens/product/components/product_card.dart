@@ -25,8 +25,8 @@ class ProductCard extends StatelessWidget {
                     padding: EdgeInsets.all(16.0),
                     width: MediaQuery.of(context).size.width / 2 - 64,
                     height: MediaQuery.of(context).size.width / 2 - 64,
-                    child: Image.asset(
-                        'assets/product_thumb_1.png'//product.image,
+                    child: Image.network(
+                      product.image,
                     ),
                   ),
                 ),

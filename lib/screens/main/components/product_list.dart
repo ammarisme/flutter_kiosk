@@ -168,8 +168,8 @@ class ProductCard extends StatelessWidget {
           Positioned(
             child: Hero(
               tag: 'assets/product_thumb_1.png',
-              child: Image.asset(
-                'assets/product_thumb_1.png',
+              child: Image.network(
+                product.image,
                 height: height / 1.7,
                 width: width / 1.4,
                 fit: BoxFit.contain,

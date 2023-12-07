@@ -131,6 +131,7 @@ class PromoItem extends StatelessWidget {
             top: 5,
             child: ShopProductDisplay(
               Product(
+                  image:'assets/product_thumb_1.png',
                   name: 'Dog Shampoo (Perfumed) - 250ml',
                   description: 'description',
                   price: "45.3"),

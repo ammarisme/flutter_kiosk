@@ -13,6 +13,7 @@ class ShopBottomSheet extends StatefulWidget {
 class _ShopBottomSheetState extends State<ShopBottomSheet> {
   List<Product> products = [
     Product(
+        image:'assets/product_thumb_1.png',
         name: 'Dog Shampoo (Perfumed) - 250ml',
         description: 'description',
         price: "45.3")
@@ -66,7 +67,7 @@ class _ShopBottomSheetState extends State<ShopBottomSheet> {
             Align(
               alignment: Alignment.topRight,
               child: IconButton(
-                icon: Image.asset(
+                icon: Image.network(
                   'assets/box.png',
                   height: 24,
                   width: 24.0,

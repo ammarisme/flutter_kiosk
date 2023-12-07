@@ -207,7 +207,7 @@ class NotificationsPage extends StatelessWidget {
                                     child: SizedBox(
                                         height: 80,
                                         width: 80,
-                                        child: Image.asset(
+                                        child: Image.network(
                                             'assets/product_image_1.png')),
                                   )
                                 ]),
@@ -290,7 +290,7 @@ class NotificationsPage extends StatelessWidget {
                                     child: SizedBox(
                                         height: 80,
                                         width: 80,
-                                        child: Image.asset(
+                                        child: Image.network(
                                             'assets/product_image_1.png')),
                                   )
                                 ]),

@@ -21,8 +21,8 @@ class ProductOption extends StatelessWidget {
         children: <Widget>[
           Positioned(
             left: 16.0,
-            child: Image.asset(
-              'assets/product_thumb_1.png',//product.image,
+            child: Image.network(
+              product.image,
               height: 200,
               width: 200,
             ),

@@ -72,8 +72,8 @@ class ShopProductDisplay extends StatelessWidget {
           child: SizedBox(
               height: 80,
               width: 80,
-              child: Image.asset(
-                'assets/product_thumb_1.png',//'${product.image}',
+              child: Image.network(
+                '${product.image}',
                 fit: BoxFit.contain,
               )),
         ),

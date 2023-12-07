@@ -90,8 +90,8 @@ class RecommendedList extends StatelessWidget {
                             focalRadius: 0.1),
                       ),
                       child: Hero(
-                          tag: 'assets/product_thumb_1.png',//products[index].image,
-                          child: Image.asset('assets/product_thumb_1.png')))//products[index].image))),
+                          tag: products[index].image,
+                          child: Image.network(products[index].image))),
                 ),
               ),
               mainAxisSpacing: 4.0,

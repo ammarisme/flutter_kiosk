@@ -18,7 +18,7 @@ class _SearchPageState extends State<SearchPage>
 
   List<Product> products = [
     Product(
-        // image:'assets/product_thumb_1.png',
+        image:'assets/product_thumb_1.png',
         name: 'Dog Shampoo (Perfumed) - 250ml',
         description: 'description',
         price: "45.3")

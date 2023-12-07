@@ -11,6 +11,7 @@ Product _$ProductFromJson(Map<String, dynamic> json) {
     name: json['name'] as String,
     description : json['description'],
     price: json['price'] as String,
+    image: json['images'][0]["src"] as String
   );
 }
 

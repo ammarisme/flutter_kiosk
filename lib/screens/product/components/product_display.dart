@@ -65,9 +65,9 @@ class ProductDisplay extends StatelessWidget {
                     ),
                     child: Container(
                       child: Hero(
-                        tag: 'assets/product_thumb_1.png',//product.image,
-                        child: Image.asset(
-                          'assets/product_thumb_1.png',//product.image,
+                        tag: product.image,
+                        child: Image.network(
+                          product.image,
                           fit: BoxFit.contain,
                           height: 230,
                           width: 230,

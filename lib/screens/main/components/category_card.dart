@@ -41,7 +41,7 @@ class CategoryCard extends StatelessWidget {
                         focalRadius: 0.1)),
                 padding: EdgeInsets.all(8.0),
                 child: Center(
-                  child: Image.asset(category.image),
+                  child: Image.network(category.image),
                 ),
               )
             ],

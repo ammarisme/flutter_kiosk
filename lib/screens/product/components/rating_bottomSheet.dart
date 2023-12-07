@@ -32,7 +32,7 @@ class _RatingBottomSheetState extends State<RatingBottomSheet> {
                     shape: BoxShape.circle,
                     boxShadow: shadow,
                     border: Border.all(width: 8.0, color: Colors.white)),
-                child: Image.asset('assets/product_image_1.png'),
+                child: Image.network('assets/product_image_1.png'),
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(
