@@ -10,6 +10,7 @@ class CategoryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(category.name);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
       child: Card(
@@ -24,7 +25,7 @@ class CategoryCard extends StatelessWidget {
                 padding: EdgeInsets.all(8.0),
                 child: Center(
                   child: Text(
-                    category.category,
+                    category.name,
                     textAlign: TextAlign.right,
                   ),
                 ),
@@ -34,7 +35,7 @@ class CategoryCard extends StatelessWidget {
                 width: 90,
                 decoration: BoxDecoration(
                     gradient: RadialGradient(
-                        colors: [category.begin, category.end],
+                        colors: [Colors.blue, Colors.blue],//TODO: [category.begin, category.end],
                         center: Alignment(0, 0),
                         radius: 0.8,
                         focal: Alignment(0, 0),

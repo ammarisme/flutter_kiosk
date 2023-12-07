@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'models/category.dart';
 import 'models/product.dart';
 import 'models/user.dart';
 
@@ -25,8 +26,6 @@ class ApiService {
 
       if (response.statusCode == 200) {
         List<dynamic> data = json.decode(response.body);
-        print("debug----------------------------------");
-        print(data);
         List<Product> products =
         data.map((item) => Product.fromJson(item)).toList();
         return products;
@@ -40,6 +39,35 @@ class ApiService {
     }
   }
 
+  static Future<List<Category>> getCategories() async {
+    print('fetching categories........');
+    try {
+      final Uri url = Uri.parse(base_url() + '/products/categories');
+
+      final response = await http.get(
+        url,
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization" : "Basic Y2tfYTU0NTViYmE1NDhiYThkM2I0MzM1ZjY1MWIxNDgyYTJiYzU5YWQ3Yzpjc19kMjA5OGE5YWY1ZGZmMmFjNjg3ODcxMWM3ZWY2YTQ4YWZkNDAyOTIy"
+        },
+      );
+
+      if (response.statusCode == 200) {
+        List<dynamic> data = json.decode(response.body);
+        print('---debug');
+
+        List<Category> categories =
+        data.map((item) => Category.fromJson(item)).toList();
+        return categories;
+      } else {
+        print('Failed to load products: ${response.statusCode}');
+        return [];
+      }
+    } catch (e) {
+      print('Error fetching products: $e');
+      return [];
+    }
+  }
 
   static Future<List<User>> getUsers({int nrUsers = 1}) async {
     try {
@@ -64,4 +92,6 @@ class ApiService {
       return [];
     }
   }
+
+
 }

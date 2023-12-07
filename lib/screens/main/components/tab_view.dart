@@ -1,50 +1,24 @@
 import 'package:ecommerce_int2/models/category.dart';
+import 'package:ecommerce_int2/models/product.dart';
 import 'package:flutter/material.dart';
 import 'category_card.dart';
 import 'recommended_list.dart';
 
 class TabView extends StatelessWidget {
-  List<Category> categories = [
-    Category(
-      Color(0xffFCE183),
-      Color(0xffF68D7F),
-      'Cats',
-      'assets/fish.png',
-    ),
-    Category(
-      Color(0xffFCE183),
-      Color(0xffF68D7F),
-      'Dogs',
-      'assets/fish.png',
-    ),
-    Category(
-      Color(0xffFCE183),
-      Color(0xffF68D7F),
-      'Fish',
-      'assets/fish.png',
-    ),
-    Category(
-      Color(0xffFCE183),
-      Color(0xffF68D7F),
-      'Birds',
-      'assets/fish.png',
-    ),
-    Category(
-      Color(0xffFCE183),
-      Color(0xffF68D7F),
-      'Hamster',
-      'assets/fish.png',
-    ),
-  ];
+  List<Category> categories = [];
+  List<Product> recommeded_products = [];
 
   final TabController tabController;
 
   TabView({
+    required this.categories,
     required this.tabController,
+    required this.recommeded_products
   });
 
   @override
   Widget build(BuildContext context) {
+    print(this.categories);
     print(MediaQuery.of(context).size.height / 9);
     return TabBarView(
         physics: NeverScrollableScrollPhysics(),
@@ -67,7 +41,7 @@ class TabView extends StatelessWidget {
                 SizedBox(
                   height: 16.0,
                 ),
-                Flexible(child: RecommendedList()),
+                Flexible(child: RecommendedList( recommeded_products:this.recommeded_products)),
               ],
             ),
           ),
@@ -75,25 +49,25 @@ class TabView extends StatelessWidget {
             SizedBox(
               height: 16.0,
             ),
-            Flexible(child: RecommendedList())
+            Flexible(child:  RecommendedList( recommeded_products:this.recommeded_products))
           ]),
           Column(children: <Widget>[
             SizedBox(
               height: 16.0,
             ),
-            Flexible(child: RecommendedList())
+            Flexible(child:  RecommendedList( recommeded_products:this.recommeded_products))
           ]),
           Column(children: <Widget>[
             SizedBox(
               height: 16.0,
             ),
-            Flexible(child: RecommendedList())
+            Flexible(child:  RecommendedList( recommeded_products:this.recommeded_products))
           ]),
           Column(children: <Widget>[
             SizedBox(
               height: 16.0,
             ),
-            Flexible(child: RecommendedList())
+            Flexible(child:  RecommendedList( recommeded_products:this.recommeded_products))
           ]),
         ]);
   }

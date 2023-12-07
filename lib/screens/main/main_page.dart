@@ -10,22 +10,29 @@ import 'package:ecommerce_int2/screens/shop/check_out_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
+import '../../models/category.dart';
 import 'components/custom_bottom_bar.dart';
 import 'components/product_list.dart';
 import 'components/tab_view.dart';
 
 // Define a ProductNotifier class that extends ChangeNotifier
 class ProductNotifier extends ChangeNotifier {
-  List<Product> _products = [
-    // Initialize your list of products here...
-  ];
-
+  List<Product> _products = [];
   List<Product> get products => _products;
+
+  List<Product> _recommended_products = [];
+  List<Product> get recommended_products => _recommended_products;
+
+  List<Category> _categories = [];
+  List<Category> get categories => _categories;
 
   // Method to update the list of products
   Future<void> updateProducts() async {
     ApiService apiService = ApiService();
     _products = await ApiService.getProducts("609");
+    _categories = await ApiService.getCategories();
+    _recommended_products = await ApiService.getProducts("608");
+
     notifyListeners();
   }
 }
@@ -63,21 +70,20 @@ class _MainContentState extends State<MainContent>
     super.initState();
     tabController = TabController(length: 5, vsync: this);
     bottomTabController = TabController(length: 4, vsync: this);
-
+    print('initState');
     if (!isStateUpdated) {
-      WidgetsBinding.instance?.addPostFrameCallback((_) {
         ProductNotifier productNotifier =
             Provider.of<ProductNotifier>(context, listen: false);
         productNotifier.updateProducts();
         setState(() {
           isStateUpdated = true;
         });
-      });
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    print('building');
     // Access the ProductNotifier instance using Provider.of
     ProductNotifier productNotifier = Provider.of<ProductNotifier>(context);
 
@@ -141,6 +147,10 @@ class _MainContentState extends State<MainContent>
     Widget tabBar = TabBar(
       tabs: [
         Tab(text: 'Categories'),
+        Tab(text: ''),
+        Tab(text: ''),
+        Tab(text: ''),
+        Tab(text: ''),
       ],
       labelStyle: TextStyle(fontSize: 16.0),
       unselectedLabelStyle: TextStyle(
@@ -156,42 +166,49 @@ class _MainContentState extends State<MainContent>
       bottomNavigationBar: CustomBottomBar(controller: bottomTabController),
       body: CustomPaint(
         painter: MainBackground(),
-        child: TabBarView(
-          controller: bottomTabController,
-          physics: NeverScrollableScrollPhysics(),
-          children: <Widget>[
-            SafeArea(
-              child: NestedScrollView(
-                headerSliverBuilder:
-                    (BuildContext context, bool innerBoxIsScrolled) {
-                  // These are the slivers that show up in the "outer" scroll view.
-                  return <Widget>[
-                    SliverToBoxAdapter(
-                      child: appBar,
+        child:Consumer<ProductNotifier>(
+          builder: (context, productNotifier, _){
+            return TabBarView(
+              controller: bottomTabController,
+              physics: NeverScrollableScrollPhysics(),
+              children: <Widget>[
+                SafeArea(
+                  child: NestedScrollView(
+                    headerSliverBuilder:
+                        (BuildContext context, bool innerBoxIsScrolled) {
+                      // These are the slivers that show up in the "outer" scroll view.
+                      return <Widget>[
+                        SliverToBoxAdapter(
+                          child: appBar,
+                        ),
+                        SliverToBoxAdapter(
+                          child: topHeader,
+                        ),
+                        SliverToBoxAdapter(
+                          child: ProductList(
+                            products: productNotifier.products,
+                          ),
+                        ),
+                        SliverToBoxAdapter(
+                          child: tabBar,
+                        )
+                      ];
+                    },
+                    body: TabView(
+                      categories: productNotifier.categories,
+                      recommeded_products: productNotifier.recommended_products,
+                      tabController: tabController,
                     ),
-                    SliverToBoxAdapter(
-                      child: topHeader,
-                    ),
-                    SliverToBoxAdapter(
-                      child: ProductList(
-                        products: products,
-                      ),
-                    ),
-                    SliverToBoxAdapter(
-                      child: tabBar,
-                    )
-                  ];
-                },
-                body: TabView(
-                  tabController: tabController,
+                  ),
                 ),
-              ),
-            ),
-            CategoryListPage(),
-            CheckOutPage(),
-            ProfilePage()
-          ],
-        ),
+                CategoryListPage(),
+                CheckOutPage(),
+                ProfilePage()
+              ],
+            );
+          },
+        )
+
       ),
     );
 

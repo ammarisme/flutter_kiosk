@@ -12,36 +12,12 @@ class CategoryListPage extends StatefulWidget {
 
 class _CategoryListPageState extends State<CategoryListPage> {
   List<Category> categories = [
-    Category(
-      Color(0xffFCE183),
-      Color(0xffF68D7F),
-      'Cats',
-      'assets/fish.png',
-    ),
-    Category(
-      Color(0xffFCE183),
-      Color(0xffF68D7F),
-      'Dogs',
-      'assets/fish.png',
-    ),
-    Category(
-      Color(0xffFCE183),
-      Color(0xffF68D7F),
-      'Fish',
-      'assets/fish.png',
-    ),
-    Category(
-      Color(0xffFCE183),
-      Color(0xffF68D7F),
-      'Birds',
-      'assets/fish.png',
-    ),
-    Category(
-      Color(0xffFCE183),
-      Color(0xffF68D7F),
-      'Hamster',
-      'assets/fish.png',
-    ),
+        // Category(
+    //   Color(0xffFCE183),
+    //   Color(0xffF68D7F),
+    //   'Hamster',
+    //   'assets/fish.png',
+    // ),
   ];
 
   List<Category> searchResults = [];
@@ -96,7 +72,7 @@ class _CategoryListPageState extends State<CategoryListPage> {
                   if (value.isNotEmpty) {
                     List<Category> tempList = [];
                     categories.forEach((category) {
-                      if (category.category.toLowerCase().contains(value)) {
+                      if (category.name.toLowerCase().contains(value)) {
                         tempList.add(category);
                       }
                     });
@@ -124,7 +100,7 @@ class _CategoryListPageState extends State<CategoryListPage> {
                   child: StaggeredCardCard(
                     begin: searchResults[index].begin,
                     end: searchResults[index].end,
-                    categoryName: searchResults[index].category,
+                    categoryName: searchResults[index].name,
                     assetPath: searchResults[index].image,
                   ),
                 ),
