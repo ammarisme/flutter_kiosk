@@ -11,7 +11,7 @@ class ApiService {
     return 'https://catlitter.lk/wp-json/wc/v3';
   }
 
-  static Future<List<Product>> getProducts(String categoryId) async {
+  static Future<List<Product>> getProducts(dynamic categoryId) async {
     print('fetching products........');
     try {
       final Uri url = Uri.parse(base_url() + '/products?category=$categoryId');

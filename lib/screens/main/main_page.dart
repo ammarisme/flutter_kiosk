@@ -26,12 +26,31 @@ class ProductNotifier extends ChangeNotifier {
   List<Category> _categories = [];
   List<Category> get categories => _categories;
 
+  List<Category> _root_categories = [];
+  List<Category> get rootcategories => _root_categories;
+
+  List<Product> _products_of_category = [];
+  List<Product> get products_of_category => _products_of_category;
+
+  dynamic selectedCategoryId = -1;
+
+  late Category selectedCategory;
+
   // Method to update the list of products
   Future<void> updateProducts() async {
     ApiService apiService = ApiService();
     _products = await ApiService.getProducts("609");
     _categories = await ApiService.getCategories();
     _recommended_products = await ApiService.getProducts("608");
+    _root_categories = _categories;//.where((category) => category.parent == 0 ||  category.parent == 690).toList();
+    selectedCategory = _categories.first;
+    notifyListeners();
+  }
+
+  Future<void> selectCategory(dynamic categoryId) async{
+    _products_of_category = await ApiService.getProducts(categoryId);
+    this.selectedCategoryId = categoryId;
+    this.selectedCategory = _categories.where((category) => category.id == categoryId).first;
 
     notifyListeners();
   }
@@ -146,8 +165,8 @@ class _MainContentState extends State<MainContent>
 
     Widget tabBar = TabBar(
       tabs: [
+        Tab(text: 'Recommended'),
         Tab(text: 'Categories'),
-        Tab(text: ''),
         Tab(text: ''),
         Tab(text: ''),
         Tab(text: ''),
@@ -195,7 +214,10 @@ class _MainContentState extends State<MainContent>
                       ];
                     },
                     body: TabView(
+                      selectedCategory: productNotifier.selectedCategory,
                       categories: productNotifier.categories,
+                      products_of_category: productNotifier.products_of_category,
+                      root_categories : productNotifier.rootcategories,
                       recommeded_products: productNotifier.recommended_products,
                       tabController: tabController,
                     ),
@@ -212,9 +234,5 @@ class _MainContentState extends State<MainContent>
       ),
     );
 
-    return Scaffold(
-        // ... Your existing Scaffold contents
-        // Ensure to access and use productNotifier.products where needed.
-        );
   }
 }

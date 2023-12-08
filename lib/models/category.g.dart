@@ -9,7 +9,9 @@ Category _$CategoryFromJson(Map<String, dynamic> json) {
   String? imageUrl = json['image']?['src'] as String?;
   return Category(
     name: json['name'] as String,
-    image: imageUrl ?? ''
+    image: imageUrl ?? '',
+    id: json["id"],
+    parent: json["parent"]
   );
 }
 

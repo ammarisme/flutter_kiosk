@@ -7,24 +7,6 @@ import 'package:flutter/material.dart';
 class RecommendedList extends StatelessWidget {
   List<Product> recommeded_products = [];
 
-  //TODO: Show products
-  // Product('assets/product_thumb_1.png', 'Dog Shampoo (Perfumed)', 'Sample product desc', 2.33),
-  // Product('assets/fish.png',  'Dog Shampoo (Perfumed)', 'Sample product desc', 10),
-  // Product('assets/jeans_1.png', 'Jeans', 'Jeans for you', 20),
-  // Product('assets/womanshoe_3.png', 'Woman Shoes',
-  //     'Shoes with special discount', 30),
-  //
-  // Product('assets/bag_10.png', 'Bag Express', 'Bag for your shops', 40),
-  // Product('assets/jeans_3.png', 'Jeans', 'Beautiful Jeans', 102.33),
-  // Product('assets/ring_1.png', 'Silver Ring', 'Description', 52.33),
-  // Product('assets/shoeman_7.png', 'Shoes', 'Description', 62.33),
-  // Product('assets/headphone_9.png', 'Headphones', 'Description', 72.33),
-  //
-  // Product('assets/product_thumb_1.png', 'Product Title', 'Product Desc', 2.33),
-  // Product('assets/product_thumb_1.png', 'Product Title', 'Product Desc', 2.33),
-  // Product('assets/product_thumb_1.png', 'Product Title', 'Product Desc', 2.33),
-  // Product('assets/product_thumb_1.png', 'Product Title', 'Product Desc', 2.33),
-  // Product('assets/product_thumb_1.png', 'Product Title', 'Product Desc', 2.33),
   RecommendedList({required this.recommeded_products});
 
   @override
@@ -60,7 +42,7 @@ class RecommendedList extends StatelessWidget {
             child: MasonryGridView.count(
               physics: NeverScrollableScrollPhysics(),
               padding: EdgeInsets.zero,
-              crossAxisCount: 4,
+              crossAxisCount: 3,
               itemCount: recommeded_products.length,
               itemBuilder: (BuildContext context, int index) => new ClipRRect(
                 borderRadius: BorderRadius.all(Radius.circular(5.0)),
