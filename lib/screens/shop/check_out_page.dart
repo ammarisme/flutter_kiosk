@@ -17,11 +17,11 @@ class _CheckOutPageState extends State<CheckOutPage> {
   SwiperController swiperController = SwiperController();
 
   List<Product> products = [
-    Product(
-        image:'assets/product_thumb_1.png',
-        name: 'Dog Shampoo (Perfumed) - 250ml',
-        description: 'description',
-        price: "45.3")
+    // Product(
+    //     image:'assets/product_thumb_1.png',
+    //     name: 'Dog Shampoo (Perfumed) - 250ml',
+    //     description: 'description',
+    //     price: "45.3")
   ];
 
   @override

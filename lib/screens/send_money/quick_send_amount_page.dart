@@ -92,7 +92,7 @@ class QuickSendAmountPage extends StatelessWidget {
                                         CircleAvatar(
                                           maxRadius: 24,
                                           backgroundImage: NetworkImage(
-                                              user.picture.thumbnail),
+                                              user.phone_number),
                                         ),
                                         SizedBox(width: 16.0),
                                         Column(
@@ -100,15 +100,15 @@ class QuickSendAmountPage extends StatelessWidget {
                                               CrossAxisAlignment.start,
                                           children: <Widget>[
                                             Text(
-                                              user.name.first +
+                                              user.first_name +
                                                   ' ' +
-                                                  user.name.last,
+                                                  user.last_name,
                                               style: TextStyle(
                                                   color: Colors.white54,
                                                   fontSize: 16,
                                                   fontWeight: FontWeight.bold),
                                             ),
-                                            Text(user.phone,
+                                            Text(user.phone_number,
                                                 style: TextStyle(
                                                     fontSize: 12,
                                                     color: Colors.white30)),

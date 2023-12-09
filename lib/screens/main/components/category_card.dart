@@ -2,6 +2,7 @@ import 'package:ecommerce_int2/models/category.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../../change_notifiers/product_notifier.dart';
 import '../main_page.dart';
 
 class CategoryCard extends StatelessWidget {

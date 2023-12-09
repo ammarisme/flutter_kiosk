@@ -1,4 +1,4 @@
-import 'package:ecommerce_int2/api_service.dart';
+import 'package:ecommerce_int2/api_services/api_service.dart';
 import 'package:ecommerce_int2/models/user.dart';
 import 'package:ecommerce_int2/screens/send_money/quick_send_amount_page.dart';
 import 'package:flutter/cupertino.dart';
@@ -121,16 +121,16 @@ class _SendPageState extends State<SendPage> {
                                             CircleAvatar(
                                               maxRadius: 24,
                                               backgroundImage: NetworkImage(
-                                                  user.picture.thumbnail),
+                                                  user.avatar_url),
                                             ),
                                             Padding(
                                               padding:
                                                   const EdgeInsets.fromLTRB(
                                                       4.0, 16.0, 4.0, 0.0),
                                               child: Text(
-                                                  user.name.first +
+                                                  user.first_name +
                                                       ' ' +
-                                                      user.name.last,
+                                                      user.last_name,
                                                   textAlign: TextAlign.center,
                                                   style: TextStyle(
                                                     fontSize: 14.0,
@@ -140,7 +140,7 @@ class _SendPageState extends State<SendPage> {
                                               padding: const EdgeInsets.only(
                                                   top: 8.0),
                                               child: Text(
-                                                user.phone,
+                                                user.phone_number,
                                                 textAlign: TextAlign.center,
                                                 style: TextStyle(fontSize: 10),
                                               ),
@@ -183,7 +183,7 @@ class _SendPageState extends State<SendPage> {
                                                 child: CircleAvatar(
                                                   maxRadius: 24,
                                                   backgroundImage: NetworkImage(
-                                                      user.picture.thumbnail),
+                                                      user.avatar_url),
                                                 ),
                                               ),
                                               Column(
@@ -195,9 +195,9 @@ class _SendPageState extends State<SendPage> {
                                                         const EdgeInsets.only(
                                                             top: 16.0),
                                                     child: Text(
-                                                        user.name.first +
+                                                        user.first_name +
                                                             ' ' +
-                                                            user.name.last,
+                                                            user.last_name,
                                                         style: TextStyle(
                                                             fontSize: 16.0,
                                                             fontWeight:
@@ -210,7 +210,7 @@ class _SendPageState extends State<SendPage> {
                                                             top: 8.0,
                                                             bottom: 16.0),
                                                     child: Text(
-                                                      user.phone,
+                                                      user.phone_number,
                                                     ),
                                                   ),
                                                 ],

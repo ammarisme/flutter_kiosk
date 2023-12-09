@@ -75,19 +75,19 @@ class ReceivePaymentPage extends StatelessWidget {
                                 CircleAvatar(
                                   maxRadius: 24,
                                   backgroundImage:
-                                      NetworkImage(user.picture.thumbnail),
+                                      NetworkImage(user.avatar_url),
                                 ),
                                 SizedBox(width: 16.0),
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
                                     Text(
-                                      user.name.first + ' ' + user.name.last,
+                                      user.first_name + ' ' + user.last_name,
                                       style: TextStyle(
                                           fontSize: 16,
                                           fontWeight: FontWeight.bold),
                                     ),
-                                    Text(user.phone,
+                                    Text(user.phone_number,
                                         style: TextStyle(
                                             fontSize: 12, color: Colors.grey)),
                                   ],

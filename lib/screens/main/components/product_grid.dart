@@ -71,26 +71,87 @@ class ProductGrid extends StatelessWidget {
                               child: Image.network(products[index].image),
                             ),
                             Positioned(
-                              bottom: 0,
+                              top: 5,
+                              left: 0,
+                              child: Container(
+                                margin: const EdgeInsets.only(bottom: 12.0),
+                                padding: const EdgeInsets.fromLTRB(
+                                    8.0, 4.0, 12.0, 4.0),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.only(
+                                    topRight: Radius.circular(10),
+                                    bottomRight: Radius.circular(10),
+                                  ),
+                                  color: Color.fromRGBO(200, 200, 200,
+                                      0.8), // Adjust the opacity if needed
+                                ),
+                                child: Text(
+                                  '${products[index].name}',
+                                  // Replace this with your price text
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.bold,),
+                                ),
+                              ),
+                            ),
+                            Positioned(
+                              bottom: 25,
                               right: 0,
                               child: Container(
                                 margin: const EdgeInsets.only(bottom: 12.0),
-                                padding: const EdgeInsets.fromLTRB(8.0, 4.0, 12.0, 4.0),
+                                padding: const EdgeInsets.fromLTRB(
+                                    8.0, 4.0, 12.0, 4.0),
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.only(
                                     topLeft: Radius.circular(10),
                                     bottomLeft: Radius.circular(10),
                                   ),
-                                  color: Color.fromRGBO(224, 69, 10, 0.8), // Adjust the opacity if needed
+                                  color: Color.fromRGBO(224, 69, 10,
+                                      0.8), // Adjust the opacity if needed
                                 ),
                                 child: Text(
-                                  'Rs. ${products[index].price}', // Replace this with your price text
+                                  'Rs. ${products[index].price}',
+                                  // Replace this with your price text
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 18,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
+                              ),
+                            ),
+                            Positioned(
+                              bottom: 0,
+                              right: 0,
+                              child: Container(
+                                margin: const EdgeInsets.only(bottom: 12.0),
+                                padding: const EdgeInsets.fromLTRB(
+                                    8.0, 4.0, 12.0, 4.0),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(10),
+                                    bottomLeft: Radius.circular(10),
+                                  ),
+                                  color: Color.fromRGBO(200, 200, 200,
+                                      0.8), // Adjust the opacity if needed
+                                ),
+                                child: (products[index].regular_price !=
+                                            products[index].sale_price &&
+                                        products[index].regular_price !=
+                                            products[index].price &&
+                                        products[index].regular_price != "0")
+                                    ? Text(
+                                        'Rs. ${products[index].regular_price}',
+                                        // Replace this with your price text
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold,
+                                            decoration:
+                                                TextDecoration.lineThrough),
+                                      )
+                                    : Container(),
                               ),
                             ),
                           ],

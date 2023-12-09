@@ -1,4 +1,4 @@
-import 'package:ecommerce_int2/api_service.dart';
+import 'package:ecommerce_int2/api_services/api_service.dart';
 import 'package:ecommerce_int2/models/user.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -135,9 +135,7 @@ class _PaymentHistoryPageState extends State<PaymentHistoryPage> {
                                                                         CircleAvatar(
                                                                       maxRadius:
                                                                           24,
-                                                                      backgroundImage: NetworkImage(user
-                                                                          .picture
-                                                                          .thumbnail),
+                                                                      backgroundImage: NetworkImage(user.avatar_url),
                                                                     ),
                                                                   ),
                                                                   Column(
@@ -150,9 +148,9 @@ class _PaymentHistoryPageState extends State<PaymentHistoryPage> {
                                                                         padding:
                                                                             const EdgeInsets.only(top: 16.0),
                                                                         child: Text(
-                                                                            user.name.first +
+                                                                            user.first_name +
                                                                                 ' ' +
-                                                                                user.name.last,
+                                                                                user.last_name,
                                                                             style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold)),
                                                                       ),
                                                                       Padding(
@@ -163,7 +161,7 @@ class _PaymentHistoryPageState extends State<PaymentHistoryPage> {
                                                                                 16.0),
                                                                         child:
                                                                             Text(
-                                                                          user.phone,
+                                                                          user.phone_number,
                                                                         ),
                                                                       ),
                                                                       Text(

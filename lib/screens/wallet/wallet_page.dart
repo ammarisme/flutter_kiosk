@@ -1,4 +1,4 @@
-import 'package:ecommerce_int2/api_service.dart';
+import 'package:ecommerce_int2/api_services/api_service.dart';
 import 'package:ecommerce_int2/app_properties.dart';
 import 'package:ecommerce_int2/models/user.dart';
 import 'package:ecommerce_int2/screens/payment_history_page.dart';
@@ -235,18 +235,16 @@ class _WalletPageState extends State<WalletPage> with TickerProviderStateMixin {
                                                     CircleAvatar(
                                                       maxRadius: 24,
                                                       backgroundImage:
-                                                          NetworkImage(user
-                                                              .picture
-                                                              .thumbnail),
+                                                          NetworkImage(user.avatar_url),
                                                     ),
                                                     Padding(
                                                       padding: const EdgeInsets
                                                               .fromLTRB(
                                                           4.0, 16.0, 4.0, 0.0),
                                                       child: Text(
-                                                          user.name.first +
+                                                          user.first_name +
                                                               ' ' +
-                                                              user.name.last,
+                                                              user.last_name,
                                                           textAlign:
                                                               TextAlign.center,
                                                           style: TextStyle(
@@ -258,7 +256,7 @@ class _WalletPageState extends State<WalletPage> with TickerProviderStateMixin {
                                                           const EdgeInsets.only(
                                                               top: 8.0),
                                                       child: Text(
-                                                        user.phone,
+                                                        user.phone_number,
                                                         textAlign:
                                                             TextAlign.center,
                                                         style: TextStyle(

@@ -1,19 +1,13 @@
-
 import 'package:ecommerce_int2/app_properties.dart';
+import 'package:ecommerce_int2/change_notifiers/user_notifier.dart';
+import 'package:ecommerce_int2/screens/auth/register_page.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-import 'register_page.dart';
-
-class                            WelcomeBackPage extends StatefulWidget {
-  @override
-  _WelcomeBackPageState createState() => _WelcomeBackPageState();
-}
-
-class _WelcomeBackPageState extends State<WelcomeBackPage> {
-  TextEditingController email =
-      TextEditingController(text: 'naseefnisar@icloud.com');
-
-  TextEditingController password = TextEditingController(text: '12345678');
+class LoginPage extends StatelessWidget {
+  TextEditingController username =
+  TextEditingController(text: 'catlitter.lk');
+  TextEditingController password = TextEditingController(text: 'Eha&uDuy*4hoTTCXYwMCfDF(');
 
   @override
   Widget build(BuildContext context) {
@@ -47,8 +41,9 @@ class _WelcomeBackPageState extends State<WelcomeBackPage> {
       bottom: 40,
       child: InkWell(
         onTap: () {
-          Navigator.of(context)
-              .push(MaterialPageRoute(builder: (_) => RegisterPage()));
+          //TODO: login
+          UserNotifier userNotifier = Provider.of<UserNotifier>(context, listen: false);
+          userNotifier.login(this.username.text, this.password.text);
         },
         child: Container(
           width: MediaQuery.of(context).size.width / 2,
@@ -100,7 +95,7 @@ class _WelcomeBackPageState extends State<WelcomeBackPage> {
                 Padding(
                   padding: const EdgeInsets.only(top: 8.0),
                   child: TextField(
-                    controller: email,
+                    controller: username,
                     style: TextStyle(fontSize: 16.0),
                   ),
                 ),
@@ -155,13 +150,13 @@ class _WelcomeBackPageState extends State<WelcomeBackPage> {
 
           Container(
             decoration: BoxDecoration(
-              image: DecorationImage(image: AssetImage('assets/background.jpg'),
-                  fit: BoxFit.cover)
+                image: DecorationImage(image: AssetImage('assets/background.jpg'),
+                    fit: BoxFit.cover)
             ),
           ),
           Container(
             decoration: BoxDecoration(
-                color: transparentYellow,
+              color: transparentYellow,
 
             ),
           ),

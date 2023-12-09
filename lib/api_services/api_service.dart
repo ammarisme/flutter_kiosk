@@ -1,9 +1,13 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-import 'models/category.dart';
-import 'models/product.dart';
-import 'models/user.dart';
+import '../models/category.dart';
+import '../models/product.dart';
+import '../models/user.dart';
+
+class Variables {
+  static String base_url = 'https://catlitter.lk/wp-json/wc/v3';
+}
 
 //API service
 class ApiService {
@@ -20,14 +24,15 @@ class ApiService {
         url,
         headers: {
           "Content-Type": "application/json",
-          "Authorization" : "Basic Y2tfYTU0NTViYmE1NDhiYThkM2I0MzM1ZjY1MWIxNDgyYTJiYzU5YWQ3Yzpjc19kMjA5OGE5YWY1ZGZmMmFjNjg3ODcxMWM3ZWY2YTQ4YWZkNDAyOTIy"
+          "Authorization":
+              "Basic Y2tfYTU0NTViYmE1NDhiYThkM2I0MzM1ZjY1MWIxNDgyYTJiYzU5YWQ3Yzpjc19kMjA5OGE5YWY1ZGZmMmFjNjg3ODcxMWM3ZWY2YTQ4YWZkNDAyOTIy"
         },
       );
 
       if (response.statusCode == 200) {
         List<dynamic> data = json.decode(response.body);
         List<Product> products =
-        data.map((item) => Product.fromJson(item)).toList();
+            data.map((item) => Product.fromJson(item)).toList();
         return products;
       } else {
         print('Failed to load products: ${response.statusCode}');
@@ -48,7 +53,8 @@ class ApiService {
         url,
         headers: {
           "Content-Type": "application/json",
-          "Authorization" : "Basic Y2tfYTU0NTViYmE1NDhiYThkM2I0MzM1ZjY1MWIxNDgyYTJiYzU5YWQ3Yzpjc19kMjA5OGE5YWY1ZGZmMmFjNjg3ODcxMWM3ZWY2YTQ4YWZkNDAyOTIy"
+          "Authorization":
+              "Basic Y2tfYTU0NTViYmE1NDhiYThkM2I0MzM1ZjY1MWIxNDgyYTJiYzU5YWQ3Yzpjc19kMjA5OGE5YWY1ZGZmMmFjNjg3ODcxMWM3ZWY2YTQ4YWZkNDAyOTIy"
         },
       );
 
@@ -57,7 +63,7 @@ class ApiService {
         print('---debug');
 
         List<Category> categories =
-        data.map((item) => Category.fromJson(item)).toList();
+            data.map((item) => Category.fromJson(item)).toList();
         return categories;
       } else {
         print('Failed to load products: ${response.statusCode}');
@@ -92,6 +98,4 @@ class ApiService {
       return [];
     }
   }
-
-
 }

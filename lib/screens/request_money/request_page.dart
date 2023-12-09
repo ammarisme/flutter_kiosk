@@ -1,4 +1,4 @@
-import 'package:ecommerce_int2/api_service.dart';
+import 'package:ecommerce_int2/api_services/api_service.dart';
 import 'package:ecommerce_int2/models/user.dart';
 import 'package:ecommerce_int2/screens/request_money/request_amount_page.dart';
 import 'package:flutter/cupertino.dart';
@@ -141,15 +141,15 @@ class _RequestPageState extends State<RequestPage> {
                                           CircleAvatar(
                                             maxRadius: 24,
                                             backgroundImage: NetworkImage(
-                                                user.picture.thumbnail),
+                                                user.avatar_url),
                                           ),
                                           Padding(
                                             padding: const EdgeInsets.fromLTRB(
                                                 4.0, 16.0, 4.0, 0.0),
                                             child: Text(
-                                                user.name.first +
+                                                user.first_name +
                                                     ' ' +
-                                                    user.name.last,
+                                                    user.last_name,
                                                 textAlign: TextAlign.center,
                                                 style: TextStyle(
                                                   fontSize: 14.0,
@@ -159,7 +159,7 @@ class _RequestPageState extends State<RequestPage> {
                                             padding:
                                                 const EdgeInsets.only(top: 8.0),
                                             child: Text(
-                                              user.phone,
+                                              user.phone_number,
                                               textAlign: TextAlign.center,
                                               style: TextStyle(fontSize: 10),
                                             ),
@@ -201,7 +201,7 @@ class _RequestPageState extends State<RequestPage> {
                                                 child: CircleAvatar(
                                                   maxRadius: 24,
                                                   backgroundImage: NetworkImage(
-                                                      user.picture.thumbnail),
+                                                      user.avatar_url),
                                                 ),
                                               ),
                                               Column(
@@ -213,9 +213,9 @@ class _RequestPageState extends State<RequestPage> {
                                                         const EdgeInsets.only(
                                                             top: 16.0),
                                                     child: Text(
-                                                        user.name.first +
+                                                        user.first_name +
                                                             ' ' +
-                                                            user.name.last,
+                                                            user.last_name,
                                                         style: TextStyle(
                                                             fontSize: 16.0,
                                                             fontWeight:
@@ -228,7 +228,7 @@ class _RequestPageState extends State<RequestPage> {
                                                             top: 8.0,
                                                             bottom: 16.0),
                                                     child: Text(
-                                                      user.phone,
+                                                      user.phone_number,
                                                     ),
                                                   ),
                                                 ],

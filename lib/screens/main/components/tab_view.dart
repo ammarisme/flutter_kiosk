@@ -3,7 +3,6 @@ import 'package:ecommerce_int2/models/product.dart';
 import 'package:ecommerce_int2/screens/main/components/product_grid.dart';
 import 'package:flutter/material.dart';
 import 'category_card.dart';
-import 'recommended_list.dart';
 
 class TabView extends StatelessWidget {
   List<Category> categories = [];

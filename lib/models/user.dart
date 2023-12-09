@@ -1,43 +1,69 @@
-import 'package:ecommerce_int2/models/dod.dart';
-import 'package:ecommerce_int2/models/id.dart';
-import 'package:ecommerce_int2/models/location.dart';
-import 'package:ecommerce_int2/models/loging.dart';
-import 'package:ecommerce_int2/models/name.dart';
-import 'package:ecommerce_int2/models/picture.dart';
-import 'package:ecommerce_int2/models/registered.dart';
-import 'package:json_annotation/json_annotation.dart';
 part 'user.g.dart';
 
-@JsonSerializable()
 class User {
-  String gender;
-  Name name;
-  Location location;
+  int id;
   String email;
-  Login login;
-  Dob dob;
-  Registered registered;
-  String phone;
-  String cell;
-  Id id;
-  Picture picture;
-  String nat;
+  String first_name;
+  String last_name;
+  String role;
+  String username;
+  BillingInfo billing_info;
+  ShippingInfo shipping_info;
+  String avatar_url; //default "https://secure.gravatar.com/avatar/6e03d506a025da41a09b785c3f6fb70c?s=96&d=mm&r=g",
+  String phone_number;
 
-  User(
-      {required this.gender,
-      required this.name,
-      required this.location,
-      required this.email,
-      required this.login,
-      required this.dob,
-      required this.registered,
-      required this.phone,
-      required this.cell,
-      required this.id,
-      required this.picture,
-      required this.nat});
+  User({
+    required this.id,
+    required this.email,
+    required this.first_name,
+    required this.last_name,
+    required this.role,
+    required this.username,
+    required this.billing_info,
+    required this.shipping_info,
+    required this.avatar_url,
+    required this.phone_number
+  });
+
+//   // "meta_data": [
+//   // {
+//   // "id": 30841,
+//   // "key": "phone_number",
+//   // "value": "94716060123"
+//   // }
+// }
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
 
   Map<String, dynamic> toJson() => _$UserToJson(this);
+}
+
+class BillingInfo {
+// "first_name": "catlitter",
+// "last_name": "xxv",
+// "company": "",
+// "address_1": "Narahenpita",
+// "address_2": "Narahenpita",
+// "city": "Colombo 01",
+// "postcode": "",
+// "country": "LK",
+// "state": "CMB",
+// "email": "naseefnizam00@hotmail.com",
+// "phone": "94716060123"
+// }
+}
+
+class ShippingInfo {
+// "shipping": {
+// "first_name": "catlitter",
+// "last_name": "xxv",
+// "company": "",
+// "address_1": "Narahenpita",
+// "address_2": "Narahenpita",
+// "city": "Colombo 01",
+// "postcode": "",
+// "country": "LK",
+// "state": "CMB",
+// "phone": ""
+// },
 }
