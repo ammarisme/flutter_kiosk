@@ -17,7 +17,6 @@ import 'components/custom_bottom_bar.dart';
 import 'components/product_list.dart';
 import 'components/tab_view.dart';
 
-
 class MainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -61,7 +60,7 @@ class _MainContentState extends State<MainContent>
     print('initState');
     if (!isStateUpdated) {
       ProductNotifier productNotifier =
-      Provider.of<ProductNotifier>(context, listen: false);
+          Provider.of<ProductNotifier>(context, listen: false);
       productNotifier.updateProducts();
       setState(() {
         isStateUpdated = true;
@@ -76,23 +75,17 @@ class _MainContentState extends State<MainContent>
     UserNotifier userNotifier = Provider.of<UserNotifier>(context);
 
     Widget appBar = Container(
-      height: kToolbarHeight + MediaQuery
-          .of(context)
-          .padding
-          .top,
+      height: kToolbarHeight + MediaQuery.of(context).padding.top,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           IconButton(
-              onPressed: () =>
-                  Navigator.of(context)
-                      .push(
-                      MaterialPageRoute(builder: (_) => NotificationsPage())),
+              onPressed: () => Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (_) => NotificationsPage())),
               icon: Icon(Icons.notifications)),
           IconButton(
-              onPressed: () =>
-                  Navigator.of(context)
-                      .push(MaterialPageRoute(builder: (_) => SearchPage())),
+              onPressed: () => Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (_) => SearchPage())),
               icon: SvgPicture.asset('assets/icons/search_icon.svg'))
         ],
       ),
@@ -178,13 +171,12 @@ class _MainContentState extends State<MainContent>
                       ),
                       Consumer<ProductNotifier>(
                           builder: (context, productNotifier, _) {
-                            return
-                              SliverToBoxAdapter(
-                                child: ProductList(
-                                  products: productNotifier.products,
-                                ),
-                              );
-                          }),
+                        return SliverToBoxAdapter(
+                          child: ProductList(
+                            products: productNotifier.products,
+                          ),
+                        );
+                      }),
                       SliverToBoxAdapter(
                         child: tabBar,
                       )
@@ -193,11 +185,9 @@ class _MainContentState extends State<MainContent>
                   body: TabView(
                     selectedCategory: productNotifier.selectedCategory,
                     categories: productNotifier.categories,
-                    products_of_category: productNotifier
-                        .products_of_category,
+                    products_of_category: productNotifier.products_of_category,
                     root_categories: productNotifier.rootcategories,
-                    recommeded_products: productNotifier
-                        .recommended_products,
+                    recommeded_products: productNotifier.recommended_products,
                     tabController: tabController,
                   ),
                 ),
@@ -207,14 +197,15 @@ class _MainContentState extends State<MainContent>
               Consumer<UserNotifier>(
                 builder: (context, userNotifier, _) {
                   return Container(
-                    child: userNotifier.logged_in ? ProfilePage() : LoginPage()
-                  );
+                      child: userNotifier.logged_in
+                          ? ProfilePage(
+                              logged_in_user: userNotifier.logged_in_user,
+                            )
+                          : LoginPage());
                 },
               )
-
             ],
-          )
-      ),
+          )),
     );
   }
 }

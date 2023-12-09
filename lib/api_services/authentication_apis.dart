@@ -26,4 +26,28 @@ class AuthenticationAPIs{
       return null;
     }
   }
+
+  static Future<bool> logout(String token) async {
+    final Map<String, String> data = {
+      'JWT': token,
+    };
+
+
+    final response = await http.post(
+      Uri.parse('https://catlitter.lk/?rest_route=/simple-jwt-login/v1/auth/revoke'), // Replace with your authentication endpoint
+      body: json.encode(data),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    );
+    print(json.encode(data));
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      // Handle error cases here
+      print('Failed to obtain token: ${response.statusCode}');
+      return false;
+    }
+  }
+
 }

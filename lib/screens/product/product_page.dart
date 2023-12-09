@@ -2,6 +2,7 @@ import 'package:ecommerce_int2/app_properties.dart';
 import 'package:ecommerce_int2/models/product.dart';
 import 'package:ecommerce_int2/screens/search_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'components/product_display.dart';
@@ -72,7 +73,7 @@ class _ProductPageState extends State<ProductPage> {
           )
         ],
         title: Text(
-          'Shampoos',
+          "Product",
           style: const TextStyle(
               color: darkGrey, fontWeight: FontWeight.w500, fontSize: 18.0),
         ),
@@ -136,13 +137,16 @@ class _ProductPageState extends State<ProductPage> {
                 Padding(
                     padding:
                         EdgeInsets.only(left: 20.0, right: 40.0, bottom: 130),
-                    child: new Text(product.description,
-                        style: const TextStyle(
-                            color: const Color(0xfefefefe),
-                            fontWeight: FontWeight.w800,
-                            fontFamily: "NunitoSans",
-                            fontStyle: FontStyle.normal,
-                            fontSize: 16.0)))
+                    child: Html(data: product.description,)
+
+                    // new Text(product.description,
+                    //     style: const TextStyle(
+                    //         color: const Color(0xfefefefe),
+                    //         fontWeight: FontWeight.w800,
+                    //         fontFamily: "NunitoSans",
+                    //         fontStyle: FontStyle.normal,
+                    //         fontSize: 16.0))
+                )
               ],
             ),
           ),

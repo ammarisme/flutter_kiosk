@@ -1,8 +1,11 @@
+import 'package:ecommerce_int2/change_notifiers/product_notifier.dart';
 import 'package:ecommerce_int2/models/product.dart';
 import 'package:ecommerce_int2/screens/product/components/rating_bottomSheet.dart';
 import 'package:ecommerce_int2/screens/search_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 
 import '../../app_properties.dart';
 import 'components/color_list.dart';
@@ -58,13 +61,14 @@ class _ViewProductPageState extends State<ViewProductPage> {
   Widget build(BuildContext context) {
     Widget description = Padding(
       padding: const EdgeInsets.all(24.0),
-      child: Text(
-        widget.product.description,
-        maxLines: 5,
-        semanticsLabel: '...',
-        overflow: TextOverflow.ellipsis,
-        style: TextStyle(color: Color.fromRGBO(255, 255, 255, 0.6)),
-      ),
+      child: Html(data: widget.product.description)
+      // Text(
+      //   widget.product.description,
+      //   maxLines: 5,
+      //   semanticsLabel: '...',
+      //   overflow: TextOverflow.ellipsis,
+      //   style: TextStyle(color: Color.fromRGBO(255, 255, 255, 0.6)),
+      // ),
     );
 
     return Scaffold(
@@ -85,7 +89,7 @@ class _ViewProductPageState extends State<ViewProductPage> {
             )
           ],
           title: Text(
-            'Shampoo',
+            'Product',
             style: const TextStyle(
                 color: darkGrey,
                 fontWeight: FontWeight.w500,
@@ -120,7 +124,9 @@ class _ViewProductPageState extends State<ViewProductPage> {
                         showModalBottomSheet(
                           context: context,
                           builder: (context) {
-                            return RatingBottomSheet();
+                            ProductNotifier productNotifier = Provider.of<ProductNotifier>(context, listen: false);
+                            productNotifier.getProductReviews("51025");
+                            return RatingBottomSheet(product: widget.product);
                           },
                           //elevation: 0,
                           //backgroundColor: Colors.transparent

@@ -1,8 +1,15 @@
 import 'package:ecommerce_int2/app_properties.dart';
+import 'package:ecommerce_int2/models/product.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class RatingBottomSheet extends StatefulWidget {
+  Product product;
+
+  RatingBottomSheet({
+    required this.product
+  });
+
   @override
   _RatingBottomSheetState createState() => _RatingBottomSheetState();
 }
@@ -14,7 +21,10 @@ class _RatingBottomSheetState extends State<RatingBottomSheet> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height,
+      height: MediaQuery
+          .of(context)
+          .size
+          .height,
       decoration: BoxDecoration(
           color: Color.fromRGBO(255, 255, 255, 0.9),
           borderRadius: BorderRadius.only(
@@ -32,13 +42,13 @@ class _RatingBottomSheetState extends State<RatingBottomSheet> {
                     shape: BoxShape.circle,
                     boxShadow: shadow,
                     border: Border.all(width: 8.0, color: Colors.white)),
-                child: Image.network('assets/product_image_1.png'),
+                child: Image.network(widget.product.image),
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(
                     horizontal: 72.0, vertical: 16.0),
                 child: Text(
-                  'Dog Shampoo (Perfumed)',
+                  widget.product.name,
                   style: TextStyle(fontWeight: FontWeight.bold),
                   textAlign: TextAlign.center,
                 ),
@@ -102,7 +112,8 @@ class _RatingBottomSheetState extends State<RatingBottomSheet> {
           Column(
             children: <Widget>[
               ...ratings
-                  .map((val) => Container(
+                  .map((val) =>
+                  Container(
                       margin: const EdgeInsets.symmetric(vertical: 4.0),
                       padding: const EdgeInsets.all(8.0),
                       decoration: BoxDecoration(
@@ -116,7 +127,7 @@ class _RatingBottomSheetState extends State<RatingBottomSheet> {
                             child: CircleAvatar(
                               maxRadius: 14,
                               backgroundImage:
-                                  AssetImage('assets/background.jpg'),
+                              AssetImage('assets/background.jpg'),
                             ),
                           ),
                           Expanded(
@@ -126,7 +137,7 @@ class _RatingBottomSheetState extends State<RatingBottomSheet> {
                               children: <Widget>[
                                 Row(
                                   mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
                                     Text(
                                       'Nimal Perera',
@@ -142,14 +153,14 @@ class _RatingBottomSheetState extends State<RatingBottomSheet> {
                                 ),
                                 Padding(
                                   padding:
-                                      const EdgeInsets.symmetric(vertical: 8.0),
+                                  const EdgeInsets.symmetric(vertical: 8.0),
                                   child: RatingBar(
                                     ignoreGestures: true,
                                     itemSize: 20,
                                     allowHalfRating: true,
                                     initialRating: val.toDouble(),
                                     itemPadding:
-                                        EdgeInsets.symmetric(horizontal: 4.0),
+                                    EdgeInsets.symmetric(horizontal: 4.0),
                                     ratingWidget: RatingWidget(
                                       empty: Icon(Icons.favorite_border,
                                           color: Color(0xffFF8993), size: 20),
@@ -179,7 +190,7 @@ class _RatingBottomSheetState extends State<RatingBottomSheet> {
                                       vertical: 16.0),
                                   child: Row(
                                     mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                                    MainAxisAlignment.spaceBetween,
                                     children: <Widget>[
                                       Text(
                                         '21 likes',
