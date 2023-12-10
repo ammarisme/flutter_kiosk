@@ -1,4 +1,5 @@
 import 'package:ecommerce_int2/app_properties.dart';
+import 'package:ecommerce_int2/models/cart.dart';
 import 'package:ecommerce_int2/models/product.dart';
 import 'package:ecommerce_int2/screens/product/components/color_list.dart';
 import 'package:ecommerce_int2/screens/product/components/shop_product.dart';
@@ -6,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:numberpicker/numberpicker.dart';
 
 class ShopItemList extends StatefulWidget {
-  final Product product;
+  final CartItem product;
   final VoidCallback onRemove;
 
   ShopItemList(this.product, {required this.onRemove});
@@ -66,7 +67,7 @@ class _ShopItemListState extends State<ShopItemList> {
                                   children: <Widget>[
                                     ColorOption(Colors.red),
                                     Text(
-                                      '\Rs. ${widget.product.price}',
+                                      '\Rs. ${widget.product.salePrice}',
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                           color: darkGrey,
@@ -107,12 +108,13 @@ class _ShopItemListState extends State<ShopItemList> {
                           ))
                     ])),
           ),
-          Positioned(
-              top: 5,
-              child: ShopProductDisplay(
-                widget.product,
-                onPressed: widget.onRemove,
-              )),
+          // TODO:
+          // Positioned(
+          //     top: 5,
+          //     child: ShopProductDisplay(
+          //       widget.product,
+          //       onPressed: widget.onRemove,
+          //     )),
         ],
       ),
     );
