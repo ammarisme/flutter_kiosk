@@ -2,7 +2,7 @@ import 'package:ecommerce_int2/models/category.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../change_notifiers/product_notifier.dart';
+import '../../../change_notifiers/mainpage_notifier.dart';
 import '../main_page.dart';
 
 class CategoryCard extends StatelessWidget {
@@ -55,8 +55,8 @@ class CategoryCard extends StatelessWidget {
                       child: Image.network(category.image),
                     ),
                     onTap: () {
-                      ProductNotifier productNotifier =
-                          Provider.of<ProductNotifier>(context, listen: false);
+                      MainPageNotifier productNotifier =
+                          Provider.of<MainPageNotifier>(context, listen: false);
                       productNotifier.selectCategory(category.id);
                     },
                   ))

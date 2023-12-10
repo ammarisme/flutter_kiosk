@@ -1,5 +1,6 @@
 import 'package:ecommerce_int2/api_services/api_service.dart';
 import 'package:ecommerce_int2/app_properties.dart';
+import 'package:ecommerce_int2/change_notifiers/product_notifier.dart';
 import 'package:ecommerce_int2/change_notifiers/user_notifier.dart';
 import 'package:ecommerce_int2/custom_background.dart';
 import 'package:ecommerce_int2/models/product.dart';
@@ -12,7 +13,7 @@ import 'package:ecommerce_int2/screens/shop/check_out_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
-import '../../change_notifiers/product_notifier.dart';
+import '../../change_notifiers/mainpage_notifier.dart';
 import 'components/custom_bottom_bar.dart';
 import 'components/product_list.dart';
 import 'components/tab_view.dart';
@@ -22,12 +23,15 @@ class MainPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider<ProductNotifier>(
-          create: (_) => ProductNotifier(),
+        ChangeNotifierProvider<MainPageNotifier>(
+          create: (_) => MainPageNotifier(),
         ),
         ChangeNotifierProvider<UserNotifier>(
           create: (_) => UserNotifier(),
         ),
+        ChangeNotifierProvider<ProductNotifier>(
+            create: (_) => ProductNotifier(),
+        )
       ],
       child: MaterialApp(
         home: MainContent(),
@@ -59,8 +63,8 @@ class _MainContentState extends State<MainContent>
     bottomTabController = TabController(length: 4, vsync: this);
     print('initState');
     if (!isStateUpdated) {
-      ProductNotifier productNotifier =
-          Provider.of<ProductNotifier>(context, listen: false);
+      MainPageNotifier productNotifier =
+          Provider.of<MainPageNotifier>(context, listen: false);
       productNotifier.updateProducts();
       setState(() {
         isStateUpdated = true;
@@ -71,7 +75,7 @@ class _MainContentState extends State<MainContent>
   @override
   Widget build(BuildContext context) {
     print('building');
-    ProductNotifier productNotifier = Provider.of<ProductNotifier>(context);
+    MainPageNotifier productNotifier = Provider.of<MainPageNotifier>(context);
     UserNotifier userNotifier = Provider.of<UserNotifier>(context);
 
     Widget appBar = Container(
@@ -169,7 +173,7 @@ class _MainContentState extends State<MainContent>
                       SliverToBoxAdapter(
                         child: topHeader,
                       ),
-                      Consumer<ProductNotifier>(
+                      Consumer<MainPageNotifier>(
                           builder: (context, productNotifier, _) {
                         return SliverToBoxAdapter(
                           child: ProductList(
@@ -186,7 +190,7 @@ class _MainContentState extends State<MainContent>
                     selectedCategory: productNotifier.selectedCategory,
                     categories: productNotifier.categories,
                     products_of_category: productNotifier.products_of_category,
-                    root_categories: productNotifier.rootcategories,
+                    root_categories: productNotifier.categories,
                     recommeded_products: productNotifier.recommended_products,
                     tabController: tabController,
                   ),

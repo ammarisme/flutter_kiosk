@@ -1,3 +1,4 @@
+import 'package:ecommerce_int2/change_notifiers/mainpage_notifier.dart';
 import 'package:ecommerce_int2/change_notifiers/product_notifier.dart';
 import 'package:ecommerce_int2/models/product.dart';
 import 'package:ecommerce_int2/screens/product/components/rating_bottomSheet.dart';
@@ -72,80 +73,79 @@ class _ViewProductPageState extends State<ViewProductPage> {
     );
 
     return Scaffold(
-        key: _scaffoldKey,
-        backgroundColor: yellow,
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          elevation: 0.0,
-          iconTheme: IconThemeData(color: darkGrey),
-          actions: <Widget>[
-            IconButton(
-              icon: new SvgPicture.asset(
-                'assets/icons/search_icon.svg',
-                fit: BoxFit.scaleDown,
-              ),
-              onPressed: () => Navigator.of(context)
-                  .push(MaterialPageRoute(builder: (_) => SearchPage())),
-            )
-          ],
-          title: Text(
-            'Product',
-            style: const TextStyle(
-                color: darkGrey,
-                fontWeight: FontWeight.w500,
-                fontFamily: "Montserrat",
-                fontSize: 18.0),
-          ),
-        ),
-        body: SingleChildScrollView(
-          child: Container(
-            width: MediaQuery.of(context).size.width,
-            child: Column(
-              children: <Widget>[
-                ProductOption(
-                  _scaffoldKey,
-                  product: widget.product,
-                ),
-                description,
-                Padding(
-                  padding: const EdgeInsets.all(24.0),
-                  child: Row(mainAxisSize: MainAxisSize.min, children: <Widget>[
-                    Flexible(
-                      child: ColorList([
-                        Colors.red,
-                        Colors.blue,
-                        Colors.purple,
-                        Colors.green,
-                        Colors.yellow
-                      ]),
-                    ), //Color options
-                    RawMaterialButton(
-                      onPressed: () {
-                        showModalBottomSheet(
-                          context: context,
-                          builder: (context) {
-                            ProductNotifier productNotifier = Provider.of<ProductNotifier>(context, listen: false);
-                            productNotifier.getProductReviews("51025");
-                            return RatingBottomSheet(product: widget.product);
-                          },
-                          //elevation: 0,
-                          //backgroundColor: Colors.transparent
-                        );
-                      },
-                      constraints:
-                          const BoxConstraints(minWidth: 45, minHeight: 45),
-                      child: Icon(Icons.favorite,
-                          color: Color.fromRGBO(255, 137, 147, 1)),
-                      elevation: 0.0,
-                      shape: CircleBorder(),
-                      fillColor: Color.fromRGBO(255, 255, 255, 0.4),
-                    ),
-                  ]),
-                ),
-                MoreProducts()
+            key: _scaffoldKey,
+            backgroundColor: yellow,
+            appBar: AppBar(
+              backgroundColor: Colors.transparent,
+              elevation: 0.0,
+              iconTheme: IconThemeData(color: darkGrey),
+              actions: <Widget>[
+                IconButton(
+                  icon: new SvgPicture.asset(
+                    'assets/icons/search_icon.svg',
+                    fit: BoxFit.scaleDown,
+                  ),
+                  onPressed: () => Navigator.of(context)
+                      .push(MaterialPageRoute(builder: (_) => SearchPage())),
+                )
               ],
+              title: Text(
+                'Product',
+                style: const TextStyle(
+                    color: darkGrey,
+                    fontWeight: FontWeight.w500,
+                    fontFamily: "Montserrat",
+                    fontSize: 18.0),
+              ),
             ),
-          ),
-        ));
+            body: SingleChildScrollView(
+              child: Container(
+                width: MediaQuery.of(context).size.width,
+                child: Column(
+                  children: <Widget>[
+                    ProductOption(
+                      _scaffoldKey,
+                      product: widget.product,
+                    ),
+                    description,
+                    Padding(
+                      padding: const EdgeInsets.all(24.0),
+                      child: Row(mainAxisSize: MainAxisSize.min, children: <Widget>[
+                        Flexible(
+                          child: ColorList([
+                            Colors.red,
+                            Colors.blue,
+                            Colors.purple,
+                            Colors.green,
+                            Colors.yellow
+                          ]),
+                        ), //Color options
+                        RawMaterialButton(
+                          onPressed: () {
+                            showModalBottomSheet(
+                              context: context,
+                              builder: (context) {
+                                return RatingBottomSheet(product: widget.product);
+                              },
+                              //elevation: 0,
+                              //backgroundColor: Colors.transparent
+                            );
+                          },
+                          constraints:
+                          const BoxConstraints(minWidth: 45, minHeight: 45),
+                          child: Icon(Icons.favorite,
+                              color: Color.fromRGBO(255, 137, 147, 1)),
+                          elevation: 0.0,
+                          shape: CircleBorder(),
+                          fillColor: Color.fromRGBO(255, 255, 255, 0.4),
+                        ),
+                      ]),
+                    ),
+                    MoreProducts()
+                  ],
+                ),
+              ),
+            )
+    );
   }
 }

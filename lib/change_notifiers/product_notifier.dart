@@ -8,54 +8,34 @@ import '../models/category.dart';
 import '../models/product.dart';
 
 
+//This class acts as the notifier to all api calls we do for the main page.
 class ProductNotifier extends ChangeNotifier {
-  List<Product> _products = [];
-  List<Product> get products => _products;
+  late Product selected_product;
 
-  List<Product> _recommended_products = [];
-  List<Product> get recommended_products => _recommended_products;
+  void loadProduct(Product _product){
+    this.selected_product = _product;
+  }
 
-  List<Category> _categories = [];
-  List<Category> get categories => _categories;
+  Future<void> getProductReviews(Product product, String productId) async{
+    this.selected_product = product;
+    this.selected_product.product_reviews = await ProductAPIs.getProductReviews(productId);
+    print('test-----------------------------');
 
-  List<Category> _root_categories = [];
-  List<Category> get rootcategories => _root_categories;
+    double calculateAverageRating() {
+      int totalRatings = this.selected_product.product_reviews.fold<int>(
+        0,
+            (sum, review) => sum + (review.rating),
+      );
 
-  List<Product> _products_of_category = [];
-  List<Product> get products_of_category => _products_of_category;
+      int reviewCount = this.selected_product.product_reviews.length;
+      return reviewCount > 0 ? totalRatings / reviewCount : 0;
+    }
 
-  List<ProductReview> _product_reviews = [];
-  List<ProductReview> get product_reviews => _product_reviews;
-
-  late Product _selected_product;
-
-
-
-  dynamic selectedCategoryId = -1;
-
-  late Category selectedCategory;
-
-  // Method to update the list of products
-  Future<void> updateProducts() async {
-    _products = await ProductAPIs.getProducts("608");
-    _categories = await ProductAPIs.getCategories();
-    _recommended_products = await ProductAPIs.getProducts("609");
-    _root_categories = _categories;//.where((category) => category.parent == 0 ||  category.parent == 690).toList();
-    selectedCategory = _categories.first;
+    this.selected_product.product_overall_rating = calculateAverageRating();
+    print(this.selected_product.product_overall_rating);
     notifyListeners();
   }
 
-  Future<void> selectCategory(dynamic categoryId) async{
-    _products_of_category = await ProductAPIs.getProducts(categoryId);
-    this.selectedCategoryId = categoryId;
-    this.selectedCategory = _categories.where((category) => category.id == categoryId).first;
-    notifyListeners();
-  }
-
-  Future<void> getProductReviews(String productId) async{
-    _product_reviews = await ProductAPIs.getProductReviews(productId);
-    notifyListeners();
-  }
 
 
 }

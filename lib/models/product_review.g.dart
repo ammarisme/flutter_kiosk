@@ -6,7 +6,7 @@ part of 'product_review.dart';
 // **************************************************************************
 
 ProductReview _$ProductReviewFromJson(Map<String, dynamic> json) {
-  String? imageUrl = json['reviewer_avatar_urls'][0] as String?;
+  dynamic imageUrl = json['reviewer_avatar_urls']["28"];
   return ProductReview(
       id: json['id'] as int,
       date_created: json['date_created'],
@@ -16,7 +16,7 @@ ProductReview _$ProductReviewFromJson(Map<String, dynamic> json) {
       review: json['review'],
       rating: json["rating"],
       verified: json["verified"],
-      reviewer_avatar_urls: imageUrl);
+      reviewer_avatar_urls: imageUrl!=null ? imageUrl : "");
 }
 
 Map<String, dynamic> _$ProductReviewToJson(ProductReview instance) =>

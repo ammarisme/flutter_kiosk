@@ -14,7 +14,7 @@ class ProductReview {
   String review;
   int rating;
   bool verified;
-  String? reviewer_avatar_urls;
+  String reviewer_avatar_urls;
 
   ProductReview({
     required this.id,
