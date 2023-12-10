@@ -72,14 +72,16 @@ class ProductOption extends StatelessWidget {
                   ),
                   InkWell(
                     onTap: () {
-                      scaffoldKey.currentState!.showBottomSheet((context) {
-                        return ShopBottomSheet();
-                      });
+                      if(product.stock_quantity>0){
+                        scaffoldKey.currentState!.showBottomSheet((context) {
+                          return ShopBottomSheet();
+                        });
+                      }
                     },
                     child: Container(
                       width: MediaQuery.of(context).size.width / 2.5,
                       decoration: BoxDecoration(
-                          color: Colors.red,
+                          color: product.stock_quantity>0?Colors.red:Colors.grey,
                           gradient: mainButton,
                           borderRadius: BorderRadius.only(
                               topLeft: Radius.circular(10.0),
@@ -87,7 +89,7 @@ class ProductOption extends StatelessWidget {
                       padding: EdgeInsets.symmetric(vertical: 16.0),
                       child: Center(
                         child: Text(
-                          'Add to cart',
+                          product.stock_quantity>0?'Add to cart' : 'Out of stock',
                           style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,

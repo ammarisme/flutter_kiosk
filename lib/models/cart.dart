@@ -14,6 +14,7 @@ class Cart {
   Totals totals;
   List<dynamic> errors;
   List<String> paymentRequirements;
+  String? nonce;
   // Map<String, dynamic> extensions;
 
   Cart({
@@ -32,6 +33,7 @@ class Cart {
     required this.totals,
     required this.errors,
     required this.paymentRequirements,
+    required this.nonce
     // required this.extensions,
   });
 
@@ -55,6 +57,7 @@ class Cart {
       totals: Totals.fromJson(json['totals'] ?? {}),
       errors: json['errors'] ?? [],
       paymentRequirements: List<String>.from(json['payment_requirements'] ?? []),
+      nonce:""
       // extensions: json['extensions'] ?? {},
     );
   }

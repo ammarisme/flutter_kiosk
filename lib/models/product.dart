@@ -9,6 +9,7 @@ class Product {
   String image;
   String sale_price;
   String regular_price;
+  int stock_quantity;
 
   int in_cart_quantity = 0;
   bool in_wishlist = false;
@@ -23,6 +24,7 @@ class Product {
     required this.price,
     required this.sale_price,
     required this.regular_price,
+    required this.stock_quantity
   });
 
   factory Product.fromJson(Map<String, dynamic> json) => _$ProductFromJson(json);

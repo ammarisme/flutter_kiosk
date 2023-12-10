@@ -2,7 +2,9 @@ import 'package:ecommerce_int2/app_properties.dart';
 import 'package:ecommerce_int2/models/product.dart';
 import 'package:ecommerce_int2/screens/shop/check_out_page.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../../../change_notifiers/cart_notifiers.dart';
 import 'shop_product.dart';
 
 class ShopBottomSheet extends StatefulWidget {
@@ -11,17 +13,15 @@ class ShopBottomSheet extends StatefulWidget {
 }
 
 class _ShopBottomSheetState extends State<ShopBottomSheet> {
-  List<Product> products = [
-    // Product(
-    //     image:'assets/product_thumb_1.png',
-    //     name: 'Dog Shampoo (Perfumed) - 250ml',
-    //     description: 'description',
-    //     price: "45.3")
-  ];
+
 
 
   @override
   Widget build(BuildContext context) {
+    CartNotifier cartNotifier =
+    Provider.of<CartNotifier>(context, listen: false);
+    cartNotifier.getCart();
+
     Widget confirmButton = InkWell(
       onTap: () async {
         Navigator.of(context).pop();
@@ -55,53 +55,61 @@ class _ShopBottomSheetState extends State<ShopBottomSheet> {
       ),
     );
 
-    return Container(
-        decoration: BoxDecoration(
-            color: Color.fromRGBO(255, 255, 255, 0.9),
-            borderRadius: BorderRadius.only(
-                topRight: Radius.circular(24), topLeft: Radius.circular(24))),
-        width: MediaQuery.of(context).size.width,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            Align(
-              alignment: Alignment.topRight,
-              child: IconButton(
-                icon: Image.network(
-                  'assets/box.png',
-                  height: 24,
-                  width: 24.0,
-                  fit: BoxFit.cover,
+    return Consumer<CartNotifier>(
+        builder: (context, productNotifier, _)
+    {
+      return cartNotifier.cart == null ? Container() :
+      Container(
+          decoration: BoxDecoration(
+              color: Color.fromRGBO(255, 255, 255, 0.9),
+              borderRadius: BorderRadius.only(
+                  topRight: Radius.circular(24), topLeft: Radius.circular(24))),
+          width: MediaQuery
+              .of(context)
+              .size
+              .width,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Align(
+                alignment: Alignment.topRight,
+                child: IconButton(
+                  icon: Image.network(
+                    'assets/box.png',
+                    height: 24,
+                    width: 24.0,
+                    fit: BoxFit.cover,
+                  ),
+                  onPressed: () {},
+                  iconSize: 48,
                 ),
-                onPressed: () {},
-                iconSize: 48,
               ),
-            ),
-            SizedBox(
-              height: 300,
-              child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: products.length,
-                  itemBuilder: (_, index) {
-                    return Row(
-                      children: <Widget>[
-                        ShopProduct(products[index],onRemove: (){
-                          setState(() {
-                            products.remove(products[index]);
-                          });
-                        },),
-                        index == 4
-                            ? SizedBox()
-                            : Container(
-                                width: 2,
-                                height: 200,
-                                color: Color.fromRGBO(100, 100, 100, 0.1))
-                      ],
-                    );
-                  }),
-            ),
-            confirmButton
-          ],
-        ));
+              SizedBox(
+                height: 300,
+                child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: cartNotifier.cart!.items.length,
+                    itemBuilder: (_, index) {
+                      return Row(
+                        children: <Widget>[
+                          ShopProduct(cartNotifier.cart!.items[index], onRemove: () {
+                            setState(() {
+                              cartNotifier.cart!.items.remove(cartNotifier.cart!.items[index]);
+                            });
+                          },),
+                          index == 4
+                              ? SizedBox()
+                              : Container(
+                              width: 2,
+                              height: 200,
+                              color: Color.fromRGBO(100, 100, 100, 0.1))
+                        ],
+                      );
+                    }),
+              ),
+              confirmButton
+            ],
+          ));
+    });
   }
 }

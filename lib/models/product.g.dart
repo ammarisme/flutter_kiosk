@@ -16,7 +16,8 @@ Product _$ProductFromJson(Map<String, dynamic> json) {
     price: json['price'] as String,
     image: json['images'][0]["src"] as String,
     sale_price: sale_price,//json['sale_price'] as String,
-    regular_price: regular_price//json['regular_price'] as String
+    regular_price: regular_price,//json['regular_price'] as String
+    stock_quantity:json['stock_quantity']??0
   );
 }
 

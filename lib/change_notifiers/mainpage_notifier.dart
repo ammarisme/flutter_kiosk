@@ -31,7 +31,7 @@ class MainPageNotifier extends ChangeNotifier {
 
   dynamic selectedCategoryId = -1;
 
-  late Category selectedCategory;
+  Category selectedCategory = Category(name: '', image: '', id: 1, parent: 1);
 
   // Method to update the list of products
   Future<void> updateProducts() async {

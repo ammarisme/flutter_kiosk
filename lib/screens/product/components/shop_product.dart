@@ -1,9 +1,10 @@
 import 'package:ecommerce_int2/app_properties.dart';
+import 'package:ecommerce_int2/models/cart.dart';
 import 'package:ecommerce_int2/models/product.dart';
 import 'package:flutter/material.dart';
 
 class ShopProduct extends StatelessWidget {
-  final Product product;
+  final CartItem product;
   final VoidCallback onRemove;
 
   const ShopProduct(
@@ -33,7 +34,7 @@ class ShopProduct extends StatelessWidget {
               ),
             ),
             Text(
-              '\Rs. ${product.price}',
+              '\Rs. ${product.salePrice}',
               textAlign: TextAlign.center,
               style: TextStyle(
                   color: darkGrey, fontWeight: FontWeight.bold, fontSize: 18.0),
@@ -44,7 +45,7 @@ class ShopProduct extends StatelessWidget {
 }
 
 class ShopProductDisplay extends StatelessWidget {
-  final Product product;
+  final CartItem product;
   final VoidCallback onPressed;
 
   const ShopProductDisplay(this.product, {required this.onPressed});
@@ -73,7 +74,7 @@ class ShopProductDisplay extends StatelessWidget {
               height: 80,
               width: 80,
               child: Image.network(
-                '${product.image}',
+                '', //TODO: product.image
                 fit: BoxFit.contain,
               )),
         ),

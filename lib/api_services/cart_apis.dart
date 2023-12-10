@@ -23,6 +23,7 @@ class CartAPIs{
       if (response.statusCode == 200) {
         dynamic data = json.decode(response.body);
         Cart cart =  Cart.fromJson(data);
+        cart.nonce = response.headers['nonce'];
         return cart;
       } else {
         print('Failed to load user info: ${response.statusCode}');
