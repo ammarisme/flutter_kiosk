@@ -141,6 +141,8 @@ class ProductCard extends StatelessWidget {
                                 TextStyle(color: Colors.white, fontSize: 16.0),
                           ),
                         )),
+
+
                     Align(
                       alignment: Alignment.topRight,
                       child: Container(
@@ -162,7 +164,7 @@ class ProductCard extends StatelessWidget {
                       ),
                     ),
                   ],
-                )
+                ),
               ],
             ),
           ),
@@ -177,6 +179,33 @@ class ProductCard extends StatelessWidget {
               ),
             ),
           ),
+          product.stock_quantity == 0 ?
+          Positioned(
+            bottom: 0,
+            left: 35,
+            child: Container(
+              margin: const EdgeInsets.only(bottom: 12.0),
+              padding: const EdgeInsets.fromLTRB(8.0, 4.0, 12.0, 4.0),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(10),
+                  bottomLeft: Radius.circular(10),
+                  topRight: Radius.circular(10),
+                  bottomRight: Radius.circular(10),
+                ),
+                color: Colors.grey
+              ),
+              child: Text(
+                'Out of stock',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 8,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ) : Container(),
+
         ],
       ),
     );

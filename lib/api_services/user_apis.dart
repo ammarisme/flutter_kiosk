@@ -24,7 +24,7 @@ class UserAPIs{
         User user =  User.fromJson(data);
         return user;
       } else {
-        print('Failed to load user info: ${response.statusCode}');
+        print('Failed to cart info: ${response.statusCode}');
         return null;
       }
     } catch (e) {

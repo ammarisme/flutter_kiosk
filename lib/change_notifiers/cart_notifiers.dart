@@ -25,6 +25,13 @@ class CartNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> addItem(product_id, quantity, nonce) async{
+    print("adding item to cart");
+    CartAPIs cartAPIs = CartAPIs();
+    bool added = await cartAPIs.addItem(16652, 1, nonce);
+    notifyListeners();
+  }
+
 
 
 }

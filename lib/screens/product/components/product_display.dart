@@ -31,7 +31,9 @@ class ProductDisplay extends StatelessWidget {
                           offset: Offset(0, 3),
                           blurRadius: 6.0),
                     ]),
-                child: Align(
+                child:
+
+                Align(
                   alignment: Alignment(1, 0),
                   child: RichText(
                       text: TextSpan(children: [

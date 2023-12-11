@@ -2,7 +2,9 @@ import 'package:ecommerce_int2/app_properties.dart';
 import 'package:ecommerce_int2/models/product.dart';
 import 'package:ecommerce_int2/screens/shop/check_out_page.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../../../change_notifiers/cart_notifiers.dart';
 import 'shop_bottomSheet.dart';
 
 class ProductOption extends StatelessWidget {
@@ -15,6 +17,9 @@ class ProductOption extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    CartNotifier cartNotifier =
+    Provider.of<CartNotifier>(context, listen: false);
+
     return SizedBox(
       height: 200,
       child: Stack(
@@ -73,9 +78,12 @@ class ProductOption extends StatelessWidget {
                   InkWell(
                     onTap: () {
                       if(product.stock_quantity>0){
-                        scaffoldKey.currentState!.showBottomSheet((context) {
-                          return ShopBottomSheet();
-                        });
+                        print(cartNotifier.cart?.nonce);
+                        cartNotifier.addItem(16652,1, cartNotifier.cart?.nonce);
+                        // scaffoldKey.currentState!.showBottomSheet((context) {
+                        //   cartNotifier.addItem(16652,1, cartNotifier.cart?.nonce);
+                        //   return ShopBottomSheet();
+                        // });
                       }
                     },
                     child: Container(
