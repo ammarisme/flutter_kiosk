@@ -2,6 +2,7 @@ import 'package:card_swiper/card_swiper.dart';
 import 'package:ecommerce_int2/app_properties.dart';
 import 'package:ecommerce_int2/change_notifiers/cart_notifiers.dart';
 import 'package:ecommerce_int2/screens/address/add_address_page.dart';
+import 'package:ecommerce_int2/screens/shop/order_confirmation.dart';
 import 'package:ecommerce_int2/screens/payment/unpaid_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -9,12 +10,12 @@ import 'package:provider/provider.dart';
 import 'components/credit_card.dart';
 import 'components/shop_item_list.dart';
 
-class CheckOutPage extends StatefulWidget {
+class SelectPaymentMethodPage extends StatefulWidget {
   @override
-  _CheckOutPageState createState() => _CheckOutPageState();
+  _SelectPaymentMethodPageState createState() => _SelectPaymentMethodPageState();
 }
 
-class _CheckOutPageState extends State<CheckOutPage> {
+class _SelectPaymentMethodPageState extends State<SelectPaymentMethodPage> {
   SwiperController swiperController = SwiperController();
 
   @override
@@ -25,7 +26,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
 
     Widget checkOutButton = InkWell(
       onTap: () => Navigator.of(context)
-          .push(MaterialPageRoute(builder: (_) => AddAddressPage())),
+          .push(MaterialPageRoute(builder: (_) => OrderConfirmationPage())),
       child: Container(
         height: 80,
         width: MediaQuery.of(context).size.width / 1.5,
@@ -40,7 +41,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
             ],
             borderRadius: BorderRadius.circular(9.0)),
         child: Center(
-          child: Text("Check Out",
+          child: Text("Next",
               style: const TextStyle(
                   color: const Color(0xfffefefe),
                   fontWeight: FontWeight.w600,
@@ -49,6 +50,9 @@ class _CheckOutPageState extends State<CheckOutPage> {
         ),
       ),
     );
+
+
+    List<dynamic> credit_cards = [Cash(), CreditCard(), CreditCard()];
 
     return Consumer<CartNotifier>(
         builder: (context, productNotifier, _) {
@@ -80,47 +84,30 @@ class _CheckOutPageState extends State<CheckOutPage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Container(
-                        padding: EdgeInsets.symmetric(horizontal: 32.0),
-                        height: 48.0,
-                        color: yellow,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Text(
-                              'Subtotal',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 16),
-                            ),
-                            Text(
-                              cartNotifier.cart!.items.length.toString() + ' items',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 16),
-                            )
-                          ],
+                      Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Text(
+                          'Payment',
+                          style: TextStyle(
+                              fontSize: 20,
+                              color: darkGrey,
+                              fontWeight: FontWeight.bold),
                         ),
                       ),
                       SizedBox(
-                        height: 550,
-                        child: Scrollbar(
-                          child: ListView.builder(
-                            itemBuilder: (_, index) => ShopItemList(
-                              cartNotifier.cart!.items[index],
-                              onRemove: () {
-                                setState(() {
-                                  cartNotifier.cart!.items.remove(cartNotifier.cart!.items[index]);
-                                });
-                              },
-                            ),
-                            itemCount: cartNotifier.cart!.items.length,
-                          ),
+                        height: 250,
+                        child: Swiper(
+                          itemCount: credit_cards.length,
+                          itemBuilder: (_, index) {
+                            return credit_cards[index];
+                          },
+                          scale: 0.8,
+                          controller: swiperController,
+                          viewportFraction: 0.6,
+                          loop: false,
+                          fade: 0.7,
                         ),
                       ),
-
                       SizedBox(height: 24),
                       Center(
                           child: Padding(

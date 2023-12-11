@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class CreditCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return  Container(
+    return Container(
       height: 200,
       width: 250,
       padding: EdgeInsets.all(16.0),
@@ -41,6 +41,42 @@ class CreditCard extends StatelessWidget {
               ),
             ],
           )
+        ],
+      ),
+    );
+  }
+}
+
+class Cash extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 200,
+      width: 250,
+      padding: EdgeInsets.all(16.0),
+      decoration: BoxDecoration(
+        color: Colors.green.shade300,
+        borderRadius: BorderRadius.all(Radius.circular(10)),
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Icon(
+            Icons.payments,
+            size: 36, // Adjust the size of the icon
+            color: Colors.white,
+          ),
+          SizedBox(height: 12), // Space between icon and text
+          Text(
+            'Cash',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 14, // Adjust text size
+              fontWeight: FontWeight.bold, // Make the text bold
+            ),
+          ),
         ],
       ),
     );

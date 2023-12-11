@@ -179,7 +179,7 @@ class ProductCard extends StatelessWidget {
               ),
             ),
           ),
-          product.stock_quantity == 0 ?
+
           Positioned(
             bottom: 0,
             left: 35,
@@ -193,10 +193,10 @@ class ProductCard extends StatelessWidget {
                   topRight: Radius.circular(10),
                   bottomRight: Radius.circular(10),
                 ),
-                color: Colors.grey
+                color: product.stock_quantity == 0?Colors.grey:Colors.green
               ),
               child: Text(
-                'Out of stock',
+                product.stock_quantity == 0 ? 'Out of stock' : 'Available',
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 8,
@@ -204,7 +204,7 @@ class ProductCard extends StatelessWidget {
                 ),
               ),
             ),
-          ) : Container(),
+          ),
 
         ],
       ),

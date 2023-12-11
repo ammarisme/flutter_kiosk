@@ -1,6 +1,7 @@
 import 'package:ecommerce_int2/app_properties.dart';
 import 'package:ecommerce_int2/screens/address/address_form.dart';
 import 'package:ecommerce_int2/screens/select_card_page.dart';
+import 'package:ecommerce_int2/screens/shop/select_payment_method.dart';
 import 'package:flutter/material.dart';
 
 class AddAddressPage extends StatelessWidget {
@@ -9,7 +10,7 @@ class AddAddressPage extends StatelessWidget {
     Widget finishButton = InkWell(
       onTap:()=> Navigator.of(context).push(
           MaterialPageRoute(
-              builder: (_) => SelectCardPage())),
+              builder: (_) => SelectPaymentMethodPage())),
       child: Container(
         height: 80,
         width: MediaQuery.of(context).size.width / 1.5,
@@ -66,6 +67,7 @@ class AddAddressPage extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
                   Row(
+
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Card(
@@ -95,68 +97,68 @@ class AddAddressPage extends StatelessWidget {
                                     )
                                   ],
                                 ),
-                              ))),
-                      Card(
-                          margin: EdgeInsets.symmetric(vertical: 8.0),
-                          color: yellow,
-                          elevation: 3,
-                          child: SizedBox(
-                              height: 80,
-                              width: 100,
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: <Widget>[
-                                    Padding(
-                                      padding: const EdgeInsets.all(4.0),
-                                      child: Image.asset(
-                                        'assets/icons/address_home.png',
-                                        color: Colors.white,
-                                        height: 20,
-                                      ),
-                                    ),
-                                    Text(
-                                      'Simon Philip,\nCity Oscarlad',
-                                      style: TextStyle(
-                                        fontSize: 8,
-                                        color: Colors.white,
-                                      ),
-                                      textAlign: TextAlign.center,
-                                    )
-                                  ],
-                                ),
-                              ))),
-                      Card(
-                          margin: EdgeInsets.symmetric(vertical: 8.0),
-                          color: yellow,
-                          elevation: 3,
-                          child: SizedBox(
-                              height: 80,
-                              width: 100,
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: <Widget>[
-                                    Padding(
-                                      padding: const EdgeInsets.all(4.0),
-                                      child: Image.asset(
-                                          'assets/icons/address_work.png',
-                                          color: Colors.white,
-                                          height: 20),
-                                    ),
-                                    Text(
-                                      'Workplace',
-                                      style: TextStyle(
-                                        fontSize: 8,
-                                        color: Colors.white,
-                                      ),
-                                      textAlign: TextAlign.center,
-                                    )
-                                  ],
-                                ),
-                              )))
+                              ))), // Add a new address
+                      // Card(
+                      //     margin: EdgeInsets.symmetric(vertical: 8.0),
+                      //     color: yellow,
+                      //     elevation: 3,
+                      //     child: SizedBox(
+                      //         height: 80,
+                      //         width: 100,
+                      //         child: Padding(
+                      //           padding: const EdgeInsets.all(8.0),
+                      //           child: Column(
+                      //             mainAxisAlignment: MainAxisAlignment.center,
+                      //             children: <Widget>[
+                      //               Padding(
+                      //                 padding: const EdgeInsets.all(4.0),
+                      //                 child: Image.asset(
+                      //                   'assets/icons/address_home.png',
+                      //                   color: Colors.white,
+                      //                   height: 20,
+                      //                 ),
+                      //               ),
+                      //               Text(
+                      //                 'Home',
+                      //                 style: TextStyle(
+                      //                   fontSize: 8,
+                      //                   color: Colors.white,
+                      //                 ),
+                      //                 textAlign: TextAlign.center,
+                      //               )
+                      //             ],
+                      //           ),
+                      //         ))), // Address 1
+                      // Card(
+                      //     margin: EdgeInsets.symmetric(vertical: 8.0),
+                      //     color: yellow,
+                      //     elevation: 3,
+                      //     child: SizedBox(
+                      //         height: 80,
+                      //         width: 100,
+                      //         child: Padding(
+                      //           padding: const EdgeInsets.all(8.0),
+                      //           child: Column(
+                      //             mainAxisAlignment: MainAxisAlignment.center,
+                      //             children: <Widget>[
+                      //               Padding(
+                      //                 padding: const EdgeInsets.all(4.0),
+                      //                 child: Image.asset(
+                      //                     'assets/icons/address_work.png',
+                      //                     color: Colors.white,
+                      //                     height: 20),
+                      //               ),
+                      //               Text(
+                      //                 'Workplace',
+                      //                 style: TextStyle(
+                      //                   fontSize: 8,
+                      //                   color: Colors.white,
+                      //                 ),
+                      //                 textAlign: TextAlign.center,
+                      //               )
+                      //             ],
+                      //           ),
+                      //         ))) // Address 2
                     ],
                   ),
                   AddAddressForm(),
