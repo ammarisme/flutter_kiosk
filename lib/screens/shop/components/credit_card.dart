@@ -90,12 +90,12 @@ class Cash extends StatelessWidget {
 }
 
 
-class DeliveryMethodCard extends StatelessWidget {
+class SwiperCard extends StatelessWidget {
   String label;
   IconData icon;
   Color color;
 
-  DeliveryMethodCard({
+  SwiperCard({
     required this.icon,
     required this.label,
     required this.color

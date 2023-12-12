@@ -13,27 +13,37 @@ import '../models/product.dart';
 //This class acts as the notifier to all api calls we do for the main page.
 class CartNotifier extends ChangeNotifier {
   late Cart? cart = null;
-  late Address? billing_address = null;
-  late Address? shipping_address = null;
-  late String payment_method = "";
-  late String payment_method_title = "";
 
-  Map<String, dynamic> order_info = {};
-
-  Map<String, double> payment_method_discounts = {
-    'cash': 1,
-    'card': 0,
-  };
-
-  int selected_payment_method = 0;
+  //line items and discounts
   double totalLineDiscounts = 0;
   double totalBeforeDiscounts = 0;
   double discountOnTotal = 0;
   double total = 0;
-  double payment_method_discount_percentage = 0;
-  double payment_method_discount_amount = 0;
-  double shipping_charges = 0;
 
+  //payment related
+  late String payment_method_title = "";
+  int selected_payment_method = 0;
+  late String payment_method = "";
+  Map<String, double> payment_method_discounts = {
+    'cash': 1,
+    'card': 0,
+  };
+  double payment_method_discount_amount = 0;
+  double payment_method_discount_percentage = 0;
+  bool paid = false;
+
+  //shipping related
+  late Address? billing_address = null;
+  late Address? shipping_address = null;
+  Map<String, double> shipping_charges_directory = {
+    'Courier': 200,
+    'Delivery driver': 100
+  };
+  double shipping_charges = 0;
+  String shipping_method_id = "";
+  String shipping_method_title = "";
+
+  //Calculates all order related numbers
   void calculateOrderInfo() {
     this.totalLineDiscounts = 0;
     this.totalBeforeDiscounts = 0;
@@ -53,10 +63,6 @@ class CartNotifier extends ChangeNotifier {
 
     this.total = (totalBeforeDiscounts - totalLineDiscounts) -
         discountOnTotal;
-  }
-
-  void loadProduct(Cart _cart) {
-    this.cart = _cart;
   }
 
   Future<void> getCart() async {
@@ -137,16 +143,11 @@ class CartNotifier extends ChangeNotifier {
     this.payment_method = payment_method;
     this.payment_method_title = payment_method_title;
     this.payment_method_discount_percentage =
-        this.payment_method_discounts[payment_method]!;
+    this.payment_method_discounts[payment_method]!;
 
     this.calculateOrderInfo();
     notifyListeners();
   }
-
-  Map<String, double> shipping_charges_directory = {
-    'Courier': 200,
-    'Delivery driver' : 100
-  };
 
   void updateShippingMethod(shipping_method) {
     this.shipping_charges = this.shipping_charges_directory[shipping_method]!;
@@ -155,4 +156,24 @@ class CartNotifier extends ChangeNotifier {
 
     notifyListeners();
   }
+
+  void copyShippingInfoToBilling() {
+    cart?.billingAddress = Address(firstName: cart!.shippingAddress.firstName,
+        lastName: cart!.shippingAddress.lastName,
+        company: "",
+        address1: cart!.shippingAddress.address1,
+        address2: cart!.shippingAddress.address2,
+        city: cart!.shippingAddress.city,
+        state: cart!.shippingAddress.state,
+        postcode: cart!.shippingAddress.postcode,
+        country: cart!.shippingAddress.country,
+        email: "",
+        phone: "");
+  }
+
+
+  void loadProduct(Cart _cart) {
+    this.cart = _cart;
+  }
+
 }

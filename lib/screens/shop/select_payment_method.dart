@@ -29,7 +29,8 @@ class _SelectPaymentMethodPageState extends State<SelectPaymentMethodPage> {
     List<dynamic> payment_methods = [
       Cash(),
       CreditCard(),
-      CreditCard()
+      SwiperCard(icon: Icons.account_balance,
+          label: "Bank Transfer", color: Colors.blue)
     ];
     cartNotifier.calculateOrderInfo();
 

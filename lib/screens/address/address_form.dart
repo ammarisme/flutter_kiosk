@@ -81,7 +81,13 @@ class AddAddressForm extends StatelessWidget {
             children: <Widget>[
               Checkbox(
                 value: true,
-                onChanged: (_) {},
+                onChanged: (value) {
+                  if(value==true){
+                    cartNotifier.copyShippingInfoToBilling();
+                  }else{
+
+                  }
+                },
               ),
               Text('Use the same as the Billing address.')
             ],

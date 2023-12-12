@@ -27,12 +27,12 @@ class _SelectShippingMethodPageState extends State<SelectShippingMethodPage> {
     cartNotifier.calculateOrderInfo();
 
     List<dynamic> shipping_methods = [
-      DeliveryMethodCard(
+      SwiperCard(
         icon: Icons.local_shipping,
         label: "Courier",
         color: Colors.orange,
       ),
-      DeliveryMethodCard(
+      SwiperCard(
         icon: Icons.delivery_dining,
         label: "Delivery driver",
         color: Colors.purple,

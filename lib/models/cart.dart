@@ -192,6 +192,7 @@ class CartItem {
   final String currencyPrefix;
   final double linetotal;
   final double linediscount;
+  final List<dynamic> variations;
 
   CartItem(
       {required this.key,
@@ -207,7 +208,8 @@ class CartItem {
       required this.currencyMinorUnit,
       required this.currencyPrefix,
       required this.linetotal,
-      required this.linediscount});
+      required this.linediscount,
+      required this.variations});
 
   factory CartItem.fromJson(Map<String, dynamic> json) {
     return CartItem(
@@ -216,15 +218,16 @@ class CartItem {
         quantity: json['quantity'] ?? 0,
         name: json['name'] ?? '',
         lowStockRemaining: json['low_stock_remaining'],
-        regularPrice: double.tryParse(json['prices']['regular_price'])!/100 ?? 0.00,
-        salePrice: double.tryParse(json['prices']['sale_price'])!/100 ?? 0.00,
+        regularPrice:
+            double.tryParse(json['prices']['regular_price'])! / 100 ?? 0.00,
+        salePrice: double.tryParse(json['prices']['sale_price'])! / 100 ?? 0.00,
         currencyCode: json['totals']['currency_code'] ?? '',
         currencySymbol: json['totals']['currency_symbol'] ?? '',
         lineTotalTax: json['totals']['line_total_tax'] ?? '',
         currencyMinorUnit: json['totals']['currency_minor_unit'] ?? 0,
         currencyPrefix: json['totals']['currency_prefix'] ?? '',
         linetotal: 0,
-        linediscount: 0
-    );
+        linediscount: 0,
+        variations: json['variations']!=null?json['variations']:[]);
   }
 }
