@@ -13,6 +13,8 @@ import '../models/product.dart';
 //This class acts as the notifier to all api calls we do for the main page.
 class CartNotifier extends ChangeNotifier {
   late Cart? cart= null;
+  late Address? billing_address = null;
+  late Address? shipping_address = null;
 
   void loadProduct(Cart _cart){
     this.cart = _cart;
@@ -32,6 +34,9 @@ class CartNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
+  void addOrUpdateAddress(String address1,String address2,String city){
+
+  }
 
   Future<void> createOrder()async {
 

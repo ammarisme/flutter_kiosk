@@ -3,14 +3,21 @@ import 'package:ecommerce_int2/screens/address/address_form.dart';
 import 'package:ecommerce_int2/screens/select_card_page.dart';
 import 'package:ecommerce_int2/screens/shop/select_payment_method.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../../change_notifiers/cart_notifiers.dart';
 
 class AddAddressPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    CartNotifier cartNotifier =
+        Provider.of<CartNotifier>(context, listen: false);
+
     Widget finishButton = InkWell(
-      onTap:()=> Navigator.of(context).push(
-          MaterialPageRoute(
-              builder: (_) => SelectPaymentMethodPage())),
+      onTap: () =>
+          // cartNotifier.addOrUpdateAddress(address1, address2, city)
+          Navigator.of(context)
+          .push(MaterialPageRoute(builder: (_) => SelectPaymentMethodPage())),
       child: Container(
         height: 80,
         width: MediaQuery.of(context).size.width / 1.5,
@@ -25,7 +32,7 @@ class AddAddressPage extends StatelessWidget {
             ],
             borderRadius: BorderRadius.circular(9.0)),
         child: Center(
-          child: Text("Finish",
+          child: Text("Next",
               style: const TextStyle(
                   color: const Color(0xfffefefe),
                   fontWeight: FontWeight.w600,
@@ -67,7 +74,6 @@ class AddAddressPage extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
                   Row(
-
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Card(
@@ -97,7 +103,8 @@ class AddAddressPage extends StatelessWidget {
                                     )
                                   ],
                                 ),
-                              ))), // Add a new address
+                              ))),
+                      // Add a new address
                       // Card(
                       //     margin: EdgeInsets.symmetric(vertical: 8.0),
                       //     color: yellow,
