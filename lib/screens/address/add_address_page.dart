@@ -6,41 +6,13 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../change_notifiers/cart_notifiers.dart';
+import '../components/ui_components.dart';
 
 class AddAddressPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     CartNotifier cartNotifier =
         Provider.of<CartNotifier>(context, listen: false);
-
-    Widget finishButton = InkWell(
-      onTap: () =>
-          // cartNotifier.addOrUpdateAddress(address1, address2, city)
-          Navigator.of(context)
-          .push(MaterialPageRoute(builder: (_) => SelectPaymentMethodPage())),
-      child: Container(
-        height: 80,
-        width: MediaQuery.of(context).size.width / 1.5,
-        decoration: BoxDecoration(
-            gradient: mainButton,
-            boxShadow: [
-              BoxShadow(
-                color: Color.fromRGBO(0, 0, 0, 0.16),
-                offset: Offset(0, 5),
-                blurRadius: 10.0,
-              )
-            ],
-            borderRadius: BorderRadius.circular(9.0)),
-        child: Center(
-          child: Text("Next",
-              style: const TextStyle(
-                  color: const Color(0xfffefefe),
-                  fontWeight: FontWeight.w600,
-                  fontStyle: FontStyle.normal,
-                  fontSize: 20.0)),
-        ),
-      ),
-    );
 
     return Scaffold(
       backgroundColor: Colors.grey[100],
@@ -169,7 +141,12 @@ class AddAddressPage extends StatelessWidget {
                     ],
                   ),
                   AddAddressForm(),
-                  Center(child: finishButton)
+                  Center(child: ActionButton(
+                      buttonText: 'Next',
+                      onTap: () {
+                        Navigator.of(context)
+                            .push(MaterialPageRoute(builder: (_) => SelectPaymentMethodPage()));
+                      }))
                 ],
               ),
             ),

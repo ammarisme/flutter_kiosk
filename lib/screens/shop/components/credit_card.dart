@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 
 class CreditCard extends StatelessWidget {
+  String payment_method = "card";
+  String payment_method_title = "Credit/Debit Card";
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -48,6 +51,9 @@ class CreditCard extends StatelessWidget {
 }
 
 class Cash extends StatelessWidget {
+  String payment_method = "cash";
+  String payment_method_title = "Cash";
+
   @override
   Widget build(BuildContext context) {
     return Container(

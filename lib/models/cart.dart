@@ -15,51 +15,56 @@ class Cart {
   List<dynamic> errors;
   List<String> paymentRequirements;
   String? nonce;
+  double payment_method_discount = 0;
+  double shipping_charges = 0;
+
   // Map<String, dynamic> extensions;
 
-  Cart({
-    required this.coupons,
-    required this.shippingRates,
-    required this.shippingAddress,
-    required this.billingAddress,
-    required this.items,
-    required this.itemsCount,
-    required this.itemsWeight,
-    required this.crossSells,
-    required this.needsPayment,
-    required this.needsShipping,
-    required this.hasCalculatedShipping,
-    required this.fees,
-    required this.totals,
-    required this.errors,
-    required this.paymentRequirements,
-    required this.nonce
-    // required this.extensions,
-  });
-
+  Cart(
+      {required this.coupons,
+      required this.shippingRates,
+      required this.shippingAddress,
+      required this.billingAddress,
+      required this.items,
+      required this.itemsCount,
+      required this.itemsWeight,
+      required this.crossSells,
+      required this.needsPayment,
+      required this.needsShipping,
+      required this.hasCalculatedShipping,
+      required this.fees,
+      required this.totals,
+      required this.errors,
+      required this.paymentRequirements,
+      required this.nonce
+      // required this.extensions,
+      });
 
   factory Cart.fromJson(Map<String, dynamic> json) {
-    List<CartItem> items = (json['items'] as List<dynamic>).map((item) => CartItem.fromJson(item)).toList();
+    List<CartItem> items = (json['items'] as List<dynamic>)
+        .map((item) => CartItem.fromJson(item))
+        .toList();
 
     return Cart(
-      coupons: json['coupons'] ?? [],
-      shippingRates: json['shipping_rates'] ?? [],
-      shippingAddress: Address.fromJson(json['shipping_address'] ?? {}),
-      billingAddress: Address.fromJson(json['billing_address'] ?? {}),
-      items: items ?? [],
-      itemsCount: json['items_count'] ?? 0,
-      itemsWeight: json['items_weight'] ?? 0,
-      crossSells: json['cross_sells'] ?? [],
-      needsPayment: json['needs_payment'] ?? false,
-      needsShipping: json['needs_shipping'] ?? false,
-      hasCalculatedShipping: json['has_calculated_shipping'] ?? false,
-      fees: json['fees'] ?? [],
-      totals: Totals.fromJson(json['totals'] ?? {}),
-      errors: json['errors'] ?? [],
-      paymentRequirements: List<String>.from(json['payment_requirements'] ?? []),
-      nonce:""
-      // extensions: json['extensions'] ?? {},
-    );
+        coupons: json['coupons'] ?? [],
+        shippingRates: json['shipping_rates'] ?? [],
+        shippingAddress: Address.fromJson(json['shipping_address'] ?? {}),
+        billingAddress: Address.fromJson(json['billing_address'] ?? {}),
+        items: items ?? [],
+        itemsCount: json['items_count'] ?? 0,
+        itemsWeight: json['items_weight'] ?? 0,
+        crossSells: json['cross_sells'] ?? [],
+        needsPayment: json['needs_payment'] ?? false,
+        needsShipping: json['needs_shipping'] ?? false,
+        hasCalculatedShipping: json['has_calculated_shipping'] ?? false,
+        fees: json['fees'] ?? [],
+        totals: Totals.fromJson(json['totals'] ?? {}),
+        errors: json['errors'] ?? [],
+        paymentRequirements:
+            List<String>.from(json['payment_requirements'] ?? []),
+        nonce: ""
+        // extensions: json['extensions'] ?? {},
+        );
   }
 }
 
@@ -172,50 +177,54 @@ class Totals {
   }
 }
 
-
 class CartItem {
   final String key;
   final int id;
   final int quantity;
   final String name;
   final String? lowStockRemaining;
-  final String regularPrice;
-  final String salePrice;
+  late final double regularPrice;
+  late final double salePrice;
   final String currencyCode;
   final String currencySymbol;
   final String lineTotalTax;
   final int currencyMinorUnit;
   final String currencyPrefix;
+  final double linetotal;
+  final double linediscount;
 
-  CartItem({
-    required this.key,
-    required this.id,
-    required this.quantity,
-    required this.name,
-    this.lowStockRemaining,
-    required this.regularPrice,
-    required this.salePrice,
-    required this.currencyCode,
-    required this.currencySymbol,
-    required this.lineTotalTax,
-    required this.currencyMinorUnit,
-    required this.currencyPrefix,
-  });
+  CartItem(
+      {required this.key,
+      required this.id,
+      required this.quantity,
+      required this.name,
+      this.lowStockRemaining,
+      required this.regularPrice,
+      required this.salePrice,
+      required this.currencyCode,
+      required this.currencySymbol,
+      required this.lineTotalTax,
+      required this.currencyMinorUnit,
+      required this.currencyPrefix,
+      required this.linetotal,
+      required this.linediscount});
 
   factory CartItem.fromJson(Map<String, dynamic> json) {
     return CartItem(
-      key: json['key'] ?? '',
-      id: json['id'] ?? 0,
-      quantity: json['quantity'] ?? 0,
-      name: json['name'] ?? '',
-      lowStockRemaining: json['low_stock_remaining'],
-      regularPrice: json['prices']['regular_price'] ?? 0,
-      salePrice: json['prices']['sale_price'] ?? 0,
-      currencyCode: json['totals']['currency_code'] ?? '',
-      currencySymbol: json['totals']['currency_symbol'] ?? '',
-      lineTotalTax: json['totals']['line_total_tax'] ?? '',
-      currencyMinorUnit: json['totals']['currency_minor_unit'] ?? 0,
-      currencyPrefix: json['totals']['currency_prefix'] ?? '',
+        key: json['key'] ?? '',
+        id: json['id'] ?? 0,
+        quantity: json['quantity'] ?? 0,
+        name: json['name'] ?? '',
+        lowStockRemaining: json['low_stock_remaining'],
+        regularPrice: double.tryParse(json['prices']['regular_price'])!/100 ?? 0.00,
+        salePrice: double.tryParse(json['prices']['sale_price'])!/100 ?? 0.00,
+        currencyCode: json['totals']['currency_code'] ?? '',
+        currencySymbol: json['totals']['currency_symbol'] ?? '',
+        lineTotalTax: json['totals']['line_total_tax'] ?? '',
+        currencyMinorUnit: json['totals']['currency_minor_unit'] ?? 0,
+        currencyPrefix: json['totals']['currency_prefix'] ?? '',
+        linetotal: 0,
+        linediscount: 0
     );
   }
 }

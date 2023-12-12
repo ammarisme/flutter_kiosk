@@ -2,6 +2,7 @@ import 'package:card_swiper/card_swiper.dart';
 import 'package:ecommerce_int2/app_properties.dart';
 import 'package:ecommerce_int2/change_notifiers/cart_notifiers.dart';
 import 'package:ecommerce_int2/screens/address/add_address_page.dart';
+import 'package:ecommerce_int2/screens/components/ui_components.dart';
 import 'package:ecommerce_int2/screens/shop/order_confirmation.dart';
 import 'package:ecommerce_int2/screens/payment/unpaid_page.dart';
 import 'package:flutter/material.dart';
@@ -12,122 +13,289 @@ import 'components/shop_item_list.dart';
 
 class SelectPaymentMethodPage extends StatefulWidget {
   @override
-  _SelectPaymentMethodPageState createState() => _SelectPaymentMethodPageState();
+  _SelectPaymentMethodPageState createState() =>
+      _SelectPaymentMethodPageState();
 }
 
 class _SelectPaymentMethodPageState extends State<SelectPaymentMethodPage> {
   SwiperController swiperController = SwiperController();
 
+
+  Map<int, double> payment_method_discounts = {
+    1: -1.5,
+    2: 0,
+    3: 0
+  };
+
+  Map<String, dynamic> widget_info = {
+    'bill_amount': 1000,
+    'payment_method_discount':0,
+    'discount_amount': -1000.00,
+    "total" :3434
+  };
+
+  int selected_payment_method = 0;
+
+
   @override
   Widget build(BuildContext context) {
     CartNotifier cartNotifier =
-    Provider.of<CartNotifier>(context, listen: false);
-    cartNotifier.getCart();
+        Provider.of<CartNotifier>(context, listen: false);
 
-    Widget checkOutButton = InkWell(
-      onTap: () => Navigator.of(context)
-          .push(MaterialPageRoute(builder: (_) => OrderConfirmationPage())),
-      child: Container(
-        height: 80,
-        width: MediaQuery.of(context).size.width / 1.5,
-        decoration: BoxDecoration(
-            gradient: mainButton,
-            boxShadow: [
-              BoxShadow(
-                color: Color.fromRGBO(0, 0, 0, 0.16),
-                offset: Offset(0, 5),
-                blurRadius: 10.0,
-              )
-            ],
-            borderRadius: BorderRadius.circular(9.0)),
-        child: Center(
-          child: Text("Next",
-              style: const TextStyle(
-                  color: const Color(0xfffefefe),
-                  fontWeight: FontWeight.w600,
-                  fontStyle: FontStyle.normal,
-                  fontSize: 20.0)),
-        ),
-      ),
-    );
+    List<dynamic> payment_methods = [
+      Cash(),
+      CreditCard(),
+      CreditCard()
+    ];
 
-
-    List<dynamic> credit_cards = [Cash(), CreditCard(), CreditCard()];
-
-    return Consumer<CartNotifier>(
-        builder: (context, productNotifier, _) {
-          return cartNotifier.cart == null ? Container() :
-          Scaffold(
-            backgroundColor: Colors.white,
-            appBar: AppBar(
-              backgroundColor: Colors.transparent,
-              elevation: 0.0,
-              iconTheme: IconThemeData(color: darkGrey),
-              actions: <Widget>[
-                IconButton(
-                  icon: Image.asset('assets/icons/denied_wallet.png'),
-                  onPressed: () => Navigator.of(context)
-                      .push(MaterialPageRoute(builder: (_) => UnpaidPage())),
-                )
-              ],
-              title: Text(
-                'Checkout',
-                style: TextStyle(
-                    color: darkGrey, fontWeight: FontWeight.w500, fontSize: 18.0),
+    return Consumer<CartNotifier>(builder: (context, productNotifier, _) {
+      return cartNotifier.cart == null
+          ? Container()
+          : Scaffold(
+              backgroundColor: Colors.white,
+              appBar: AppBar(
+                backgroundColor: Colors.transparent,
+                elevation: 0.0,
+                iconTheme: IconThemeData(color: darkGrey),
+                actions: <Widget>[
+                  IconButton(
+                    icon: Image.asset('assets/icons/denied_wallet.png'),
+                    onPressed: () => Navigator.of(context)
+                        .push(MaterialPageRoute(builder: (_) => UnpaidPage())),
+                  )
+                ],
+                title: Text(
+                  'Checkout',
+                  style: TextStyle(
+                      color: darkGrey,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 18.0),
+                ),
               ),
-            ),
-            body: LayoutBuilder(
-              builder: (_, constraints) => SingleChildScrollView(
-                physics: ClampingScrollPhysics(),
-                child: ConstrainedBox(
-                  constraints: BoxConstraints(minHeight: constraints.maxHeight),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Text(
-                          'Payment',
-                          style: TextStyle(
-                              fontSize: 20,
-                              color: darkGrey,
-                              fontWeight: FontWeight.bold),
+              body: LayoutBuilder(
+                builder: (_, constraints) => SingleChildScrollView(
+                  physics: ClampingScrollPhysics(),
+                  child: ConstrainedBox(
+                    constraints:
+                        BoxConstraints(minHeight: constraints.maxHeight),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Text(
+                            'Payment',
+                            style: TextStyle(
+                                fontSize: 20,
+                                color: darkGrey,
+                                fontWeight: FontWeight.bold),
+                          ),
                         ),
-                      ),
-                      SizedBox(
-                        height: 250,
-                        child: Swiper(
-                          itemCount: credit_cards.length,
-                          itemBuilder: (_, index) {
-                            return credit_cards[index];
-                          },
-                          scale: 0.8,
-                          controller: swiperController,
-                          viewportFraction: 0.6,
-                          loop: false,
-                          fade: 0.7,
+                        SizedBox(
+                          height: 250,
+                          child: Swiper(
+                            itemCount: payment_methods.length,
+                            itemBuilder: (_, index) {
+                              return payment_methods[index];
+                            },
+                            scale: 0.8,
+                            controller: swiperController,
+                            viewportFraction: 0.6,
+                            loop: false,
+                            fade: 0.7,
+                            onIndexChanged: (index) => {
+                            cartNotifier.updatePayentMethod(payment_methods[index].payment_method,
+                            payment_methods[index].payment_method_title)
+                            },
+                          ),
                         ),
-                      ),
-                      SizedBox(height: 24),
-                      Center(
-                          child: Padding(
-                        padding: EdgeInsets.only(
-                            bottom: MediaQuery.of(context).padding.bottom == 0
-                                ? 20
-                                : MediaQuery.of(context).padding.bottom),
-                        child: checkOutButton,
-                      ))
-                    ],
+                        SizedBox(height: 24),
+                        Container(
+                          margin: const EdgeInsets.all(16.0),
+                          padding: const EdgeInsets.fromLTRB(
+                              16.0, 0, 16.0, 16.0),
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              boxShadow: shadow,
+                              borderRadius: BorderRadius.only(
+                                  bottomLeft: Radius.circular(10),
+                                  bottomRight: Radius.circular(10))),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              Table(
+                                columnWidths: const <int,
+                                    TableColumnWidth>{
+                                  0: FixedColumnWidth(150.0),
+                                  2: FixedColumnWidth(60.0),
+                                },
+                                children: <TableRow>[
+                                  // First Row
+                                  // Second Row
+                                  TableRow(
+                                    children: <Widget>[
+                                      TableCell(
+                                        child:
+                                        Padding(
+                                          padding: EdgeInsets.symmetric(vertical: 5), // Space between rows
+                                          child:  Column(
+                                            mainAxisAlignment: MainAxisAlignment.start,
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: <Widget>[
+                                              Text('Bill amount',
+                                              ), // First line
+                                              // Second line with smaller font
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                      TableCell(
+                                        child: Center(
+                                          child: Column(
+                                            mainAxisAlignment: MainAxisAlignment.end,
+                                            crossAxisAlignment: CrossAxisAlignment.end,
+                                            children: <Widget>[
+                                              Text(
+                                                widget_info['bill_amount'].toString(),
+                                                textAlign: TextAlign.left,
+                                              ), // Second line with smaller font
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  TableRow(
+                                    children: <Widget>[
+                                      TableCell(
+                                        child:
+                                        Padding(
+                                          padding: EdgeInsets.symmetric(vertical: 5), // Space between rows
+                                          child:  Column(
+                                            mainAxisAlignment: MainAxisAlignment.start,
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: <Widget>[
+                                              Text('Payment method discount (%)'
+                                              )
+                                              // Second line with smaller font
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                      TableCell(
+                                        child: Center(
+                                          child: Column(
+                                            mainAxisAlignment: MainAxisAlignment.end,
+                                            crossAxisAlignment: CrossAxisAlignment.end,
+                                            children: <Widget>[
+                                              Text(
+                                                widget_info['payment_method_discount'] > 0 ?
+                                                widget_info['payment_method_discount'].toString() + "%" : "n/a",
+                                                textAlign: TextAlign.left,
+                                              ) // First line
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  TableRow(
+                                    children: <Widget>[
+                                      TableCell(
+                                        child:
+                                        Padding(
+                                          padding: EdgeInsets.symmetric(vertical: 5), // Space between rows
+                                          child:  Column(
+                                            mainAxisAlignment: MainAxisAlignment.start,
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+
+                                            children: <Widget>[
+                                              Text('Discount amount',
+                                              ), // First line
+                                              // Second line with smaller font
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                      TableCell(
+                                        child: Center(
+                                          child: Column(
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            crossAxisAlignment: CrossAxisAlignment.center,
+                                            children: <Widget>[
+                                              Text(
+                                              widget_info['discount_amount'] > 0 ?
+                                              widget_info['discount_amount'].toString() : "n/a",
+                                                style: TextStyle(
+                                                    color: Colors.red),
+                                              )
+                                              , // First line
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  TableRow(
+                                    children: <Widget>[
+                                      TableCell(
+                                        child:
+                                        Padding(
+                                          padding: EdgeInsets.symmetric(vertical: 5), // Space between rows
+                                          child:  Column(
+                                            mainAxisAlignment: MainAxisAlignment.start,
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: <Widget>[
+                                              Text('Total payable',
+                                              ), // First line
+                                              // Second line with smaller font
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                      TableCell(
+                                        child: Center(
+                                          child: Column(
+                                            mainAxisAlignment: MainAxisAlignment.end,
+                                            crossAxisAlignment: CrossAxisAlignment.end,
+                                            children: <Widget>[
+                                              Text(
+                                                widget_info['total'].toString(),
+                                                textAlign: TextAlign.left,
+                                              ), // First line
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+
+                                ],
+                              )
+                            ],
+                          ),
+                        ),
+                        Center(
+                            child: Padding(
+                          padding: EdgeInsets.only(
+                              bottom: MediaQuery.of(context).padding.bottom == 0
+                                  ? 20
+                                  : MediaQuery.of(context).padding.bottom),
+                          child: ActionButton(
+                            buttonText: 'Next',
+                            onTap: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (_) => ConfirmYourOrderPage()));
+                            },
+                          ),
+                        ))
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
-          );
-        }
-    );
-
-
-
+            );
+    });
   }
 }
 

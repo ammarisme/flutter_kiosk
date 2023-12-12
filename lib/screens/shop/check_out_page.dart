@@ -6,6 +6,7 @@ import 'package:ecommerce_int2/screens/payment/unpaid_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../components/ui_components.dart';
 import 'components/credit_card.dart';
 import 'components/shop_item_list.dart';
 
@@ -22,33 +23,6 @@ class _CheckOutPageState extends State<CheckOutPage> {
     CartNotifier cartNotifier =
     Provider.of<CartNotifier>(context, listen: false);
     cartNotifier.getCart();
-
-    Widget checkOutButton = InkWell(
-      onTap: () => Navigator.of(context)
-          .push(MaterialPageRoute(builder: (_) => AddAddressPage())),
-      child: Container(
-        height: 80,
-        width: MediaQuery.of(context).size.width / 1.5,
-        decoration: BoxDecoration(
-            gradient: mainButton,
-            boxShadow: [
-              BoxShadow(
-                color: Color.fromRGBO(0, 0, 0, 0.16),
-                offset: Offset(0, 5),
-                blurRadius: 10.0,
-              )
-            ],
-            borderRadius: BorderRadius.circular(9.0)),
-        child: Center(
-          child: Text("Check Out",
-              style: const TextStyle(
-                  color: const Color(0xfffefefe),
-                  fontWeight: FontWeight.w600,
-                  fontStyle: FontStyle.normal,
-                  fontSize: 20.0)),
-        ),
-      ),
-    );
 
     return Consumer<CartNotifier>(
         builder: (context, productNotifier, _) {
@@ -105,7 +79,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
                         ),
                       ),
                       SizedBox(
-                        height: 550,
+                        height: 400,
                         child: Scrollbar(
                           child: ListView.builder(
                             itemBuilder: (_, index) => ShopItemList(
@@ -128,7 +102,12 @@ class _CheckOutPageState extends State<CheckOutPage> {
                             bottom: MediaQuery.of(context).padding.bottom == 0
                                 ? 20
                                 : MediaQuery.of(context).padding.bottom),
-                        child: checkOutButton,
+                        child: ActionButton(
+                          buttonText: 'Checkout',
+                          onTap: () {
+                            Navigator.of(context).push(MaterialPageRoute(builder: (_) => AddAddressPage()));
+                          },
+                        ),
                       ))
                     ],
                   ),

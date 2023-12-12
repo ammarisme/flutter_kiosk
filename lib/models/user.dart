@@ -42,9 +42,9 @@ class BillingInfo {
 // "first_name": "catlitter",
 // "last_name": "xxv",
 // "company": "",
-// "address_1": "Narahenpita",
-// "address_2": "Narahenpita",
-// "city": "Colombo 01",
+late String address_1;
+late String address_2;
+late String city;
 // "postcode": "",
 // "country": "LK",
 // "state": "CMB",

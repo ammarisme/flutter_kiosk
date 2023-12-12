@@ -1,84 +1,389 @@
 import 'package:ecommerce_int2/app_properties.dart';
-import 'package:ecommerce_int2/screens/address/address_form.dart';
-import 'package:ecommerce_int2/screens/shop/select_payment_method.dart';
+import 'package:ecommerce_int2/screens/components/ui_components.dart';
+import 'package:ecommerce_int2/screens/payment/promo_item.dart';
+import 'package:ecommerce_int2/screens/shop/order_success.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
-import 'order_success.dart';
+import '../../change_notifiers/cart_notifiers.dart';
+import '../../models/cart.dart';
 
-class OrderConfirmationPage extends StatelessWidget {
+class ConfirmYourOrderPage extends StatefulWidget {
+  @override
+  _ConfirmYourOrderPageState createState() => _ConfirmYourOrderPageState();
+}
+
+class _ConfirmYourOrderPageState extends State<ConfirmYourOrderPage> {
+
   @override
   Widget build(BuildContext context) {
-    Widget finishButton = InkWell(
-      onTap:()=> Navigator.of(context).push(
-          MaterialPageRoute(
-              builder: (_) => OrderSuccessPage())),
-      child: Container(
-        height: 80,
-        width: MediaQuery.of(context).size.width / 1.5,
-        decoration: BoxDecoration(
-            gradient: mainButton,
-            boxShadow: [
-              BoxShadow(
-                color: Color.fromRGBO(0, 0, 0, 0.16),
-                offset: Offset(0, 5),
-                blurRadius: 10.0,
-              )
-            ],
-            borderRadius: BorderRadius.circular(9.0)),
-        child: Center(
-          child: Text("Confirm",
-              style: const TextStyle(
-                  color: const Color(0xfffefefe),
-                  fontWeight: FontWeight.w600,
-                  fontStyle: FontStyle.normal,
-                  fontSize: 20.0)),
-        ),
-      ),
-    );
+    CartNotifier cartNotifier =
+        Provider.of<CartNotifier>(context, listen: false);
+    cartNotifier.calculateOrderInfo(cartNotifier.cart);
 
-    return Scaffold(
-      backgroundColor: Colors.grey[100],
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0.0,
-        iconTheme: IconThemeData(color: darkGrey),
-        title: Text(
-          'Confirm your order',
-          style: const TextStyle(
-              color: darkGrey,
-              fontWeight: FontWeight.w500,
-              fontFamily: "Montserrat",
-              fontSize: 18.0),
-        ),
-      ),
-      body: LayoutBuilder(
-        builder: (_, viewportConstraints) => SingleChildScrollView(
-          child: ConstrainedBox(
-            constraints:
-                BoxConstraints(minHeight: viewportConstraints.maxHeight),
-            child: Container(
-              padding: EdgeInsets.only(
-                  left: 16.0,
-                  right: 16.0,
-                  bottom: MediaQuery.of(context).padding.bottom == 0
-                      ? 20
-                      : MediaQuery.of(context).padding.bottom),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                    ],
-                  ),
-                  Center(child: finishButton)
-                ],
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
+    return Material(
+        color: Colors.white,
+        child: SafeArea(
+          child: LayoutBuilder(
+              builder: (_, constraints) => SingleChildScrollView(
+                  physics: ClampingScrollPhysics(),
+                  child: ConstrainedBox(
+                      constraints: BoxConstraints(
+                        minHeight: constraints.maxHeight,
+                      ),
+                      child: Padding(
+                          padding: const EdgeInsets.only(top: kToolbarHeight),
+                          child: Column(children: <Widget>[
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 16.0),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  Text(
+                                    'Confirm your order',
+                                    style: TextStyle(
+                                      color: darkGrey,
+                                      fontSize: 22,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  CloseButton()
+                                ],
+                              ),
+                            ),
+                            Container(
+                                margin: const EdgeInsets.all(16.0),
+                                padding: const EdgeInsets.fromLTRB(
+                                    16.0, 16, 16.0, 16.0),
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    boxShadow: shadow,
+                                    borderRadius: BorderRadius.only(
+                                        bottomLeft: Radius.circular(10),
+                                        bottomRight: Radius.circular(10))),
+                                child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: <Widget>[
+                                      Table(
+                                          columnWidths: const <int,
+                                              TableColumnWidth>{
+                                            0: FixedColumnWidth(120.0),
+                                            1: FixedColumnWidth(80.0),
+                                            2: FixedColumnWidth(100.0),
+                                          },
+                                          children: List<TableRow>.generate(
+                                              cartNotifier.cart!.items.length,
+                                              (index) {
+                                            CartItem item =
+                                                cartNotifier.cart!.items[index];
+                                            return TableRow(
+                                              children: <Widget>[
+                                                TableCell(
+                                                  child: Padding(
+                                                    padding:
+                                                        EdgeInsets.symmetric(
+                                                            vertical: 5),
+                                                    // Space between rows
+                                                    child: Center(
+                                                      child: Column(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .center,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .center,
+                                                        children: <Widget>[
+                                                          Text(item.name),
+                                                          // First line
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                TableCell(
+                                                  child: Center(
+                                                      child: Text(
+                                                          '${NumberFormat('#,##0.00', 'en_US').format(item.salePrice)} x ${item.quantity}')),
+                                                ),
+                                                TableCell(
+                                                  child: Center(
+                                                    child: Column(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .center,
+                                                      children: <Widget>[
+                                                        Text(
+                                                          '${NumberFormat('#,##0.00', 'en_US').format(item.salePrice*item.quantity)}',
+                                                        ),
+                                                        // First line
+                                                        Text(
+                                                          'Discount (-${NumberFormat('#,##0.00', 'en_US').format(item.salePrice*item.quantity*item.linediscount/100)})',
+                                                          style: TextStyle(
+                                                              fontSize: 10.0,
+                                                              color:
+                                                                  Colors.red),
+                                                        ),
+                                                        // Second line with smaller font
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            );
+                                          }))
+                                    ])),
+                            Container(
+                              margin: const EdgeInsets.all(16.0),
+                              padding: const EdgeInsets.fromLTRB(
+                                  16.0, 0, 16.0, 16.0),
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  boxShadow: shadow,
+                                  borderRadius: BorderRadius.only(
+                                      bottomLeft: Radius.circular(10),
+                                      bottomRight: Radius.circular(10))),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: <Widget>[
+                                  Table(
+                                    columnWidths: const <int, TableColumnWidth>{
+                                      0: FixedColumnWidth(150.0),
+                                      2: FixedColumnWidth(60.0),
+                                    },
+                                    children: <TableRow>[
+                                      // First Row
+                                      // Second Row
+                                      TableRow(
+                                        children: <Widget>[
+                                          TableCell(
+                                            child: Padding(
+                                              padding: EdgeInsets.symmetric(
+                                                  vertical: 5),
+                                              // Space between rows
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: <Widget>[
+                                                  Text(
+                                                    'Total line discounts',
+                                                  ),
+                                                  // First line
+                                                  // Second line with smaller font
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                          TableCell(
+                                            child: Center(
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.end,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.end,
+                                                children: <Widget>[
+                                                  Text(
+                                                    '-${cartNotifier.order_info['total_line_discounts']}',
+                                                    style: TextStyle(
+                                                        color: Colors.red),
+                                                    textAlign: TextAlign.left,
+                                                  ),
+                                                  // Second line with smaller font
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      TableRow(
+                                        children: <Widget>[
+                                          TableCell(
+                                            child: Padding(
+                                              padding: EdgeInsets.symmetric(
+                                                  vertical: 5),
+                                              // Space between rows
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: <Widget>[
+                                                  Text(
+                                                    'Total (before discount)',
+                                                  ),
+                                                  // First line
+                                                  // Second line with smaller font
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                          TableCell(
+                                            child: Center(
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.end,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.end,
+                                                children: <Widget>[
+                                                  Text(
+                                                    '${cartNotifier.order_info['total_before_discounts']}',
+                                                    textAlign: TextAlign.left,
+                                                  ), // First line
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      TableRow(
+                                        children: <Widget>[
+                                          TableCell(
+                                            child: Padding(
+                                              padding: EdgeInsets.symmetric(
+                                                  vertical: 5),
+                                              // Space between rows
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: <Widget>[
+                                                  Text(
+                                                    'Discount on Total',
+                                                  ),
+                                                  // First line
+                                                  // Second line with smaller font
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                          TableCell(
+                                            child: Center(
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                children: <Widget>[
+                                                  Text(
+                                                    '${cartNotifier.order_info['discount_on_total']}',
+                                                    style: TextStyle(
+                                                        color: Colors.red),
+                                                  ), // First line
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      TableRow(
+                                        children: <Widget>[
+                                          TableCell(
+                                            child: Padding(
+                                              padding: EdgeInsets.symmetric(
+                                                  vertical: 5),
+                                              // Space between rows
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: <Widget>[
+                                                  Text(
+                                                    'Shipping',
+                                                  ),
+                                                  // First line
+                                                  // Second line with smaller font
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                          TableCell(
+                                            child: Center(
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.end,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.end,
+                                                children: <Widget>[
+                                                  Text(
+                                                    '${cartNotifier.order_info['shipping']}',
+                                                    textAlign: TextAlign.left,
+                                                  ), // First line
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      TableRow(
+                                        children: <Widget>[
+                                          TableCell(
+                                            child: Padding(
+                                              padding: EdgeInsets.symmetric(
+                                                  vertical: 5),
+                                              // Space between rows
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: <Widget>[
+                                                  Text(
+                                                    'Total',
+                                                  ),
+                                                  // First line
+                                                  // Second line with smaller font
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                          TableCell(
+                                            child: Center(
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.end,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.end,
+                                                children: <Widget>[
+                                                  Text(
+                                                    '${cartNotifier.order_info['total']}',
+                                                    textAlign: TextAlign.left,
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ), // First line
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  )
+                                ],
+                              ),
+                            ),
+                            SizedBox(
+                              height: 24,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 20),
+                              child: ActionButton(
+                                buttonText: 'Confirm',
+                                onTap: () => {
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (_) => OrderSuccessPage()))
+                                },
+                              ),
+                            )
+                          ]))))),
+        ));
   }
 }

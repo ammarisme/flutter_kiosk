@@ -1,5 +1,8 @@
 import 'package:ecommerce_int2/app_properties.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../../change_notifiers/cart_notifiers.dart';
 
 
 class AddAddressForm extends StatelessWidget {
@@ -13,6 +16,8 @@ class AddAddressForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    CartNotifier cartNotifier =
+    Provider.of<CartNotifier>(context, listen: false);
 
     return SizedBox(
       height: 250,
@@ -29,6 +34,9 @@ class AddAddressForm extends StatelessWidget {
             child: TextField(
               decoration: InputDecoration(
                   border: InputBorder.none, hintText: 'House/Flat Number (eg:- 34/2 A)'),
+              onChanged: (value) => {
+                cartNotifier.addOrUpdateAddress1(value)
+              },
             ),
           ), //House/flat number
           Container(
@@ -40,6 +48,9 @@ class AddAddressForm extends StatelessWidget {
             child: TextField(
               decoration:
                   InputDecoration(border: InputBorder.none, hintText: 'Street name (eg:- Prince Street'),
+                onChanged: (value) => {
+                  cartNotifier.addOrUpdateAddress2(value)
+                }
             ),
           ), //Street name
           //Street name
@@ -60,8 +71,8 @@ class AddAddressForm extends StatelessWidget {
                   child: Text(area),
                 );
               }).toList(),
-              onChanged: (String? newValue) {
-                // Handle area selection
+              onChanged: (value) => {
+                cartNotifier.addOrUpdateAddress2(value!)
               },
               value: null, // Track the selected area
             ),
