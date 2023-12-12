@@ -1,5 +1,6 @@
 import 'package:ecommerce_int2/app_properties.dart';
 import 'package:ecommerce_int2/screens/address/address_form.dart';
+import 'package:ecommerce_int2/screens/address/select_shipping_method.dart';
 import 'package:ecommerce_int2/screens/select_card_page.dart';
 import 'package:ecommerce_int2/screens/shop/select_payment_method.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +22,7 @@ class AddAddressPage extends StatelessWidget {
         elevation: 0.0,
         iconTheme: IconThemeData(color: darkGrey),
         title: Text(
-          'Add Address',
+          'Checkout',
           style: const TextStyle(
               color: darkGrey,
               fontWeight: FontWeight.w500,
@@ -48,34 +49,34 @@ class AddAddressPage extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      Card(
-                          margin: EdgeInsets.symmetric(vertical: 8.0),
-                          color: Colors.white,
-                          elevation: 3,
-                          child: SizedBox(
-                              height: 100,
-                              width: 80,
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: <Widget>[
-                                    Padding(
-                                      padding: const EdgeInsets.all(4.0),
-                                      child: Image.asset(
-                                          'assets/icons/address_home.png'),
-                                    ),
-                                    Text(
-                                      'Add New Address',
-                                      style: TextStyle(
-                                        fontSize: 8,
-                                        color: darkGrey,
-                                      ),
-                                      textAlign: TextAlign.center,
-                                    )
-                                  ],
-                                ),
-                              ))),
+                      // Card(
+                      //     margin: EdgeInsets.symmetric(vertical: 8.0),
+                      //     color: Colors.white,
+                      //     elevation: 3,
+                      //     child: SizedBox(
+                      //         height: 100,
+                      //         width: 80,
+                      //         child: Padding(
+                      //           padding: const EdgeInsets.all(8.0),
+                      //           child: Column(
+                      //             mainAxisAlignment: MainAxisAlignment.center,
+                      //             children: <Widget>[
+                      //               Padding(
+                      //                 padding: const EdgeInsets.all(4.0),
+                      //                 child: Image.asset(
+                      //                     'assets/icons/address_home.png'),
+                      //               ),
+                      //               Text(
+                      //                 'Add New Address',
+                      //                 style: TextStyle(
+                      //                   fontSize: 8,
+                      //                   color: darkGrey,
+                      //                 ),
+                      //                 textAlign: TextAlign.center,
+                      //               )
+                      //             ],
+                      //           ),
+                      //         ))),
                       // Add a new address
                       // Card(
                       //     margin: EdgeInsets.symmetric(vertical: 8.0),
@@ -145,7 +146,7 @@ class AddAddressPage extends StatelessWidget {
                       buttonText: 'Next',
                       onTap: () {
                         Navigator.of(context)
-                            .push(MaterialPageRoute(builder: (_) => SelectPaymentMethodPage()));
+                            .push(MaterialPageRoute(builder: (_) => SelectShippingMethodPage()));
                       }))
                 ],
               ),

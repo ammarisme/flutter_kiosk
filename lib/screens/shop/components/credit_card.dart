@@ -88,3 +88,50 @@ class Cash extends StatelessWidget {
     );
   }
 }
+
+
+class DeliveryMethodCard extends StatelessWidget {
+  String label;
+  IconData icon;
+  Color color;
+
+  DeliveryMethodCard({
+    required this.icon,
+    required this.label,
+    required this.color
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 100,
+      width: 100,
+      padding: EdgeInsets.all(16.0),
+      decoration: BoxDecoration(
+        color: this.color,
+        borderRadius: BorderRadius.all(Radius.circular(10)),
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Icon(
+            this.icon,
+            size: 36, // Adjust the size of the icon
+            color: Colors.white,
+          ),
+          SizedBox(height: 12), // Space between icon and text
+          Text(
+            this.label,
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 14, // Adjust text size
+              fontWeight: FontWeight.bold, // Make the text bold
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}

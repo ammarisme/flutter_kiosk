@@ -1,6 +1,5 @@
 import 'package:ecommerce_int2/app_properties.dart';
 import 'package:ecommerce_int2/screens/components/ui_components.dart';
-import 'package:ecommerce_int2/screens/payment/promo_item.dart';
 import 'package:ecommerce_int2/screens/shop/order_success.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -20,7 +19,7 @@ class _ConfirmYourOrderPageState extends State<ConfirmYourOrderPage> {
   Widget build(BuildContext context) {
     CartNotifier cartNotifier =
         Provider.of<CartNotifier>(context, listen: false);
-    cartNotifier.calculateOrderInfo(cartNotifier.cart);
+    cartNotifier.calculateOrderInfo();
 
     return Material(
         color: Colors.white,
@@ -189,7 +188,7 @@ class _ConfirmYourOrderPageState extends State<ConfirmYourOrderPage> {
                                                     CrossAxisAlignment.end,
                                                 children: <Widget>[
                                                   Text(
-                                                    '-${cartNotifier.order_info['total_line_discounts']}',
+                                                    '-${cartNotifier.totalLineDiscounts}',
                                                     style: TextStyle(
                                                         color: Colors.red),
                                                     textAlign: TextAlign.left,
@@ -232,7 +231,7 @@ class _ConfirmYourOrderPageState extends State<ConfirmYourOrderPage> {
                                                     CrossAxisAlignment.end,
                                                 children: <Widget>[
                                                   Text(
-                                                    '${cartNotifier.order_info['total_before_discounts']}',
+                                                    '${cartNotifier.totalBeforeDiscounts}',
                                                     textAlign: TextAlign.left,
                                                   ), // First line
                                                 ],
@@ -272,7 +271,7 @@ class _ConfirmYourOrderPageState extends State<ConfirmYourOrderPage> {
                                                     CrossAxisAlignment.center,
                                                 children: <Widget>[
                                                   Text(
-                                                    '${cartNotifier.order_info['discount_on_total']}',
+                                                    '${cartNotifier.discountOnTotal}',
                                                     style: TextStyle(
                                                         color: Colors.red),
                                                   ), // First line
@@ -313,7 +312,7 @@ class _ConfirmYourOrderPageState extends State<ConfirmYourOrderPage> {
                                                     CrossAxisAlignment.end,
                                                 children: <Widget>[
                                                   Text(
-                                                    '${cartNotifier.order_info['shipping']}',
+                                                    '${cartNotifier.shipping_charges}',
                                                     textAlign: TextAlign.left,
                                                   ), // First line
                                                 ],
@@ -353,7 +352,7 @@ class _ConfirmYourOrderPageState extends State<ConfirmYourOrderPage> {
                                                     CrossAxisAlignment.end,
                                                 children: <Widget>[
                                                   Text(
-                                                    '${cartNotifier.order_info['total']}',
+                                                    '${cartNotifier.total}',
                                                     textAlign: TextAlign.left,
                                                     style: TextStyle(
                                                         fontWeight:
