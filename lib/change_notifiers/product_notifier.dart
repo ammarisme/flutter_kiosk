@@ -37,5 +37,10 @@ class ProductNotifier extends ChangeNotifier {
   }
 
 
+  Future<Product?> getProduct(int id) async{
+    return ProductAPIs.getProduct(id);
+  }
+
+
 
 }

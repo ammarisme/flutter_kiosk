@@ -3,6 +3,7 @@ import 'package:ecommerce_int2/models/product_review.dart';
 part 'product.g.dart';
 
 class Product {
+  int id;
   String name;
   String description;
   String price;
@@ -18,6 +19,7 @@ class Product {
 
 
   Product({
+    required this.id,
     required this.image,
     required this.name,
     required this.description,

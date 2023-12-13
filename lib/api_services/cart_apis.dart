@@ -24,7 +24,7 @@ class CartAPIs {
       if (response.statusCode == 200) {
         dynamic data = json.decode(response.body);
         Cart cart = Cart.fromJson(data);
-        cart.nonce = response.headers['nonce'];
+        cart.nonce = response.headers['nonce']!;
         return cart;
       } else {
         print('Failed to load cart info: ${response.statusCode}');
@@ -38,7 +38,6 @@ class CartAPIs {
   }
 
   Future<bool> addItem(product_id, quantity, nonce) async {
-    print('adding item to cart........');
     try {
       final Uri url = Uri.parse(this.base_url + '/cart/add-item');
 

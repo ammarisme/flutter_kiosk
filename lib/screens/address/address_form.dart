@@ -1,4 +1,5 @@
 import 'package:ecommerce_int2/app_properties.dart';
+import 'package:ecommerce_int2/screens/components/ui_components.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -20,63 +21,34 @@ class AddAddressForm extends StatelessWidget {
     Provider.of<CartNotifier>(context, listen: false);
 
     return SizedBox(
-      height: 250,
+      height: 400,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Container(
-            padding: EdgeInsets.only(left: 16.0, top: 4.0, bottom: 4.0),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(5)),
-              color: Colors.white,
-            ),
-            child: TextField(
-              decoration: InputDecoration(
-                  border: InputBorder.none, hintText: 'House/Flat Number (eg:- 34/2 A)'),
-              onChanged: (value) => {
+          CustomTextField(placeholder_text: 'First name (eg:- Jhon)',
+              onChange: (value) => {
+                cartNotifier.addOrUpdateFirstName(value)
+              }),
+          CustomTextField(placeholder_text: 'Last name (eg:- Prince Street',
+              onChange: (value) => {
+                cartNotifier.addOrUpdateLastName(value)
+              }),
+          CustomTextField(placeholder_text: 'House/Flat Number (eg:- 34/2 A)',
+              onChange: (value) => {
                 cartNotifier.addOrUpdateAddress1(value)
-              },
-            ),
-          ), //House/flat number
-          Container(
-            padding: EdgeInsets.only(left: 16.0, top: 4.0, bottom: 4.0),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(5)),
-              color: Colors.white,
-            ),
-            child: TextField(
-              decoration:
-                  InputDecoration(border: InputBorder.none, hintText: 'Street name (eg:- Prince Street'),
-                onChanged: (value) => {
-                  cartNotifier.addOrUpdateAddress2(value)
-                }
-            ),
-          ), //Street name
+              }),
+          CustomTextField(placeholder_text: 'Street name (eg:- Prince Street',
+              onChange: (value) => {
+                cartNotifier.addOrUpdateAddress2(value)
+              }),
+          CustomDropDownField(input_list: areaList, placeholder_text: 'Select area', onChange: (value) => {
+            cartNotifier.addOrUpdateCity(value!)
+          }),
+          CustomDropDownField(input_list: areaList, placeholder_text: 'Select State/Province', onChange: (value) => {
+            cartNotifier.addOrUpdateStateOrProvince(value!)
+          }),
           //Street name
-          Container(
-            padding: EdgeInsets.only(left: 16.0, top: 4.0, bottom: 4.0),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(5)),
-              color: Colors.white,
-            ),
-            child: DropdownButtonFormField<String>(
-              decoration: InputDecoration(
-                border: InputBorder.none,
-                hintText: 'Select area',
-              ),
-              items: areaList.map((String area) {
-                return DropdownMenuItem<String>(
-                  value: area,
-                  child: Text(area),
-                );
-              }).toList(),
-              onChanged: (value) => {
-                cartNotifier.addOrUpdateAddress2(value!)
-              },
-              value: null, // Track the selected area
-            ),
-          ),
           Row(
             children: <Widget>[
               Checkbox(

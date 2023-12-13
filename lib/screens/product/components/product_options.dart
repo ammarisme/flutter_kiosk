@@ -79,7 +79,7 @@ class ProductOption extends StatelessWidget {
                     onTap: () {
                       if(product.stock_quantity>0){
                         print(cartNotifier.cart?.nonce);
-                        cartNotifier.addItem(16652,1, cartNotifier.cart?.nonce);
+                        cartNotifier.addItem(product.id,1, cartNotifier.cart?.nonce);
                         // scaffoldKey.currentState!.showBottomSheet((context) {
                         //   cartNotifier.addItem(16652,1, cartNotifier.cart?.nonce);
                         //   return ShopBottomSheet();

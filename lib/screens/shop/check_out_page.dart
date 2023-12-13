@@ -10,13 +10,9 @@ import '../components/ui_components.dart';
 import 'components/credit_card.dart';
 import 'components/shop_item_list.dart';
 
-class CheckOutPage extends StatefulWidget {
-  @override
-  _CheckOutPageState createState() => _CheckOutPageState();
-}
+class CheckOutPage extends StatelessWidget {
 
-class _CheckOutPageState extends State<CheckOutPage> {
-  SwiperController swiperController = SwiperController();
+ SwiperController swiperController = SwiperController();
 
   @override
   Widget build(BuildContext context) {
@@ -69,7 +65,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
                                   fontSize: 16),
                             ),
                             Text(
-                              cartNotifier.cart!.items.length.toString() + ' items',
+                              cartNotifier.cart!.line_items.length.toString() + ' items',
                               style: TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold,
@@ -79,18 +75,16 @@ class _CheckOutPageState extends State<CheckOutPage> {
                         ),
                       ),
                       SizedBox(
-                        height: 400,
+                        height: 600,
                         child: Scrollbar(
                           child: ListView.builder(
                             itemBuilder: (_, index) => ShopItemList(
-                              cartNotifier.cart!.items[index],
+                              cartNotifier.cart!.line_items[index],
                               onRemove: () {
-                                setState(() {
-                                  cartNotifier.cart!.items.remove(cartNotifier.cart!.items[index]);
-                                });
+                                  cartNotifier.cart!.line_items.remove(cartNotifier.cart!.line_items[index]);
                               },
                             ),
-                            itemCount: cartNotifier.cart!.items.length,
+                            itemCount: cartNotifier.cart!.line_items.length,
                           ),
                         ),
                       ),

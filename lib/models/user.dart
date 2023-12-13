@@ -38,33 +38,24 @@ class User {
   Map<String, dynamic> toJson() => _$UserToJson(this);
 }
 
-class BillingInfo {
-// "first_name": "catlitter",
-// "last_name": "xxv",
-// "company": "",
-//
-late String address_1;
-late String address_2;
-late String city;
-// "postcode": "",
-// "country": "LK",
-// "state": "CMB",
-// "email": "naseefnizam00@hotmail.com",
-// "phone": "94716060123"
-// }
+class BillingInfo extends Info {
+  late String company;
+  late String email;
+  late String phone;
 }
 
 class ShippingInfo {
-// "shipping": {
-// "first_name": "catlitter",
-// "last_name": "xxv",
-// "company": "",
-// "address_1": "Narahenpita",
-// "address_2": "Narahenpita",
-// "city": "Colombo 01",
-// "postcode": "",
-// "country": "LK",
-// "state": "CMB",
-// "phone": ""
-// },
+
+}
+
+class Info{
+  late String first_name;
+  late String last_name;
+  late String postcode;
+  late String country;
+  late String state;
+//below fields get updated through UIs
+  late String address_1;
+  late String address_2;
+  late String city;
 }

@@ -45,3 +45,72 @@ class ActionButton extends StatelessWidget{
     );
   }
 }
+
+
+
+class CustomTextField extends StatelessWidget {
+
+  final String placeholder_text;
+  final void Function(String)? onChange;
+
+  const CustomTextField({
+    Key? key,
+    required this.placeholder_text,
+    required this.onChange,
+  }) : super(key: key);
+
+
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.only(left: 16.0, top: 4.0, bottom: 4.0),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.all(Radius.circular(5)),
+        color: Colors.white,
+      ),
+      child: TextField(
+        decoration: InputDecoration(
+            border: InputBorder.none, hintText: this.placeholder_text),
+        onChanged: this.onChange,
+      ),
+    );
+  }
+}
+
+
+class CustomDropDownField extends StatelessWidget {
+  final List<String> input_list;
+  final String placeholder_text;
+  final void Function(String?) onChange;
+
+  const CustomDropDownField({
+    Key? key,
+    required this.input_list,
+    required this.placeholder_text,
+    required this.onChange,
+  }) : super(key: key);
+
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.only(left: 16.0, top: 4.0, bottom: 4.0),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.all(Radius.circular(5)),
+        color: Colors.white,
+      ),
+      child: DropdownButtonFormField<String>(
+        decoration: InputDecoration(
+          border: InputBorder.none,
+          hintText: this.placeholder_text,
+        ),
+        items: this.input_list.map((String value) {
+          return DropdownMenuItem<String>(
+            value: value,
+            child: Text(value),
+          );
+        }).toList(),
+        onChanged: this.onChange,
+        value: null, // Track the selected area
+      ),
+    );
+
+  }
+}

@@ -5,20 +5,27 @@ part of 'product.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-
 Product _$ProductFromJson(Map<String, dynamic> json) {
   final sale_price = json['sale_price'] != null ? json['sale_price'] : "";
-  final regular_price = json['regular_price'] != null ? json['regular_price'] : "";
+  final regular_price =
+      json['regular_price'] != null ? json['regular_price'] : "";
+  final primary_image_url =
+      (json['images'] != null && json['images'].length > 0)
+          ? json['images'][0]["src"]
+          : "";
 
   return Product(
-    name: json['name'] as String,
-    description : json['description'],
-    price: json['price'] as String,
-    image: json['images'][0]["src"] as String,
-    sale_price: sale_price,//json['sale_price'] as String,
-    regular_price: regular_price,//json['regular_price'] as String
-    stock_quantity:json['stock_quantity']??0
-  );
+      id: json["id"],
+      name: json['name'] as String,
+      description: json['description'],
+      price: json['price'] as String,
+      image: primary_image_url as String,
+      sale_price: sale_price,
+      //json['sale_price'] as String,
+      regular_price: regular_price,
+
+      //json['regular_price'] as String
+      stock_quantity: json['stock_quantity'] ?? 0);
 }
 
 Map<String, dynamic> _$ProductToJson(Product instance) => <String, dynamic>{

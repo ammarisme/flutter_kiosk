@@ -1,7 +1,9 @@
 import 'package:ecommerce_int2/app_properties.dart';
+import 'package:ecommerce_int2/change_notifiers/product_notifier.dart';
 import 'package:ecommerce_int2/models/cart.dart';
 import 'package:ecommerce_int2/models/product.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ShopProduct extends StatelessWidget {
   final CartItem product;
@@ -20,8 +22,8 @@ class ShopProduct extends StatelessWidget {
         child: Column(
           children: <Widget>[
             ShopProductDisplay(
-              product,
               onPressed: onRemove,
+              car_item: product,
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
@@ -45,50 +47,29 @@ class ShopProduct extends StatelessWidget {
 }
 
 class ShopProductDisplay extends StatelessWidget {
-  final CartItem product;
+  final CartItem car_item;
   final VoidCallback onPressed;
 
-  const ShopProductDisplay(this.product, {required this.onPressed});
+  const ShopProductDisplay({required this.car_item, required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 150,
-      width: 200,
-      child: Stack(children: <Widget>[
-        Positioned(
-          left: 25,
-          child: SizedBox(
-            height: 150,
-            width: 150,
-            child: Transform.scale(
-              scale: 1.2,
-              child: Image.asset('assets/bottom_yellow.png'),
-            ),
-          ),
-        ),
-        Positioned(
-          left: 50,
-          top: 5,
-          child: SizedBox(
-              height: 80,
-              width: 80,
-              child: Image.network(
-                '', //TODO: product.image
-                fit: BoxFit.contain,
-              )),
-        ),
-        Positioned(
-          right: 30,
-          bottom: 25,
-          child: Align(
-            child: IconButton(
-              icon: Image.asset('assets/red_clear.png'),
-              onPressed: onPressed,
-            ),
-          ),
-        )
-      ]),
-    );
+    ProductNotifier productNotifier =
+        Provider.of<ProductNotifier>(context, listen: false);
+    Product? product;
+
+    return FutureBuilder<Product?>(
+        future: productNotifier.getProduct(this.car_item.id),
+        builder: (context, snapshot) {
+          product = snapshot.data;
+          print(product!.image);
+          return product!.image != ""
+              ? Image.network(
+                  product!.image,
+                  height: 80,
+                  width: 80,
+                )
+              : Container();
+        });
   }
 }

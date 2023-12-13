@@ -1,43 +1,42 @@
 class Cart {
-  List<dynamic> coupons;
-  List<dynamic> shippingRates;
-  Address shippingAddress;
-  Address billingAddress;
-  List<CartItem> items;
-  int itemsCount;
-  int itemsWeight;
-  List<dynamic> crossSells;
-  bool needsPayment;
-  bool needsShipping;
-  bool hasCalculatedShipping;
-  List<dynamic> fees;
-  Totals totals;
-  List<dynamic> errors;
-  List<String> paymentRequirements;
-  String? nonce;
-  double payment_method_discount = 0;
-  double shipping_charges = 0;
+ //for json output
+  Address billing;
+  Address shipping;
+  bool set_paid;
+  String payment_method;
+  String payment_method_title;
+  List<CartItem> line_items;
+  List<dynamic> shipping_lines;
 
-  // Map<String, dynamic> extensions;
+  //for internal use
+  String nonce;
 
   Cart(
-      {required this.coupons,
-      required this.shippingRates,
-      required this.shippingAddress,
-      required this.billingAddress,
-      required this.items,
-      required this.itemsCount,
-      required this.itemsWeight,
-      required this.crossSells,
-      required this.needsPayment,
-      required this.needsShipping,
-      required this.hasCalculatedShipping,
-      required this.fees,
-      required this.totals,
-      required this.errors,
-      required this.paymentRequirements,
-      required this.nonce
-      // required this.extensions,
+      {
+      //for json out
+      required this.payment_method,
+      required this.payment_method_title,
+      required this.set_paid,
+      required this.billing,
+      required this.shipping,
+      required this.line_items,
+      required this.shipping_lines,
+
+      //json input
+      itemsCount,
+      itemsWeight,
+      crossSells,
+      needsPayment,
+      needsShipping,
+      hasCalculatedShipping,
+      fees,
+      totals,
+      errors,
+      required this.nonce,
+      required List<dynamic> coupons,
+      shippingRates,
+      required List<String> paymentRequirements,
+      required Map<String, dynamic> extensions,
       });
 
   factory Cart.fromJson(Map<String, dynamic> json) {
@@ -46,13 +45,20 @@ class Cart {
         .toList();
 
     return Cart(
+      //for json out
+        payment_method: 'cash',
+        payment_method_title: 'Cash',
+        set_paid: false,
+        shipping_lines: [],
+        shipping: Address.fromJson(json['shipping_address'] ?? {}),
+        billing: Address.fromJson(json['billing_address'] ?? {}),
+        line_items: items ?? [],
+
+      //json in
         coupons: json['coupons'] ?? [],
         shippingRates: json['shipping_rates'] ?? [],
-        shippingAddress: Address.fromJson(json['shipping_address'] ?? {}),
-        billingAddress: Address.fromJson(json['billing_address'] ?? {}),
-        items: items ?? [],
         itemsCount: json['items_count'] ?? 0,
-        itemsWeight: json['items_weight'] ?? 0,
+        itemsWeight: json['items_weight'] ?? 0.0,
         crossSells: json['cross_sells'] ?? [],
         needsPayment: json['needs_payment'] ?? false,
         needsShipping: json['needs_shipping'] ?? false,
@@ -62,9 +68,25 @@ class Cart {
         errors: json['errors'] ?? [],
         paymentRequirements:
             List<String>.from(json['payment_requirements'] ?? []),
-        nonce: ""
+        nonce: "", //to update the cart
+        extensions: json["extensions"]
         // extensions: json['extensions'] ?? {},
         );
+  }
+
+  Map<String, dynamic> toJson() {
+
+    List<Map<String, dynamic>> lineItemsJson = line_items.map((item) => item.toJson()).toList();
+
+    return {
+      'payment_method': this.payment_method,
+      'payment_method_title': this.payment_method_title,
+      'set_paid': this.set_paid,
+      'billing': this.billing.toJson(),
+      'shipping': this.shipping.toJson(),
+      'line_items': lineItemsJson,
+      'shipping_lines' :this.shipping_lines,
+    };
   }
 }
 
@@ -110,7 +132,26 @@ class Address {
       phone: json['phone'] ?? '',
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'firstName': this.firstName,
+      'lastName': this.lastName,
+      'company': this.company,
+      'address1': this.address1,
+      'address2': this.address2,
+      'city': this.city,
+      'state' :this.state,
+
+      'postcode': this.postcode,
+      'country': this.country,
+      'email': this.email,
+      'phone': this.phone,
+    };
+  }
+
 }
+
 
 class Totals {
   String totalItems;
@@ -180,9 +221,8 @@ class Totals {
 class CartItem {
   final String key;
   final int id;
-  final int quantity;
+  late final int quantity;
   final String name;
-  final String? lowStockRemaining;
   late final double regularPrice;
   late final double salePrice;
   final String currencyCode;
@@ -199,7 +239,7 @@ class CartItem {
       required this.id,
       required this.quantity,
       required this.name,
-      this.lowStockRemaining,
+      // this.lowStockRemaining,
       required this.regularPrice,
       required this.salePrice,
       required this.currencyCode,
@@ -217,7 +257,7 @@ class CartItem {
         id: json['id'] ?? 0,
         quantity: json['quantity'] ?? 0,
         name: json['name'] ?? '',
-        lowStockRemaining: json['low_stock_remaining'],
+        // lowStockRemaining: json['low_stock_remaining'],
         regularPrice:
             double.tryParse(json['prices']['regular_price'])! / 100 ?? 0.00,
         salePrice: double.tryParse(json['prices']['sale_price'])! / 100 ?? 0.00,
@@ -228,6 +268,46 @@ class CartItem {
         currencyPrefix: json['totals']['currency_prefix'] ?? '',
         linetotal: 0,
         linediscount: 0,
-        variations: json['variations']!=null?json['variations']:[]);
+        variations: json['variations'] != null ? json['variations'] : []);
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'key': key,
+      'id': id,
+      'quantity': quantity,
+      'name': name,
+      // 'lowStockRemaining': lowStockRemaining,
+      'regularPrice': regularPrice,
+      'salePrice': salePrice,
+      'currencyCode': currencyCode,
+      'currencySymbol': currencySymbol,
+      'lineTotalTax': lineTotalTax,
+      'currencyMinorUnit': currencyMinorUnit,
+      'currencyPrefix': currencyPrefix,
+      'linetotal': linetotal,
+      'linediscount': linediscount,
+    };
+  }
+}
+
+class BillingInfo extends Info {
+  late String company;
+  late String email;
+  late String phone;
+}
+
+class ShippingInfo {}
+
+class Info {
+  late String first_name;
+  late String last_name;
+  late String postcode;
+  late String country;
+  late String state;
+
+//below fields get updated through UIs
+  late String address_1;
+  late String address_2;
+  late String city;
 }

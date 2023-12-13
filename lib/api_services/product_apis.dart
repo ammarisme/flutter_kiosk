@@ -107,4 +107,33 @@ class ProductAPIs {
     }
   }
 
+  static Future<Product?> getProduct(int productid) async {
+    print('fetching product........');
+    try {
+      final Uri url = Uri.parse(base_url() + '/products/${productid}');
+      print(url);
+      final response = await http.get(
+        url,
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization":
+          "Basic Y2tfYTU0NTViYmE1NDhiYThkM2I0MzM1ZjY1MWIxNDgyYTJiYzU5YWQ3Yzpjc19kMjA5OGE5YWY1ZGZmMmFjNjg3ODcxMWM3ZWY2YTQ4YWZkNDAyOTIy"
+        },
+      );
+
+      if (response.statusCode == 200) {
+        dynamic data = json.decode(response.body);
+        Product product = Product.fromJson(data);
+        return product;
+      } else {
+        throw Exception("no product found for ${productid}");
+      }
+    } catch (e, stackTrace) {
+      print('Error fetching products: $e');
+      print('StackTrace: $stackTrace');
+      return null;
+    }
+  }
+
+
 }

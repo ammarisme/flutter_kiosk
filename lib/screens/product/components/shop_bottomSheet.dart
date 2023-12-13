@@ -88,13 +88,13 @@ class _ShopBottomSheetState extends State<ShopBottomSheet> {
                 height: 300,
                 child: ListView.builder(
                     scrollDirection: Axis.horizontal,
-                    itemCount: cartNotifier.cart!.items.length,
+                    itemCount: cartNotifier.cart!.line_items.length,
                     itemBuilder: (_, index) {
                       return Row(
                         children: <Widget>[
-                          ShopProduct(cartNotifier.cart!.items[index], onRemove: () {
+                          ShopProduct(cartNotifier.cart!.line_items[index], onRemove: () {
                             setState(() {
-                              cartNotifier.cart!.items.remove(cartNotifier.cart!.items[index]);
+                              cartNotifier.cart!.line_items.remove(cartNotifier.cart!.line_items[index]);
                             });
                           },),
                           index == 4

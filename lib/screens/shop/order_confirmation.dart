@@ -1,6 +1,7 @@
 import 'package:ecommerce_int2/app_properties.dart';
 import 'package:ecommerce_int2/screens/components/ui_components.dart';
 import 'package:ecommerce_int2/screens/shop/order_success.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -73,10 +74,10 @@ class _ConfirmYourOrderPageState extends State<ConfirmYourOrderPage> {
                                             2: FixedColumnWidth(100.0),
                                           },
                                           children: List<TableRow>.generate(
-                                              cartNotifier.cart!.items.length,
+                                              cartNotifier.cart!.line_items.length,
                                               (index) {
                                             CartItem item =
-                                                cartNotifier.cart!.items[index];
+                                                cartNotifier.cart!.line_items[index];
                                             return TableRow(
                                               children: <Widget>[
                                                 TableCell(
@@ -376,9 +377,10 @@ class _ConfirmYourOrderPageState extends State<ConfirmYourOrderPage> {
                               padding: const EdgeInsets.only(bottom: 20),
                               child: ActionButton(
                                 buttonText: 'Confirm',
-                                onTap: () => {
+                                onTap: ()  {
+                                  print(cartNotifier.cart?.toJson());
                                   Navigator.of(context).push(MaterialPageRoute(
-                                      builder: (_) => OrderSuccessPage()))
+                                      builder: (_) => OrderSuccessPage()));
                                 },
                               ),
                             )

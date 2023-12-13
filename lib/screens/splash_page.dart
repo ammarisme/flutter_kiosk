@@ -62,7 +62,7 @@ class _SplashScreenState extends State<SplashScreen>
                         children: [
                           TextSpan(text: 'Powered by '),
                           TextSpan(
-                              text: 'Ginger Paws',
+                              text: 'Sellular Apps',
                               style: TextStyle(fontWeight: FontWeight.bold))
                         ]),
                   ),
