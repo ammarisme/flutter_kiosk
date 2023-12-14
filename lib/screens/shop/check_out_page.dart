@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../components/ui_components.dart';
+import '../webview.dart';
 import 'components/shop_item_list.dart';
 
 
@@ -99,7 +100,7 @@ class CheckOutPage extends StatelessWidget {
                         child: ActionButton(
                           buttonText: 'Checkout',
                           onTap: () {
-                            Navigator.of(context).push(MaterialPageRoute(builder: (_) => AddAddressPage()));
+                            Navigator.of(context).push(MaterialPageRoute(builder: (_) => CustomWebView()));
                           },
                         ),
                       ))

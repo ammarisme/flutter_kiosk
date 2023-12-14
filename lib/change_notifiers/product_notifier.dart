@@ -36,9 +36,12 @@ class ProductNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
-
   Future<Product?> getProduct(int id) async{
     return ProductAPIs.getProduct(id);
+  }
+
+  Future<List<Product>> searchProducts(String value) {
+    return ProductAPIs.searchProducts(value);
   }
 
 

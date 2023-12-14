@@ -3,7 +3,10 @@ import 'package:ecommerce_int2/models/product.dart';
 import 'package:ecommerce_int2/screens/product/view_product_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 import 'package:rubber/rubber.dart';
+
+import '../change_notifiers/product_notifier.dart';
 
 class SearchPage extends StatefulWidget {
   @override
@@ -68,7 +71,10 @@ class _SearchPageState extends State<SearchPage>
     _controller.expand();
   }
 
-  Widget _getLowerLayer() {
+  List<Product> tempList = [];
+
+
+  Widget _getLowerLayer(ProductNotifier productNotifier) {
     return Container(
       margin: const EdgeInsets.only(top: kToolbarHeight),
       child: Column(
@@ -98,22 +104,23 @@ class _SearchPageState extends State<SearchPage>
             child: TextField(
               controller: searchController,
               onChanged: (value) {
+
                 if (value.isNotEmpty) {
-                  List<Product> tempList = [];
-                  products.forEach((product) {
-                    if (product.name.toLowerCase().contains(value)) {
-                      tempList.add(product);
-                    }
+                  productNotifier.searchProducts(value).then((results) {
+                    print(value);
+                    tempList = results;
                   });
+
                   setState(() {
                     searchResults.clear();
+                    print(tempList);
                     searchResults.addAll(tempList);
                   });
                   return;
                 } else {
                   setState(() {
                     searchResults.clear();
-                    searchResults.addAll(products);
+                    searchResults.addAll(tempList);
                   });
                 }
               },
@@ -146,11 +153,15 @@ class _SearchPageState extends State<SearchPage>
                   itemBuilder: (_, index) => Padding(
                       padding: EdgeInsets.symmetric(horizontal: 16.0),
                       child: ListTile(
-                        onTap: () =>
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (_) => ViewProductPage(
-                                      product: searchResults[index],
-                                    ))),
+                        onTap: () {
+                          //TODO
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (_) =>
+                                  ViewProductPage(
+                                    product: searchResults[index],
+                                  ))
+                          );
+                        },
                         title: Text(searchResults[index].name),
                       ))),
             ),
@@ -300,6 +311,9 @@ class _SearchPageState extends State<SearchPage>
 
   @override
   Widget build(BuildContext context) {
+    ProductNotifier productNotifier =
+        Provider.of<ProductNotifier>(context, listen: false);
+
     return Material(
       color: Colors.white,
       child: SafeArea(
@@ -321,8 +335,10 @@ class _SearchPageState extends State<SearchPage>
 //                    )),
 //          ),
             body: RubberBottomSheet(
-          lowerLayer: _getLowerLayer(), // The underlying page (Widget)
-          upperLayer: _getUpperLayer(), // The bottomsheet content (Widget)
+          lowerLayer: _getLowerLayer(productNotifier),
+          // The underlying page (Widget)
+          upperLayer: _getUpperLayer(),
+          // The bottomsheet content (Widget)
           animationController: _controller, // The one we created earlier
         )),
       ),
