@@ -378,7 +378,15 @@ class _ConfirmYourOrderPageState extends State<ConfirmYourOrderPage> {
                               child: ActionButton(
                                 buttonText: 'Confirm',
                                 onTap: ()  {
-                                  print(cartNotifier.cart?.toJson());
+                                  cartNotifier.createOrder().then((value) =>
+                                      ScaffoldMessenger.of(context).showSnackBar(
+                                        SnackBar(
+                                          content: Text(value?'Order created':"Error: Order creation"),
+                                          duration: Duration(seconds: 2), // Duration for how long the snackbar is visible
+                                        ),
+                                      )
+                                  );
+
                                   Navigator.of(context).push(MaterialPageRoute(
                                       builder: (_) => OrderSuccessPage()));
                                 },

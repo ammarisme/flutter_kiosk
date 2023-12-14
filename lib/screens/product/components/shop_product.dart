@@ -59,11 +59,11 @@ class ShopProductDisplay extends StatelessWidget {
     Product? product;
 
     return FutureBuilder<Product?>(
-        future: productNotifier.getProduct(this.car_item.id),
+        future: productNotifier.getProduct(this.car_item.product_id),
         builder: (context, snapshot) {
           product = snapshot.data;
           print(product!.image);
-          return product!.image != ""
+          return product!= null && product!.image != ""
               ? Image.network(
                   product!.image,
                   height: 80,

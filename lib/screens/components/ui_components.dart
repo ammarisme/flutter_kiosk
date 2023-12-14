@@ -1,11 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 import '../../app_properties.dart';
 import '../address/add_address_page.dart';
 
-class ActionButton extends StatelessWidget{
-
+class ActionButton extends StatelessWidget {
   final String buttonText;
   final VoidCallback? onTap;
 
@@ -15,9 +13,7 @@ class ActionButton extends StatelessWidget{
     required this.onTap,
   }) : super(key: key);
 
-
-
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     return InkWell(
       onTap: this.onTap,
       child: Container(
@@ -46,10 +42,7 @@ class ActionButton extends StatelessWidget{
   }
 }
 
-
-
 class CustomTextField extends StatelessWidget {
-
   final String placeholder_text;
   final void Function(String)? onChange;
 
@@ -58,7 +51,6 @@ class CustomTextField extends StatelessWidget {
     required this.placeholder_text,
     required this.onChange,
   }) : super(key: key);
-
 
   Widget build(BuildContext context) {
     return Container(
@@ -75,7 +67,6 @@ class CustomTextField extends StatelessWidget {
     );
   }
 }
-
 
 class CustomDropDownField extends StatelessWidget {
   final List<String> input_list;
@@ -111,6 +102,5 @@ class CustomDropDownField extends StatelessWidget {
         value: null, // Track the selected area
       ),
     );
-
   }
 }

@@ -30,7 +30,7 @@ class ShopItemList extends StatelessWidget {
     CartNotifier cartNotifier = Provider.of<CartNotifier>(context, listen: false);
 
     return FutureBuilder<Product?>(
-        future: productNotifier.getProduct(this.cart_item.id),
+        future: productNotifier.getProduct(this.cart_item.product_id),
         builder: (context, snapshot) {
           return Container(
             margin: EdgeInsets.only(top: 20),
@@ -114,7 +114,7 @@ class ShopItemList extends StatelessWidget {
                                     minValue: 1,
                                     maxValue: 10,
                                     onChanged: (value) {
-                                      cartNotifier.updateLineItemQuantity(cart_item.id, value);
+                                      cartNotifier.updateLineItemQuantity(cart_item.product_id, value);
                                     }))
                           ])),
                 // TODO:

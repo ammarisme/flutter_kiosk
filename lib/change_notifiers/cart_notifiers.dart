@@ -194,7 +194,11 @@ class CartNotifier extends ChangeNotifier {
     }
   }
 
-  Future<void> createOrder() async {}
+  Future<bool> createOrder() async {
+    CartAPIs cartAPIs = CartAPIs();
+    bool created = await cartAPIs.createOrder(this.cart);
+    return created;
+  }
 
   void updatePayentMethod(payment_method, payment_method_title) {
     this.payment_method = payment_method;
@@ -234,7 +238,7 @@ class CartNotifier extends ChangeNotifier {
   }
 
   void updateLineItemQuantity(int id, int quantity) {
-    int? index = this.cart?.line_items.indexWhere((cart_item) => cart_item.id == id);
+    int? index = this.cart?.line_items.indexWhere((cart_item) => cart_item.product_id == id);
     this.cart?.line_items[index as int].quantity = quantity;
   }
 }

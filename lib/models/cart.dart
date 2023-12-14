@@ -220,7 +220,7 @@ class Totals {
 
 class CartItem {
   final String key;
-  final int id;
+  final int product_id;
   late final int quantity;
   final String name;
   late final double regularPrice;
@@ -236,7 +236,7 @@ class CartItem {
 
   CartItem(
       {required this.key,
-      required this.id,
+      required this.product_id,
       required this.quantity,
       required this.name,
       // this.lowStockRemaining,
@@ -254,7 +254,7 @@ class CartItem {
   factory CartItem.fromJson(Map<String, dynamic> json) {
     return CartItem(
         key: json['key'] ?? '',
-        id: json['id'] ?? 0,
+        product_id: json['id'] ?? 0,
         quantity: json['quantity'] ?? 0,
         name: json['name'] ?? '',
         // lowStockRemaining: json['low_stock_remaining'],
@@ -274,7 +274,7 @@ class CartItem {
   Map<String, dynamic> toJson() {
     return {
       'key': key,
-      'id': id,
+      'product_id': product_id,
       'quantity': quantity,
       'name': name,
       // 'lowStockRemaining': lowStockRemaining,

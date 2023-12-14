@@ -7,8 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../components/ui_components.dart';
-import 'components/credit_card.dart';
 import 'components/shop_item_list.dart';
+
 
 class CheckOutPage extends StatelessWidget {
 

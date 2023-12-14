@@ -71,4 +71,38 @@ class CartAPIs {
     }
     return false;
   }
+
+  Future<bool> createOrder(Cart? cart) async {
+    try {
+      final Uri url = Uri.parse( 'https://catlitter.lk/wp-json/wc/v3'+ '/orders');
+
+      Map<String, dynamic>? postData = cart?.toJson();
+
+      String encodedData = json.encode(postData);
+
+      final response = await http.post(
+        url,
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization":
+          "Basic Y2tfYTU0NTViYmE1NDhiYThkM2I0MzM1ZjY1MWIxNDgyYTJiYzU5YWQ3Yzpjc19kMjA5OGE5YWY1ZGZmMmFjNjg3ODcxMWM3ZWY2YTQ4YWZkNDAyOTIy",
+          'nonce': cart!.nonce, // Add your nonce here
+        },
+        body: encodedData,
+      );
+
+      if (response.statusCode == 201) {
+        print('Order created');
+        return true;
+      } else {
+        print('Error in order creation: ${response.statusCode}');
+        print(encodedData);
+        print(response.body);
+      }
+    } catch (e, stackTrace) {
+      print('Error order creation cart: $e');
+      print('Stack trace: $stackTrace');
+    }
+    return false;
+  }
 }
