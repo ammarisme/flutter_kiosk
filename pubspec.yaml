@@ -34,8 +34,10 @@ dependencies:
   flutter_svg: ^2.0.2
   provider: ^6.1.1
   flutter_html: ^3.0.0-beta.2
-  webview_flutter: ^4.4.2
+#  webview_flutter: ^4.4.2
   path_provider: ^2.1.1
+  webxpay_flutter_sdk:
+    path: ../webxpay_staging_sample/webxpay_flutter_sdk
 
 dev_dependencies:
   flutter_test:

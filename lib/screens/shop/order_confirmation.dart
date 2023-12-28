@@ -1,6 +1,7 @@
 import 'package:ecommerce_int2/app_properties.dart';
 import 'package:ecommerce_int2/screens/components/ui_components.dart';
 import 'package:ecommerce_int2/screens/shop/order_success.dart';
+import 'package:ecommerce_int2/screens/shop/webxpay_payment_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -378,17 +379,19 @@ class _ConfirmYourOrderPageState extends State<ConfirmYourOrderPage> {
                               child: ActionButton(
                                 buttonText: 'Confirm',
                                 onTap: ()  {
-                                  cartNotifier.createOrder().then((value) =>
+                                  cartNotifier.createOrder().then((value) {
                                       ScaffoldMessenger.of(context).showSnackBar(
                                         SnackBar(
                                           content: Text(value?'Order created':"Error: Order creation"),
                                           duration: Duration(seconds: 2), // Duration for how long the snackbar is visible
                                         ),
-                                      )
+                                      );
+                                      Navigator.of(context).push(MaterialPageRoute(
+                                          builder: (_) => Checkout(receiptNumber: "")));
+                                  }
                                   );
 
-                                  Navigator.of(context).push(MaterialPageRoute(
-                                      builder: (_) => OrderSuccessPage()));
+
                                 },
                               ),
                             )

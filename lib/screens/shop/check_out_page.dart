@@ -3,6 +3,7 @@ import 'package:ecommerce_int2/app_properties.dart';
 import 'package:ecommerce_int2/change_notifiers/cart_notifiers.dart';
 import 'package:ecommerce_int2/screens/address/add_address_page.dart';
 import 'package:ecommerce_int2/screens/payment/unpaid_page.dart';
+import 'package:ecommerce_int2/screens/shop/webxpay_payment_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -100,7 +101,7 @@ class CheckOutPage extends StatelessWidget {
                         child: ActionButton(
                           buttonText: 'Checkout',
                           onTap: () {
-                            Navigator.of(context).push(MaterialPageRoute(builder: (_) => CustomWebView()));
+                            Navigator.of(context).push(MaterialPageRoute(builder: (_) => AddAddressPage()));
                           },
                         ),
                       ))
