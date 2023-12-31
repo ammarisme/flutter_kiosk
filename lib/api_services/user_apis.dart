@@ -3,6 +3,8 @@ import 'package:ecommerce_int2/api_services/api_service.dart';
 import 'package:ecommerce_int2/models/user.dart';
 import 'package:http/http.dart' as http;
 
+import '../settings.dart';
+
 class UserAPIs{
 
   static Future<User?> getUser(dynamic userId) async {
@@ -14,7 +16,7 @@ class UserAPIs{
         url,
         headers: {
           "Content-Type": "application/json",
-          "Authorization" : "Basic Y2tfYTU0NTViYmE1NDhiYThkM2I0MzM1ZjY1MWIxNDgyYTJiYzU5YWQ3Yzpjc19kMjA5OGE5YWY1ZGZmMmFjNjg3ODcxMWM3ZWY2YTQ4YWZkNDAyOTIy"
+          "Authorization" : "Basic "+Settings.TOKEN
         },
       );
 

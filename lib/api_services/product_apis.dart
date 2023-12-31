@@ -5,6 +5,7 @@ import '../models/category.dart';
 import '../models/product.dart';
 import '../models/product_review.dart';
 import '../models/user.dart';
+import '../settings.dart';
 
 class Variables {
   static String base_url = 'https://catlitter.lk/wp-json/wc/v3';
@@ -26,7 +27,7 @@ class ProductAPIs {
         headers: {
           "Content-Type": "application/json",
           "Authorization":
-              "Basic Y2tfYTU0NTViYmE1NDhiYThkM2I0MzM1ZjY1MWIxNDgyYTJiYzU5YWQ3Yzpjc19kMjA5OGE5YWY1ZGZmMmFjNjg3ODcxMWM3ZWY2YTQ4YWZkNDAyOTIy"
+              "Basic "+Settings.TOKEN
         },
       );
 
@@ -55,7 +56,7 @@ class ProductAPIs {
         headers: {
           "Content-Type": "application/json",
           "Authorization":
-              "Basic Y2tfYTU0NTViYmE1NDhiYThkM2I0MzM1ZjY1MWIxNDgyYTJiYzU5YWQ3Yzpjc19kMjA5OGE5YWY1ZGZmMmFjNjg3ODcxMWM3ZWY2YTQ4YWZkNDAyOTIy"
+              "Basic "+Settings.TOKEN
         },
       );
 
@@ -86,7 +87,7 @@ class ProductAPIs {
         headers: {
           "Content-Type": "application/json",
           "Authorization":
-          "Basic Y2tfYTU0NTViYmE1NDhiYThkM2I0MzM1ZjY1MWIxNDgyYTJiYzU5YWQ3Yzpjc19kMjA5OGE5YWY1ZGZmMmFjNjg3ODcxMWM3ZWY2YTQ4YWZkNDAyOTIy"
+          "Basic "+Settings.TOKEN
         },
       );
 
@@ -117,7 +118,7 @@ class ProductAPIs {
         headers: {
           "Content-Type": "application/json",
           "Authorization":
-          "Basic Y2tfYTU0NTViYmE1NDhiYThkM2I0MzM1ZjY1MWIxNDgyYTJiYzU5YWQ3Yzpjc19kMjA5OGE5YWY1ZGZmMmFjNjg3ODcxMWM3ZWY2YTQ4YWZkNDAyOTIy"
+          "Basic "+Settings.TOKEN
         },
       );
 
@@ -145,7 +146,7 @@ class ProductAPIs {
         headers: {
           "Content-Type": "application/json",
           "Authorization":
-          "Basic Y2tfYTU0NTViYmE1NDhiYThkM2I0MzM1ZjY1MWIxNDgyYTJiYzU5YWQ3Yzpjc19kMjA5OGE5YWY1ZGZmMmFjNjg3ODcxMWM3ZWY2YTQ4YWZkNDAyOTIy"
+          "Basic "+Settings.TOKEN
         },
       );
 

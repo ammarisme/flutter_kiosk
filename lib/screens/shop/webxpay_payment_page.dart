@@ -35,10 +35,10 @@ class _SdkState extends State<Checkout> {
   // This public should be available with the merchant upon registring with WebXPay
   final String _publicKey = """
 -----BEGIN PUBLIC KEY-----
-MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC8//PgSc2ell7KvHoWm6Zpp8Q8
-G9hucpcGW3Fa2mGHhNSINUJaOhvHQUiRS416okP09v4zPPc42spz/rOQ0vO1zEck
-BKn2c8NBEvgczKFFJXt3yx6wIsti0UlYPv1Q92QK0e/UqyDAMhstd6aCXNMOf75t
-DRYbl9UiHppoTjHONwIDAQAB
+MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC7mwWeUsE7fM4S89ZHoeY4gIBD
+mCvd8UTzrACs0IXQIG/4nEl+ySP4fcXTqEdq0mDYbBrsJZ0iChufHAhDkwjxJXPL
+IO4G4E0LEQEXBD2WQXia4lnlY0bgZzb8H9P1cgQFOFTMKAOUDs34eiPp2iYndrwa
+QwEsy7XetdJR+Lj1dQIDAQAB
 -----END PUBLIC KEY-----
 """;
 
@@ -47,8 +47,8 @@ DRYbl9UiHppoTjHONwIDAQAB
   // Create a payment request object
   final PaymentRequest _paymentRequest = PaymentRequest(
     webXPaySessionLoginDetails: WebXPaySessionLoginDetails(
-      username: "gen_agxintll",
-      password: "qM^09QwQ)8ok",
+      username: "catlitter", //gen_agxintll
+      password: "G03*8Xhnc!CH", //qM^09QwQ)8ok
     ),
     paymentDetails: PaymentDetails(
       amount: "2",
@@ -77,7 +77,7 @@ DRYbl9UiHppoTjHONwIDAQAB
       "https://webxpay.com/index.php?route=checkout/payment/hostedCommercial3DSResponse&webx_mas_id=NzQ0Ng==",
       redirectResponseCallBackURL:
       "https://webxpay.com/index.php?route=checkout/payment/hostedCommercial3DSResponse&webx_mas_id=NzQ0Ng==",
-      secretKey: "7a1b6b1a-ee25-4863-a92a-e528bc9e344a",
+      secretKey: "fac9cc14-e522-4e15-b551-be70a54f60f7",
       encryptionMethod: "JCs3J+6oSz4V0LgE0zi/Bg==",
       redirectPaymentInfoEncrypted: "",
     ),
@@ -215,7 +215,7 @@ class Paynow extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
-          "Amount : 100",
+          "Amount : 2",
           style: TextStyle(fontSize: 20),
         ),
         Visibility(

@@ -4,6 +4,7 @@ import 'package:ecommerce_int2/models/user.dart';
 import 'package:http/http.dart' as http;
 
 import '../models/cart.dart';
+import '../settings.dart';
 
 class CartAPIs {
   final base_url = 'https://catlitter.lk/wp-json/wc/store';
@@ -17,7 +18,7 @@ class CartAPIs {
         headers: {
           "Content-Type": "application/json",
           "Authorization":
-              "Basic Y2tfYTU0NTViYmE1NDhiYThkM2I0MzM1ZjY1MWIxNDgyYTJiYzU5YWQ3Yzpjc19kMjA5OGE5YWY1ZGZmMmFjNjg3ODcxMWM3ZWY2YTQ4YWZkNDAyOTIy"
+              "Basic "+Settings.TOKEN
         },
       );
 
@@ -53,7 +54,7 @@ class CartAPIs {
         headers: {
           "Content-Type": "application/json",
           "Authorization":
-              "Basic Y2tfYTU0NTViYmE1NDhiYThkM2I0MzM1ZjY1MWIxNDgyYTJiYzU5YWQ3Yzpjc19kMjA5OGE5YWY1ZGZmMmFjNjg3ODcxMWM3ZWY2YTQ4YWZkNDAyOTIy",
+              "Basic "+Settings.TOKEN,
           'nonce': nonce, // Add your nonce here
         },
         body: encodedData,
@@ -85,7 +86,7 @@ class CartAPIs {
         headers: {
           "Content-Type": "application/json",
           "Authorization":
-          "Basic Y2tfYTU0NTViYmE1NDhiYThkM2I0MzM1ZjY1MWIxNDgyYTJiYzU5YWQ3Yzpjc19kMjA5OGE5YWY1ZGZmMmFjNjg3ODcxMWM3ZWY2YTQ4YWZkNDAyOTIy",
+          "Basic "+Settings.TOKEN,
           'nonce': cart!.nonce, // Add your nonce here
         },
         body: encodedData,
