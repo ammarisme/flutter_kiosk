@@ -1,5 +1,9 @@
+import 'dart:ffi';
+
 import 'package:ecommerce_int2/api_services/product_apis.dart';
+import 'package:ecommerce_int2/common/utils.dart';
 import 'package:ecommerce_int2/models/product.dart';
+import 'package:ecommerce_int2/screens/product/view_product_page.dart';
 import 'package:flutter/material.dart';
 
 class ProductCard extends StatelessWidget {
@@ -84,49 +88,100 @@ void initState() {
   @override
   Widget build(BuildContext context) {
     return product == null ? Container() : InkWell(
-        onTap: null,
+        onTap: () {
+          Navigator.of(context).push(MaterialPageRoute(
+          builder: (_) => ViewProductPage(
+                product: this.product as Product,
+              )));
+        },
         child: Container(
             height: 250,
             width: MediaQuery.of(context).size.width / 2 - 29,
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(10)),
                 color: Color(0xfffbd085).withOpacity(0.46)),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
+            child: Stack(
+              fit: StackFit.expand,
               children: <Widget>[
-                Align(
-                  alignment: Alignment.topCenter,
-                  child: Container(
-                    padding: EdgeInsets.all(16.0),
-                    width: MediaQuery.of(context).size.width / 2 - 64,
-                    height: MediaQuery.of(context).size.width / 2 - 64,
-                    child: Image.network(
+                
+               Image.network(
                       product!.image,
                     ),
-                  ),
-                ),
-                Flexible(
-                  child: Align(
-                    alignment: Alignment(1, 0.5),
+               Positioned(
+                  top:0,
+                  left:0,
                     child: Container(
-                        margin: const EdgeInsets.only(left: 16.0),
+                      width: MediaQuery.of(context).size.width/2.5,
                         padding: const EdgeInsets.all(8.0),
                         decoration: BoxDecoration(
-                            color: Color(0xffe0450a).withOpacity(0.51),
+                            color: Color.fromARGB(16, 0, 0, 0),
                             borderRadius: BorderRadius.only(
                                 topLeft: Radius.circular(10),
                                 bottomLeft: Radius.circular(10))),
                         child: Text(
                           product?.name as String,
-                          textAlign: TextAlign.right,
+                          maxLines: 3,
+                          textAlign: TextAlign.left,
                           style: TextStyle(
                             fontSize: 12.0,
-                            color: Colors.white,
+                            color: const Color.fromARGB(255, 0, 0, 0),
+                            overflow: TextOverflow.ellipsis,
+                            fontWeight: FontWeight.bold
                           ),
                         )),
                   ),
-                )
-              ],
+  Positioned(
+                  bottom:50,
+                  left:0,
+                    child: Container(
+                      width: MediaQuery.of(context).size.width/4,
+                        padding: const EdgeInsets.all(8.0),
+                        decoration: BoxDecoration(
+                            color: Colors.orange.withOpacity(0.5),
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(10),
+                                bottomLeft: Radius.circular(10))),
+                        child: Text(
+                          'Rs '+ Utils.thousandSeperate(product?.price as String) + '/=',
+                          maxLines: 3,
+                          textAlign: TextAlign.left,
+                          style: TextStyle(
+                            fontSize: 12.0,
+                            color: const Color.fromARGB(255, 0, 0, 0),
+                            overflow: TextOverflow.ellipsis,
+                            fontWeight: FontWeight.bold
+                          ),
+                        )),
+                  ),
+ 
+  !product?.isOnSale() || product?.regular_price == "" ? Container() :  
+  Positioned(
+                  bottom:20,
+                  left:0,
+                    child: Container(
+                      width: MediaQuery.of(context).size.width/4,
+                        padding: const EdgeInsets.all(8.0),
+                        decoration: BoxDecoration(
+                            color: Color.fromARGB(16, 0, 0, 0),
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(10),
+                                bottomLeft: Radius.circular(10))),
+                        child: Text(
+                          'Rs '+ Utils.thousandSeperate(product?.regular_price as String) + '/=',
+                          maxLines: 3,
+                          textAlign: TextAlign.left,
+                          
+                          style: TextStyle(
+                            fontSize: 10.0,
+                            color: const Color.fromARGB(255, 0, 0, 0),
+                            overflow: TextOverflow.ellipsis,
+                            fontWeight: FontWeight.bold,
+                            decoration: TextDecoration.lineThrough,
+                          ),
+                        )),
+                  ),
+ 
+               ],
             )));
   }
 }

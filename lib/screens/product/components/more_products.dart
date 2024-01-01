@@ -1,4 +1,5 @@
 import 'package:ecommerce_int2/screens/product/components/product_card.dart';
+import 'package:ecommerce_int2/screens/product/components/product_display.dart';
 import 'package:flutter/material.dart';
 
 class MoreProducts extends StatelessWidget {
@@ -23,7 +24,7 @@ class MoreProducts extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.only(left: 24.0, bottom: 8.0),
           child: Text(
-            'More products',
+            'Related products',
             style: TextStyle(color: const Color.fromARGB(255, 0, 0, 0),
             fontWeight: FontWeight.bold
             ),

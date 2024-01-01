@@ -9,6 +9,8 @@ import 'package:provider/provider.dart';
 
 import '../../../change_notifiers/cart_notifiers.dart';
 import 'shop_bottomSheet.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
+
 
 class ProductOption extends StatefulWidget {
   final GlobalKey<ScaffoldState> scaffoldKey;
@@ -58,7 +60,6 @@ class _ProductOptionState extends State<ProductOption> {
     CartNotifier cartNotifier =
     Provider.of<CartNotifier>(context, listen: false);
 
-
     return SizedBox(
       height: 450,
       child: Stack(
@@ -67,7 +68,9 @@ class _ProductOptionState extends State<ProductOption> {
               left: 10,
               top:10,
               width: MediaQuery.of(context).size.width / 1.4,
-              child: ClipRRect(
+              child:  
+             
+              ClipRRect(
                 borderRadius: BorderRadius.circular(20.0), // Adjust the radius as needed
                 child: Container(
                   decoration: BoxDecoration(
@@ -76,9 +79,22 @@ class _ProductOptionState extends State<ProductOption> {
                       width: 2.0,
                     ),
                   ),
+
                   child: Image.network(
                     widget.product.image,
                     fit: BoxFit.cover,
+                     loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
+    if (loadingProgress == null) {
+      return child; // Return the actual image widget if the image is fully loaded
+    } else {
+      return Center(
+        child: CircularProgressIndicator(
+          value: loadingProgress.expectedTotalBytes != null
+              ? loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes!
+              : null,
+        ),
+      );
+    }}
                   ),
                 ),
               ),
@@ -279,7 +295,7 @@ class _ProductOptionState extends State<ProductOption> {
           text: TextSpan(
             children: [
               TextSpan(
-                text: '\Rs. ' + Utils.thousandSeperate(selectedVariation?.sale_price as String),
+                text: '\Rs. ' + Utils.thousandSeperate(selectedVariation?.sale_price as String) + '/=',
                 style: const TextStyle(
                   color: Colors.black,
                   fontWeight: FontWeight.w400,
@@ -321,7 +337,7 @@ class _ProductOptionState extends State<ProductOption> {
           text: TextSpan(
             children: [
               TextSpan(
-                text: '\Rs. ' + Utils.thousandSeperate(selectedVariation?.regular_price as String),
+                text: '\Rs. ' + Utils.thousandSeperate(selectedVariation?.regular_price as String) + '/=',
                 style: const TextStyle(
                   color: Colors.black,
                   fontWeight: FontWeight.w400,
@@ -436,7 +452,7 @@ class _ProductOptionState extends State<ProductOption> {
                             ],
                           ),
                     ) : 
-                    (widget.product.weight == null) ? Container() :
+                    (selectedVariation?.weight == "") ? Container() :
                       Container(
                       width: MediaQuery.of(context).size.width / 3,
                       decoration: BoxDecoration(
@@ -451,7 +467,7 @@ class _ProductOptionState extends State<ProductOption> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
-                                "Weight: " + widget.product.weight+" kg",
+                                "Weight: " + selectedVariation!.weight+" kg",
                                 style: TextStyle(
                                   color: Colors.black,
                                   fontWeight: FontWeight.bold,
