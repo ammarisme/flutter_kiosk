@@ -16,7 +16,7 @@ class ProductNotifier extends ChangeNotifier {
     this.selected_product = _product;
   }
 
-  Future<void> getProductReviews(Product product, String productId) async{
+  Future<void> getProductReviewsNotifier(Product product, String productId) async{
     this.selected_product = product;
     this.selected_product.product_reviews = await ProductAPIs.getProductReviews(productId);
     print('test-----------------------------');
@@ -36,8 +36,12 @@ class ProductNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
+  
+
+
+
   Future<Product?> getProduct(int id) async{
-    return ProductAPIs.getProduct(id);
+    return ProductAPIs.getProduct(id.toString());
   }
 
   Future<List<Product>> searchProducts(String value) {

@@ -35,7 +35,8 @@ List<ProductAttribute> getProductAttributes(attributes){
 
       //json['regular_price'] as String
       stock_quantity: json['stock_quantity'] ?? 0,
-      attributes: getProductAttributes(json["attributes"])
+      attributes: getProductAttributes(json["attributes"]),
+      related_ids : json['related_ids']
       );
 
       

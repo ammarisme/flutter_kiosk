@@ -7,11 +7,11 @@ const Color transparentYellow = Color.fromRGBO(253, 184, 70, 0.7);
 const Color darkGrey = Color(0xff202020);
 
 //Button colors
-const Color BUTTON_COLOR_1 = Color(0xff202020);
-const Color BUTTON_COLOR_1_INACTIVE = Color.fromARGB(255, 107, 106, 106);
+const Color BUTTON_COLOR_1 = Color.fromARGB(240, 165, 0, 0);
+const Color BUTTON_COLOR_1_INACTIVE = Color.fromARGB(120, 165, 0, 0);
 const Color BUTTON_TEXT_COLOR1 = Color.fromARGB(255, 255, 255, 255);
 const MAIN_BUTTON_FACTOR = 4;
-const double BUTTON_FONT_SIZE = 12;
+const double BUTTON_FONT_SIZE = 10;
 
 //Text colors
 const Color TEXT_COLOR_1 = Color(0xff202020);

@@ -1,4 +1,5 @@
 import 'package:ecommerce_int2/models/product_review.dart';
+import 'package:ecommerce_int2/models/product_variation.dart';
 
 part 'product.g.dart';
 
@@ -12,13 +13,16 @@ class Product {
   String regular_price;
   int stock_quantity;
   String weight;
+  double rating = 0;
 
   int in_cart_quantity = 0;
   bool in_wishlist = false;
   List<ProductReview> product_reviews = [];
   double product_overall_rating = 0;
   List<ProductAttribute> attributes;
-  String brand_name = "Loading";
+  String brand_name = "";
+  List<dynamic> related_ids;
+  List<ProductVariation> variations = [];
 
 
   Product(
@@ -31,7 +35,8 @@ class Product {
       required this.regular_price,
       required this.stock_quantity,
       required this.attributes,
-      required this.weight
+      required this.weight,
+      required this.related_ids
       });
 
   factory Product.fromJson(Map<String, dynamic> json) =>

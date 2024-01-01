@@ -24,7 +24,7 @@ class _RatingBottomSheetState extends State<RatingBottomSheet> {
   Widget build(BuildContext context) {
     ProductNotifier productNotifier =
         Provider.of<ProductNotifier>(context, listen: false);
-    productNotifier.getProductReviews(widget.product, "22772");
+    productNotifier.getProductReviewsNotifier(widget.product, widget.product.id.toString());
 
     return Consumer<ProductNotifier>(builder: (context, productNotifier, _) {
       return Container(
@@ -189,29 +189,29 @@ class _RatingBottomSheetState extends State<RatingBottomSheet> {
                                       ),
                                     ),
                                     Html(data: review.review),
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 16.0),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: <Widget>[
-                                          Text(
-                                            '21 likes',
-                                            style: TextStyle(
-                                                color: Colors.grey[400],
-                                                fontSize: 10.0),
-                                          ),
-                                          Text(
-                                            '1 Comment',
-                                            style: TextStyle(
-                                                color: Colors.blue,
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 10.0),
-                                          )
-                                        ],
-                                      ),
-                                    )
+                                    // Padding(
+                                    //   padding: const EdgeInsets.symmetric(
+                                    //       vertical: 16.0),
+                                    //   child: Row(
+                                    //     mainAxisAlignment:
+                                    //         MainAxisAlignment.spaceBetween,
+                                    //     children: <Widget>[
+                                    //       Text(
+                                    //         '21 likes',
+                                    //         style: TextStyle(
+                                    //             color: Colors.grey[400],
+                                    //             fontSize: 10.0),
+                                    //       ),
+                                    //       Text(
+                                    //         '1 Comment',
+                                    //         style: TextStyle(
+                                    //             color: Colors.blue,
+                                    //             fontWeight: FontWeight.bold,
+                                    //             fontSize: 10.0),
+                                    //       )
+                                    //     ],
+                                    //   ),
+                                    // )
                                   ],
                                 ),
                               )
