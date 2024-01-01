@@ -1,7 +1,4 @@
-import 'dart:ffi';
-import 'dart:ui';
 
-import 'package:flutter/rendering.dart';
 
 part 'product_review.g.dart';
 

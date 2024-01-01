@@ -110,7 +110,7 @@ class _TrackingPageState extends State<TrackingPage> {
                         ),
                         child: Theme(
                           data: ThemeData(
-                              primaryColor: yellow, fontFamily: 'Montserrat'),
+                              primaryColor: PAGE_BACKGROUND_COLOR, fontFamily: 'Montserrat'),
                           child: Stepper(
 //                          physics: NeverScrollableScrollPhysics(),
                             steps: [

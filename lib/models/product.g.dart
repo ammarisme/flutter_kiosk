@@ -14,6 +14,14 @@ Product _$ProductFromJson(Map<String, dynamic> json) {
           ? json['images'][0]["src"]
           : "";
 
+List<ProductAttribute> getProductAttributes(attributes){
+  List<ProductAttribute> my_attributes   = [];
+        attributes.forEach((attribute) => {
+          my_attributes.add(ProductAttribute.fromJson(attribute))
+        });
+        return my_attributes;
+      }
+
   return Product(
       id: json["id"],
       name: json['name'] as String,
@@ -23,9 +31,14 @@ Product _$ProductFromJson(Map<String, dynamic> json) {
       sale_price: sale_price,
       //json['sale_price'] as String,
       regular_price: regular_price,
+      weight: json["weight"],
 
       //json['regular_price'] as String
-      stock_quantity: json['stock_quantity'] ?? 0);
+      stock_quantity: json['stock_quantity'] ?? 0,
+      attributes: getProductAttributes(json["attributes"])
+      );
+
+      
 }
 
 Map<String, dynamic> _$ProductToJson(Product instance) => <String, dynamic>{
@@ -33,3 +46,16 @@ Map<String, dynamic> _$ProductToJson(Product instance) => <String, dynamic>{
       'description': instance.description,
       'price': instance.price,
     };
+
+
+
+ProductAttribute _$ProductAttributeFromJson(Map<String, dynamic> json) {
+  
+  return ProductAttribute(
+    id: json["id"],
+    name: json["name"],
+    position: json["position"],
+    visible: json["visible"],
+    variation: json["variation"],
+    options: json["options"]);
+}

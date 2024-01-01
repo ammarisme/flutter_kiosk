@@ -238,7 +238,7 @@ class NotificationsPage extends StatelessWidget {
                             child: Container(
                                 padding: const EdgeInsets.all(14.0),
                                 decoration: BoxDecoration(
-                                    color: yellow,
+                                    color: PAGE_BACKGROUND_COLOR,
                                     borderRadius: BorderRadius.only(
                                         bottomRight: Radius.circular(5.0),
                                         bottomLeft: Radius.circular(5.0))),

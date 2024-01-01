@@ -93,7 +93,6 @@ class ProductAPIs {
 
       if (response.statusCode == 200) {
         List<dynamic> data = json.decode(response.body);
-        print('---debug');
 
         List<Category> categories =
         data.map((item) => Category.fromJson(item)).toList();

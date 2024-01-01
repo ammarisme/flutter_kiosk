@@ -17,7 +17,7 @@ class _UnpaidPageState extends State<UnpaidPage> {
         height: 80,
         width: MediaQuery.of(context).size.width / 1.5,
         decoration: BoxDecoration(
-            gradient: mainButton,
+            gradient: MAIN_BUTTON_GRADIENTS,
             boxShadow: [
               BoxShadow(
                 color: Color.fromRGBO(0, 0, 0, 0.16),

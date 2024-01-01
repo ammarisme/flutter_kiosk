@@ -11,11 +11,15 @@ class Product {
   String sale_price;
   String regular_price;
   int stock_quantity;
+  String weight;
 
   int in_cart_quantity = 0;
   bool in_wishlist = false;
   List<ProductReview> product_reviews = [];
   double product_overall_rating = 0;
+  List<ProductAttribute> attributes;
+  String brand_name = "Loading";
+
 
   Product(
       {required this.id,
@@ -25,7 +29,10 @@ class Product {
       required this.price,
       required this.sale_price,
       required this.regular_price,
-      required this.stock_quantity});
+      required this.stock_quantity,
+      required this.attributes,
+      required this.weight
+      });
 
   factory Product.fromJson(Map<String, dynamic> json) =>
       _$ProductFromJson(json);
@@ -47,4 +54,22 @@ class ProductSearchResult {
 
 ProductSearchResult _$ProductSearchResultFromJson(Map<String, dynamic> json) {
   return ProductSearchResult(title: json["title"], url: json["url"], image: '');
+}
+
+
+class ProductAttribute{
+  int id;
+  String name;
+  int position;
+  bool visible;
+  bool variation;
+  List<dynamic> options;
+
+   ProductAttribute({
+    required this.id, required this.name, required this.position,
+    required this.visible,required this.variation,required this.options
+    });
+
+  factory ProductAttribute.fromJson(Map<String, dynamic> json) =>
+      _$ProductAttributeFromJson(json);
 }

@@ -3,7 +3,6 @@ import 'package:ecommerce_int2/api_services/product_apis.dart';
 import 'package:ecommerce_int2/models/product_review.dart';
 import 'package:flutter/cupertino.dart';
 
-import '../api_services/api_service.dart';
 import '../models/category.dart';
 import '../models/product.dart';
 

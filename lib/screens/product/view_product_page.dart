@@ -1,20 +1,22 @@
-import 'package:ecommerce_int2/change_notifiers/mainpage_notifier.dart';
-import 'package:ecommerce_int2/change_notifiers/product_notifier.dart';
+
+
+import 'package:ecommerce_int2/api_services/product_apis.dart';
 import 'package:ecommerce_int2/models/product.dart';
 import 'package:ecommerce_int2/screens/product/components/rating_bottomSheet.dart';
 import 'package:ecommerce_int2/screens/search_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:provider/provider.dart';
 
 import '../../app_properties.dart';
 import 'components/color_list.dart';
 import 'components/more_products.dart';
 import 'components/product_options.dart';
+import 'package:html/parser.dart';
+
 
 class ViewProductPage extends StatefulWidget {
-  final Product product;
+  Product product;
 
   ViewProductPage({required this.product});
 
@@ -24,8 +26,22 @@ class ViewProductPage extends StatefulWidget {
 
 class _ViewProductPageState extends State<ViewProductPage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-
+  Product? product = null;
   int active = 0;
+  
+@override
+void initState() {
+  super.initState();
+  // Make API call here
+  ProductAPIs.getProduct(widget.product.id).
+  then((product) => 
+  setState(() {
+    if (product!.attributes.length > 0 && product.attributes[0].options.length > 0) {
+    widget.product.brand_name = product.attributes[0].options[0] as String;
+    }
+  })
+  );
+}
 
   ///list of product colors
   List<Widget> colors() {
@@ -60,21 +76,17 @@ class _ViewProductPageState extends State<ViewProductPage> {
 
   @override
   Widget build(BuildContext context) {
-    Widget description = Padding(
-      padding: const EdgeInsets.all(24.0),
-      child: Html(data: widget.product.description)
-      // Text(
-      //   widget.product.description,
-      //   maxLines: 5,
-      //   semanticsLabel: '...',
-      //   overflow: TextOverflow.ellipsis,
-      //   style: TextStyle(color: Color.fromRGBO(255, 255, 255, 0.6)),
-      // ),
-    );
+    Widget description =
+    Container(height: 800,
+    child:
+    Padding(
+      padding: const EdgeInsets.only(left : 10.0),
+      child: Html(data: getCleanHTML(widget.product.description))
+    ));
 
     return Scaffold(
             key: _scaffoldKey,
-            backgroundColor: yellow,
+            backgroundColor: PAGE_BACKGROUND_COLOR,
             appBar: AppBar(
               backgroundColor: Colors.transparent,
               elevation: 0.0,
@@ -148,4 +160,16 @@ class _ViewProductPageState extends State<ViewProductPage> {
             )
     );
   }
+  
+
+
+
+//here goes the function 
+String getCleanHTML(String htmlString) {
+final document = parse(htmlString);
+if (document.getElementById("manufacturer") != null){
+document.getElementById("manufacturer")!.remove();
+}
+return  document.outerHtml;
+}
 }

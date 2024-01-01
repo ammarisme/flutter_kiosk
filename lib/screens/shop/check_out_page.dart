@@ -55,7 +55,7 @@ class CheckOutPage extends StatelessWidget {
                       Container(
                         padding: EdgeInsets.symmetric(horizontal: 32.0),
                         height: 48.0,
-                        color: yellow,
+                        color: PAGE_BACKGROUND_COLOR,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[

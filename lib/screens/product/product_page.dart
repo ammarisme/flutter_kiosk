@@ -41,7 +41,7 @@ class _ProductPageState extends State<ProductPage> {
         height: 80,
         width: width / 1.5,
         decoration: BoxDecoration(
-            gradient: mainButton,
+            gradient: MAIN_BUTTON_GRADIENTS,
             boxShadow: [
               BoxShadow(
                 color: Color.fromRGBO(0, 0, 0, 0.16),
@@ -68,7 +68,7 @@ class _ProductPageState extends State<ProductPage> {
           )
         ],
         child: Scaffold(
-          backgroundColor: yellow,
+          backgroundColor: PAGE_BACKGROUND_COLOR,
           appBar: AppBar(
             backgroundColor: Colors.transparent,
             elevation: 0.0,

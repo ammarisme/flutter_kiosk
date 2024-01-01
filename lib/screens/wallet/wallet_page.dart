@@ -120,7 +120,7 @@ class _WalletPageState extends State<WalletPage> with TickerProviderStateMixin {
                                 color: Colors.white,
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(45)),
-                                border: Border.all(color: yellow, width: 1.5)),
+                                border: Border.all(color: PAGE_BACKGROUND_COLOR, width: 1.5)),
                             child: openOptions.value < 300
                                 ? Container()
                                 : Align(
