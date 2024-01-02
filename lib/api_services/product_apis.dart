@@ -132,7 +132,7 @@ class ProductAPIs {
   static Future<List<Category>> getCategories() async {
     print('fetching categories........');
     try {
-      final Uri url = Uri.parse(base_url() + '/products/categories');
+      final Uri url = Uri.parse(base_url() + '/products/categories?per_page=100');
 
       final response = await http.get(
         url,
@@ -150,7 +150,8 @@ class ProductAPIs {
         data.map((item) => Category.fromJson(item)).toList();
         return categories;
       } else {
-        print('Failed to load products: ${response.statusCode}');
+        print('Failed to load categories: ${response.statusCode}');
+        print(response.body);
         return [];
       }
     } catch (e) {

@@ -1,9 +1,12 @@
+
 import 'package:ecommerce_int2/api_services/api_service.dart';
+import 'package:ecommerce_int2/api_services/product_apis.dart';
 import 'package:ecommerce_int2/app_properties.dart';
 import 'package:ecommerce_int2/change_notifiers/cart_notifiers.dart';
 import 'package:ecommerce_int2/change_notifiers/product_notifier.dart';
 import 'package:ecommerce_int2/change_notifiers/user_notifier.dart';
 import 'package:ecommerce_int2/custom_background.dart';
+import 'package:ecommerce_int2/models/category.dart';
 import 'package:ecommerce_int2/models/product.dart';
 import 'package:ecommerce_int2/screens/auth/login_page.dart';
 import 'package:ecommerce_int2/screens/category/category_list_page.dart';
@@ -64,7 +67,7 @@ class _MainContentState extends State<MainContent>
   void initState() {
     super.initState();
     tabController = TabController(length: 5, vsync: this);
-    bottomTabController = TabController(length: 4, vsync: this);
+    bottomTabController = TabController(length: 10, vsync: this);
     print('initState');
     if (!isStateUpdated) {
       MainPageNotifier productNotifier =
@@ -81,6 +84,8 @@ class _MainContentState extends State<MainContent>
     print('building');
     MainPageNotifier productNotifier = Provider.of<MainPageNotifier>(context);
     UserNotifier userNotifier = Provider.of<UserNotifier>(context);
+
+   
 
     Widget appBar = Container(
       height: kToolbarHeight + MediaQuery.of(context).padding.top,
@@ -140,23 +145,7 @@ class _MainContentState extends State<MainContent>
           ],
         ));
 
-    Widget tabBar = TabBar(
-      tabs: [
-        Tab(text: 'Recommended'),
-        Tab(text: 'Categories'),
-        Tab(text: ''),
-        Tab(text: ''),
-        Tab(text: ''),
-      ],
-      labelStyle: TextStyle(fontSize: 16.0),
-      unselectedLabelStyle: TextStyle(
-        fontSize: 14.0,
-      ),
-      labelColor: darkGrey,
-      unselectedLabelColor: Color.fromRGBO(0, 0, 0, 0.5),
-      isScrollable: true,
-      controller: tabController,
-    );
+   
 
     return Scaffold(
       bottomNavigationBar: CustomBottomBar(controller: bottomTabController),
@@ -187,18 +176,11 @@ class _MainContentState extends State<MainContent>
                         );
                       }),
                       SliverToBoxAdapter(
-                        child: tabBar,
+                        child: CategoryTabs(),
                       )
                     ];
                   },
-                  body: TabView(
-                    selectedCategory: productNotifier.selectedCategory,
-                    categories: productNotifier.categories,
-                    products_of_category: productNotifier.products_of_category,
-                    root_categories: productNotifier.categories,
-                    recommeded_products: productNotifier.recommended_products,
-                    tabController: tabController,
-                  ),
+                  body: Container()
                 ),
               ),
               CategoryListPage(),
@@ -217,4 +199,86 @@ class _MainContentState extends State<MainContent>
           )),
     );
   }
+
+  getTabController(length){
+    return TabController(length: length, vsync: this);
+  }
 }
+
+class CategoryTabs extends StatefulWidget {
+
+  CategoryTabs();
+
+  @override
+  _CategoryTabsState createState() => _CategoryTabsState();
+}
+
+
+class _CategoryTabsState extends State<CategoryTabs>  with TickerProviderStateMixin<CategoryTabs>{
+ List<Tab> category_tabs = [];
+ List<Category> root_categories = [];
+late TabController tabController;
+
+@override
+void initState() {
+  super.initState();
+
+  // Make API call here
+   ProductAPIs.getCategories().then((categories) {
+          root_categories = categories.where((category) => category.parent ==0).toList();
+          category_tabs = root_categories.map((category) => Tab(text: category.name)).toList();
+          this.tabController = TabController(length: category_tabs.length, vsync: this);
+   }
+    );
+}
+
+@override
+Widget build(BuildContext context) {
+
+    Widget tabBar = TabBar(
+      tabs: category_tabs,
+      labelStyle: TextStyle(fontSize: 16.0),
+      unselectedLabelStyle: TextStyle(
+        fontSize: 14.0,
+      ),
+      labelColor: darkGrey,
+      unselectedLabelColor: Color.fromRGBO(0, 0, 0, 0.5),
+      isScrollable: true,
+      controller: this.tabController,
+    );
+
+    Widget tabView = TabView(
+                    categories: root_categories,
+                    selectedCategory: root_categories[0],
+                    products_of_category: [],
+                    tabController: this.tabController,
+                  );
+
+  return Container(
+    child:Column(
+      children: [tabBar,
+      tabView]));
+}
+}
+
+
+
+// class W extends StatefulWidget {
+//   Attrib attrib;
+
+//   W({required this.attrib});
+
+//   @override
+//   _WState createState() => _WState();
+// }
+
+
+// class _WState extends State<W> {
+
+// @override
+// void initState() {
+//   super.initState();
+//   // Make API call here
+// }
+// }
+
