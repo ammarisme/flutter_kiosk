@@ -2,17 +2,15 @@ import 'package:ecommerce_int2/api_services/product_apis.dart';
 import 'package:ecommerce_int2/models/category.dart';
 import 'package:ecommerce_int2/models/product.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
-import '../../../change_notifiers/mainpage_notifier.dart';
-import '../main_page.dart';
 
 class CategoryCard extends StatelessWidget {
   final Category category;
   final Category? selectedCategory;
-  final Function(List<Product> products) selectCategoryFunc;
+  final Function(List<Product> products, Category selectedCategory, int level) selectCategoryFunc;
+  final int level;
 
-  const CategoryCard({required this.category, required this.selectedCategory, required this.selectCategoryFunc});
+  const CategoryCard({required this.category, required this.selectedCategory, required this.selectCategoryFunc, required this.level});
 
   @override
   Widget build(BuildContext context) {
@@ -65,7 +63,7 @@ class CategoryCard extends StatelessWidget {
                     ),
                     onTap: () {
                     ProductAPIs.getProducts(category.id).then((products) {
-                                                    this.selectCategoryFunc(products);
+                                                    this.selectCategoryFunc(products,category, level);
                             });
                       //mainPageNotifier.selectCategory(category.id);
                     },

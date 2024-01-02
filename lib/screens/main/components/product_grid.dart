@@ -50,16 +50,56 @@ bool _isInit = false;
       });
     }
   }
-  updateProducts(List<Product> products){
+
+
+int current_level = 0;
+  updateProducts(List<Product> products, Category selectedCategory, int level){
     print("function selection");
     setState(() {
       widget.products = products;
+      this.selectedCategory = selectedCategory;
+      this.current_level = level;
     });
   }
+  Category? selectedCategory;
+  selectCategory(Category category){
+this.selectedCategory = category;
+  }
+
+  
 
     @override
   Widget build(BuildContext context) {
-
+          Widget primary_sub_categories = Container(
+                                                margin: EdgeInsets.all(8.0),
+                                                height: MediaQuery.of(context).size.height / 10,
+                                                width: MediaQuery.of(context).size.width,
+                                                child: ListView.builder(
+                                                    scrollDirection: Axis.horizontal,
+                                                    itemCount: widget.category.sub_categories.length,
+                                                    itemBuilder: (_, index) => CategoryCard(
+                                                          selectedCategory: null,
+                                                          category: widget.category.sub_categories[index],
+                                                          selectCategoryFunc : updateProducts,
+                                                          level : 1
+                                                        )));
+    Widget secondary_sub_categories = Container();
+    if (selectedCategory != null && selectedCategory!.sub_categories.length > 0 && this.current_level < 2) {
+        secondary_sub_categories = Container(
+            margin: EdgeInsets.all(8.0),
+            height: MediaQuery.of(context).size.height / 10,
+            width: MediaQuery.of(context).size.width,
+            child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: selectedCategory?.sub_categories.length,
+                itemBuilder: (_, index) => CategoryCard(
+                      selectedCategory: null,
+                      category: selectedCategory?.sub_categories[index] as Category,
+                      selectCategoryFunc : updateProducts,
+                      level : 2
+                    )));
+        }
+     
     return Column(
 
       children: <Widget>[
@@ -68,21 +108,9 @@ bool _isInit = false;
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 widget.category.sub_categories.length > 0 ? 
-                Container(
-                    margin: EdgeInsets.all(8.0),
-                    height: MediaQuery.of(context).size.height / 10,
-                    width: MediaQuery.of(context).size.width,
-                    child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: widget.category.sub_categories.length,
-                        itemBuilder: (_, index) => CategoryCard(
-                              selectedCategory: null,
-                              category: widget.category.sub_categories[index],
-                              selectCategoryFunc : updateProducts
-                            ))) :Container(),
-                SizedBox(
-                  height: 16.0,
-                ),
+                 primary_sub_categories :Container(),
+                 selectedCategory != null && selectedCategory!.sub_categories.length > 0 ? 
+                 secondary_sub_categories :Container(),
               ],
             ),
           ),
@@ -91,6 +119,7 @@ bool _isInit = false;
     );
   }
 }
+
 
 
 class ProductThumbsGrid extends StatelessWidget{

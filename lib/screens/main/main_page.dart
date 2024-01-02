@@ -1,15 +1,13 @@
 
-import 'package:ecommerce_int2/api_services/api_service.dart';
-import 'package:ecommerce_int2/api_services/product_apis.dart';
 import 'package:ecommerce_int2/app_properties.dart';
 import 'package:ecommerce_int2/change_notifiers/cart_notifiers.dart';
 import 'package:ecommerce_int2/change_notifiers/product_notifier.dart';
 import 'package:ecommerce_int2/change_notifiers/user_notifier.dart';
 import 'package:ecommerce_int2/custom_background.dart';
-import 'package:ecommerce_int2/models/category.dart';
 import 'package:ecommerce_int2/models/product.dart';
 import 'package:ecommerce_int2/screens/auth/login_page.dart';
 import 'package:ecommerce_int2/screens/category/category_list_page.dart';
+import 'package:ecommerce_int2/screens/main/category_tabs.dart';
 import 'package:ecommerce_int2/screens/notifications_page.dart';
 import 'package:ecommerce_int2/screens/profile_page.dart';
 import 'package:ecommerce_int2/screens/search_page.dart';
@@ -20,7 +18,6 @@ import 'package:provider/provider.dart';
 import '../../change_notifiers/mainpage_notifier.dart';
 import 'components/custom_bottom_bar.dart';
 import 'components/product_list.dart';
-import 'components/tab_view.dart';
 
 class MainPage extends StatelessWidget {
   @override
@@ -54,8 +51,8 @@ class MainContent extends StatefulWidget {
 
 class _MainContentState extends State<MainContent>
     with TickerProviderStateMixin<MainContent> {
-  late TabController tabController;
-  late TabController bottomTabController;
+  TabController? tabController;
+  TabController? bottomTabController;
   bool isStateUpdated = false;
 
   List<Product> products = [];
@@ -66,7 +63,7 @@ class _MainContentState extends State<MainContent>
   @override
   void initState() {
     super.initState();
-    tabController = TabController(length: 5, vsync: this);
+    tabController = TabController(length: 10, vsync: this);
     bottomTabController = TabController(length: 10, vsync: this);
     print('initState');
     if (!isStateUpdated) {
@@ -85,7 +82,6 @@ class _MainContentState extends State<MainContent>
     MainPageNotifier productNotifier = Provider.of<MainPageNotifier>(context);
     UserNotifier userNotifier = Provider.of<UserNotifier>(context);
 
-   
 
     Widget appBar = Container(
       height: kToolbarHeight + MediaQuery.of(context).padding.top,
@@ -146,7 +142,7 @@ class _MainContentState extends State<MainContent>
         ));
 
     return Scaffold(
-      bottomNavigationBar: CustomBottomBar(controller: bottomTabController),
+      bottomNavigationBar: CustomBottomBar(controller: bottomTabController as TabController),
       body: CustomPaint(
           painter: MainBackground(),
           child: TabBarView(
@@ -198,94 +194,3 @@ class _MainContentState extends State<MainContent>
     );
   }
 }
-
-class CategoryTabs extends StatefulWidget {
-
-  CategoryTabs();
-
-  @override
-  _CategoryTabsState createState() => _CategoryTabsState();
-}
-
-
-class _CategoryTabsState extends State<CategoryTabs>  with TickerProviderStateMixin<CategoryTabs>{
- List<Tab> category_tabs = [];
- List<Category> category_tree = [];
-late TabController tabController;
-
-@override
-void initState() {
-  super.initState();
-  
-  // Make API call here
-   ProductAPIs.getCategories().then((categories) {
-          category_tree = buildCategoryTree(categories, 0);
-          category_tabs = category_tree.map((category) => Tab(text: category.name)).toList();
-          this.tabController = TabController(length: category_tabs.length, vsync: this);
-   }
-    );
-}
-
-@override
-Widget build(BuildContext context) {
-
-    Widget tabBar = TabBar(
-      tabs: category_tabs,
-      labelStyle: TextStyle(fontSize: 16.0),
-      unselectedLabelStyle: TextStyle(
-        fontSize: 14.0,
-      ),
-      labelColor: darkGrey,
-      unselectedLabelColor: Color.fromRGBO(0, 0, 0, 0.5),
-      isScrollable: true,
-      controller: this.tabController,
-    );
-
-    Widget tabView = TabView(
-                    categories: category_tree,
-                    selectedCategory: category_tree[0],
-                    products_of_category: [],
-                    tabController: this.tabController,
-                  );
-
-  return Container(
-    child:Column(
-      children: [tabBar,
-      tabView]));
-}
-
-List<Category> buildCategoryTree(List<Category> categories, dynamic parentId) {
-  List<Category> categoryTree = [];
-
-  for (var category in categories) {
-    if (category.parent == parentId) {
-      category.sub_categories = buildCategoryTree(categories, category.id);
-      categoryTree.add(category);
-    }
-  }
-
-  return categoryTree;
-}
-}
-
-
-
-// class W extends StatefulWidget {
-//   Attrib attrib;
-
-//   W({required this.attrib});
-
-//   @override
-//   _WState createState() => _WState();
-// }
-
-
-// class _WState extends State<W> {
-
-// @override
-// void initState() {
-//   super.initState();
-//   // Make API call here
-// }
-// }
-

@@ -8,7 +8,6 @@ class TabView extends StatelessWidget {
   List<Product> recommeded_products = [];
   List<Product> products_of_category = [];
   List<Category> categories = [];
-  Category selectedCategory;
 
   final TabController tabController;
 
@@ -16,7 +15,6 @@ class TabView extends StatelessWidget {
       {
       required this.tabController,
       required this.products_of_category,
-      required this.selectedCategory,
       required this.categories
       });
 
