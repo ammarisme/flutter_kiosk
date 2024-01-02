@@ -55,13 +55,18 @@ class CategoryCard extends StatelessWidget {
                   padding: EdgeInsets.all(8.0),
                   child: GestureDetector(
                     child: Center(
-                      child: Image.network(category.image),
+                      child: category.image!= ""?
+                      FadeInImage(
+                        placeholder: AssetImage('assets/icons/logo_small.png'), // Placeholder image asset
+                        image: NetworkImage(category.image), // Network image URL
+                        fit: BoxFit.cover,
+                      )
+                      : Image.asset('assets/icons/logo_small.png')
                     ),
                     onTap: () {
                     ProductAPIs.getProducts(category.id).then((products) {
                                                     this.selectCategoryFunc(products);
                             });
-
                       //mainPageNotifier.selectCategory(category.id);
                     },
                   ))
