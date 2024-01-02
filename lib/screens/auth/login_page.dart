@@ -11,25 +11,16 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Widget welcomeBack = Text(
-      'Welcome Back Naseef,',
-      style: TextStyle(
-          color: Colors.white,
-          fontSize: 34.0,
-          fontWeight: FontWeight.bold,
-          shadows: [
-            BoxShadow(
-              color: Color.fromRGBO(0, 0, 0, 0.15),
-              offset: Offset(0, 5),
-              blurRadius: 10.0,
-            )
-          ]),
-    );
-
+    UserNotifier userNotifier =
+          Provider.of<UserNotifier>(context, listen: false);
+    userNotifier.checkIfLogged().then((logged_in) => {
+        print("user is logged in : "+ logged_in.toString())
+      });
+ 
     Widget subTitle = Padding(
         padding: const EdgeInsets.only(right: 56.0),
         child: Text(
-          'Login to your account using\nUsername', //TODO: change to mobile number
+          'Login to your account using your email', //TODO: change to mobile number
           style: TextStyle(
             color: Colors.white,
             fontSize: 16.0,
@@ -166,7 +157,7 @@ class LoginPage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Spacer(flex: 3),
-                welcomeBack,
+                WelcomeBack(),
                 Spacer(),
                 subTitle,
                 Spacer(flex: 2),
@@ -177,6 +168,56 @@ class LoginPage extends StatelessWidget {
             ),
           )
         ],
+      ),
+    );
+  }
+}
+
+
+class WelcomeBack extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+    UserNotifier userNotifier = Provider.of<UserNotifier>(context);
+
+    return Container(
+      child: FutureBuilder<String>(
+        future: userNotifier.getLastLoggedInUser(),
+        builder: (context, snapshot) {
+          if (snapshot.data != "") {
+            return    Text(
+      'Welcome Back ${snapshot.data},',
+      style: TextStyle(
+          color: Colors.white,
+          fontSize: 34.0,
+          fontWeight: FontWeight.bold,
+          shadows: [
+            BoxShadow(
+              color: Color.fromRGBO(0, 0, 0, 0.15),
+              offset: Offset(0, 5),
+              blurRadius: 10.0,
+            )
+          ]),
+    );
+
+          } else {
+            // After reading from storage, use the data to build your widget
+            return Text(
+      'Welcome',
+      style: TextStyle(
+          color: Colors.white,
+          fontSize: 34.0,
+          fontWeight: FontWeight.bold,
+          shadows: [
+            BoxShadow(
+              color: Color.fromRGBO(0, 0, 0, 0.15),
+              offset: Offset(0, 5),
+              blurRadius: 10.0,
+            )
+          ]),
+    );
+          }
+        },
       ),
     );
   }

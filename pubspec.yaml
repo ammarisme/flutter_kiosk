@@ -38,6 +38,8 @@ dependencies:
 #  webview_flutter: ^4.4.2
   path_provider: ^2.1.1
   loading_animation_widget:
+  flutter_secure_storage:
+  jwt_decode:
   webxpay_flutter_sdk:
     path: ../webxpay_staging_sample/webxpay_flutter_sdk
 

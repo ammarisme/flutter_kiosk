@@ -70,6 +70,8 @@ class _MainContentState extends State<MainContent>
       MainPageNotifier productNotifier =
           Provider.of<MainPageNotifier>(context, listen: false);
       productNotifier.updateProducts();
+      
+
       setState(() {
         isStateUpdated = true;
       });
@@ -180,17 +182,38 @@ class _MainContentState extends State<MainContent>
               CategoryListPage(),
               CheckOutPage(),
               Consumer<UserNotifier>(
-                builder: (context, userNotifier, _) {
+                builder: (context, userNotifier, _) { 
                   return Container(
-                      child: userNotifier.logged_in
-                          ? ProfilePage(
-                              logged_in_user: userNotifier.logged_in_user,
-                            )
-                          : LoginPage());
+                      child: LoginOrProfile() );
                 },
               )
             ],
           )),
+    );
+  }
+}
+
+
+class LoginOrProfile extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+    UserNotifier userNotifier = Provider.of<UserNotifier>(context);
+
+    return Container(
+      child: FutureBuilder<bool>(
+        future: userNotifier.checkIfLogged(),
+        builder: (context, snapshot) {
+          if (snapshot.data == true) {
+            return ProfilePage(
+                              logged_in_user: userNotifier.logged_in_user,
+                            );
+          } else {
+            // After reading from storage, use the data to build your widget
+            return LoginPage();
+          }
+        },
+      ),
     );
   }
 }
