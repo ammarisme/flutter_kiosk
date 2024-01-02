@@ -11,6 +11,7 @@ class Category {
   dynamic id;
   Color begin = Color(0xffFCE183);
   Color end = Color(0xffF68D7F);
+  List<Category> sub_categories = [];
 
   Category({
     required this.name,
@@ -23,4 +24,6 @@ class Category {
       _$CategoryFromJson(json);
 
   Map<String, dynamic> toJson() => _$CategoryToJson(this);
+
+  
 }

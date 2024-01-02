@@ -1,19 +1,24 @@
 import 'package:ecommerce_int2/api_services/product_apis.dart';
 import 'package:ecommerce_int2/app_properties.dart';
+import 'package:ecommerce_int2/change_notifiers/mainpage_notifier.dart';
 import 'package:ecommerce_int2/common/utils.dart';
 import 'package:ecommerce_int2/models/category.dart';
 import 'package:ecommerce_int2/models/product.dart';
+import 'package:ecommerce_int2/screens/main/components/category_card.dart';
 import 'package:ecommerce_int2/screens/product/product_page.dart';
 import 'package:ecommerce_int2/screens/product/view_product_page.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 
 class ProductGrid extends StatefulWidget {
   List<Product> products = [];
   Category category;
 
-  ProductGrid({required this.products, required this.category});
+  ProductGrid({
+    required this.products,
+    required this.category});
 
   @override
   _ProductGridState createState() => _ProductGridState();
@@ -45,27 +50,86 @@ bool _isInit = false;
       });
     }
   }
+  updateProducts(List<Product> products){
+    print("function selection");
+    setState(() {
+      widget.products = products;
+    });
+  }
 
     @override
   Widget build(BuildContext context) {
-    double cardWidth = MediaQuery.of(context).size.width / 2;
+
     return Column(
 
       children: <Widget>[
-        
-        Flexible(
+                 Container(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                widget.category.sub_categories.length > 0 ? 
+                Container(
+                    margin: EdgeInsets.all(8.0),
+                    height: MediaQuery.of(context).size.height / 10,
+                    width: MediaQuery.of(context).size.width,
+                    child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: widget.category.sub_categories.length,
+                        itemBuilder: (_, index) => CategoryCard(
+                              selectedCategory: null,
+                              category: widget.category.sub_categories[index],
+                              selectCategoryFunc : updateProducts
+                            ))) :Container(),
+                SizedBox(
+                  height: 16.0,
+                ),
+              ],
+            ),
+          ),
+       ProductThumbsGrid(products: widget.products)
+       ],
+    );
+  }
+}
+
+
+class ProductThumbsGrid extends StatelessWidget{
+  List<Product> products;
+  ProductThumbsGrid({required this.products});
+
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return   Flexible(
           child: Container(
             padding: EdgeInsets.only(top: 16.0, right: 16.0, left: 16.0),
             child: MasonryGridView.count(
               physics: NeverScrollableScrollPhysics(),
               padding: EdgeInsets.zero,
               crossAxisCount: 2,
-              itemCount: widget.products.length,
+              itemCount: products.length,
               itemBuilder: (BuildContext context, int index) => new ClipRRect(
                 borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                child: InkWell(
+                child: ProductThumb(product:products[index])),
+              mainAxisSpacing: 4.0,
+              crossAxisSpacing: 4.0,
+            ),
+          ),
+        );
+  }
+
+}
+
+class ProductThumb extends StatelessWidget{
+  Product product;
+  ProductThumb({required this.product});
+
+  @override
+  Widget build(BuildContext context) {
+    double cardWidth = MediaQuery.of(context).size.width / 2;
+    return  InkWell(
                   onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                      builder: (_) => ViewProductPage(product: widget.products[index]))),
+                      builder: (_) => ViewProductPage(product: product))),
                   child: Container(
                     decoration: BoxDecoration(
                       // border: Border.all(width: 0.5),
@@ -92,8 +156,8 @@ bool _isInit = false;
                         Stack(
                           children: [
                             Hero(
-                              tag: widget.products[index].image,
-                              child: Image.network(widget.products[index].image),
+                              tag: product.image,
+                              child: Image.network(product.image),
                             ),
                             Positioned(
                               top: 5,
@@ -111,7 +175,7 @@ bool _isInit = false;
                                   color: THEME_COLOR_1.withOpacity(0.2), // Adjust the opacity if needed
                                 ),
                                 child: Text(
-                                  '${widget.products[index].name}',
+                                  '${product.name}',
                                   maxLines: 3,
                                   // Replace this with your price text
                                   style: TextStyle(
@@ -139,7 +203,7 @@ bool _isInit = false;
                         ),
                         child:
                          Text(
-                          '\Rs. ${Utils.thousandSeperate(widget.products[index].price)}',
+                          '\Rs. ${Utils.thousandSeperate(product.price)}',
                           
                           style: TextStyle(
                               color: Colors.white,
@@ -149,7 +213,7 @@ bool _isInit = false;
                         
                       ),
                     ),
-                    widget.products[index].isOnSale() ? 
+                    product.isOnSale() ? 
                     Positioned(
                       bottom:-2,
                           left:0,
@@ -165,7 +229,7 @@ bool _isInit = false;
                         ),
                         child:
                         Text(
-                          '\Rs. ${Utils.thousandSeperate(widget.products[index].regular_price)}',
+                          '\Rs. ${Utils.thousandSeperate(product.regular_price)}',
                           style: TextStyle(
                               color: Colors.white,
                               fontSize: 10,
@@ -178,14 +242,7 @@ bool _isInit = false;
                       ],
                     ),
                   ),
-                ),
-              ),
-              mainAxisSpacing: 4.0,
-              crossAxisSpacing: 4.0,
-            ),
-          ),
-        ),
-      ],
-    );
+                );
   }
-}
+
+} 

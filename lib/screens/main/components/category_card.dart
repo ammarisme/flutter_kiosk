@@ -1,4 +1,6 @@
+import 'package:ecommerce_int2/api_services/product_apis.dart';
 import 'package:ecommerce_int2/models/category.dart';
+import 'package:ecommerce_int2/models/product.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -7,13 +9,14 @@ import '../main_page.dart';
 
 class CategoryCard extends StatelessWidget {
   final Category category;
-  final Category selectedCategory;
+  final Category? selectedCategory;
+  final Function(List<Product> products) selectCategoryFunc;
 
-  const CategoryCard({required this.category, required this.selectedCategory});
+  const CategoryCard({required this.category, required this.selectedCategory, required this.selectCategoryFunc});
 
   @override
   Widget build(BuildContext context) {
-    print(category.name);
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
       child: Card(
@@ -40,7 +43,7 @@ class CategoryCard extends StatelessWidget {
                       gradient: RadialGradient(
                           colors: [
                         Colors.white,
-                        selectedCategory.id != category.id
+                        selectedCategory?.id != category.id
                             ? Colors.grey.shade100
                             : Colors.blue
                       ],
@@ -55,9 +58,11 @@ class CategoryCard extends StatelessWidget {
                       child: Image.network(category.image),
                     ),
                     onTap: () {
-                      MainPageNotifier productNotifier =
-                          Provider.of<MainPageNotifier>(context, listen: false);
-                      productNotifier.selectCategory(category.id);
+                    ProductAPIs.getProducts(category.id).then((products) {
+                                                    this.selectCategoryFunc(products);
+                            });
+
+                      //mainPageNotifier.selectCategory(category.id);
                     },
                   ))
             ],

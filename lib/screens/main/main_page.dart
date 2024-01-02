@@ -145,8 +145,6 @@ class _MainContentState extends State<MainContent>
           ],
         ));
 
-   
-
     return Scaffold(
       bottomNavigationBar: CustomBottomBar(controller: bottomTabController),
       body: CustomPaint(
@@ -199,10 +197,6 @@ class _MainContentState extends State<MainContent>
           )),
     );
   }
-
-  getTabController(length){
-    return TabController(length: length, vsync: this);
-  }
 }
 
 class CategoryTabs extends StatefulWidget {
@@ -216,17 +210,17 @@ class CategoryTabs extends StatefulWidget {
 
 class _CategoryTabsState extends State<CategoryTabs>  with TickerProviderStateMixin<CategoryTabs>{
  List<Tab> category_tabs = [];
- List<Category> root_categories = [];
+ List<Category> category_tree = [];
 late TabController tabController;
 
 @override
 void initState() {
   super.initState();
-
+  
   // Make API call here
    ProductAPIs.getCategories().then((categories) {
-          root_categories = categories.where((category) => category.parent ==0).toList();
-          category_tabs = root_categories.map((category) => Tab(text: category.name)).toList();
+          category_tree = buildCategoryTree(categories, 0);
+          category_tabs = category_tree.map((category) => Tab(text: category.name)).toList();
           this.tabController = TabController(length: category_tabs.length, vsync: this);
    }
     );
@@ -248,8 +242,8 @@ Widget build(BuildContext context) {
     );
 
     Widget tabView = TabView(
-                    categories: root_categories,
-                    selectedCategory: root_categories[0],
+                    categories: category_tree,
+                    selectedCategory: category_tree[0],
                     products_of_category: [],
                     tabController: this.tabController,
                   );
@@ -258,6 +252,19 @@ Widget build(BuildContext context) {
     child:Column(
       children: [tabBar,
       tabView]));
+}
+
+List<Category> buildCategoryTree(List<Category> categories, dynamic parentId) {
+  List<Category> categoryTree = [];
+
+  for (var category in categories) {
+    if (category.parent == parentId) {
+      category.sub_categories = buildCategoryTree(categories, category.id);
+      categoryTree.add(category);
+    }
+  }
+
+  return categoryTree;
 }
 }
 
