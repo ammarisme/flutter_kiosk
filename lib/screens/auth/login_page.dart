@@ -156,7 +156,7 @@ class LoginPage extends StatelessWidget {
           ),
           Container(
             decoration: BoxDecoration(
-              color: transparentYellow,
+              color: THEME_COLOR_3,
 
             ),
           ),

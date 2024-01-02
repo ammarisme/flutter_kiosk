@@ -116,7 +116,8 @@ class _MainContentState extends State<MainContent>
                   timelines[0],
                   style: TextStyle(
                       fontSize: timelines[0] == selectedTimeline ? 20 : 14,
-                      color: darkGrey),
+                      color:Colors.black,
+                      ),
                 ),
               ),
             ),

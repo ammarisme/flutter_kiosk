@@ -45,7 +45,10 @@ class Product {
   Map<String, dynamic> toJson() => _$ProductToJson(this);
 
   isOnSale(){
-    return this.sale_price==this.regular_price;
+    return 
+    (this.sale_price!=this.regular_price && this.sale_price != "" && this.regular_price != "")
+    || (this.price!=this.regular_price && this.price != "" && this.regular_price != "")
+    ;
   }
 }
 

@@ -1,6 +1,6 @@
 import 'package:ecommerce_int2/app_properties.dart';
 import 'package:ecommerce_int2/models/product.dart';
-import 'package:ecommerce_int2/screens/product/product_page.dart';
+import 'package:ecommerce_int2/screens/product/view_product_page.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter/material.dart';
 
@@ -22,7 +22,7 @@ class RecommendedList extends StatelessWidget {
                 child: Container(
                   margin: const EdgeInsets.only(left: 16.0, right: 8.0),
                   width: 4,
-                  color: mediumYellow,
+                  color: THEME_COLOR_1,
                 ),
               ),
               Center(
@@ -49,7 +49,7 @@ class RecommendedList extends StatelessWidget {
                 child: InkWell(
                   onTap: () => Navigator.of(context).push(MaterialPageRoute(
                       builder: (_) =>
-                          ProductPage(product: recommeded_products[index]))),
+                          ViewProductPage(product: recommeded_products[index]))),
                   child: Container(
                       decoration: BoxDecoration(
                         gradient: RadialGradient(

@@ -160,7 +160,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                   Container(
                     decoration: BoxDecoration(
-                      color: transparentYellow,
+                      color: THEME_COLOR_3,
 
                     ),
                   ),

@@ -1,5 +1,6 @@
 import 'package:card_swiper/card_swiper.dart';
 import 'package:ecommerce_int2/app_properties.dart';
+import 'package:ecommerce_int2/common/utils.dart';
 import 'package:ecommerce_int2/models/product.dart';
 import 'package:ecommerce_int2/screens/product/product_page.dart';
 import 'package:ecommerce_int2/screens/product/view_product_page.dart';
@@ -36,7 +37,7 @@ class ProductList extends StatelessWidget {
               print(
                   "The itemCount is too big, we suggest use FractionPaginationBuilder instead of DotSwiperPaginationBuilder in this sitituation");
             }
-            Color activeColor = mediumYellow;
+            Color activeColor = THEME_COLOR_1;
             Color color = Colors.grey.withOpacity(.3);
             double size = 10.0;
             double space = 5.0;
@@ -99,14 +100,20 @@ class ProductCard extends StatelessWidget {
   final double height;
   final double width;
 
+
   const ProductCard({
     required this.product,
     required this.height,
     required this.width,
   });
 
+
+
   @override
   Widget build(BuildContext context) {
+       double cardHeight = MediaQuery.of(context).size.height / 2.7;
+    double cardWidth = MediaQuery.of(context).size.width / 1.8;
+
     return InkWell(
       onTap: () => Navigator.of(context).push(
           MaterialPageRoute(builder: (_) => ViewProductPage(product: product))),
@@ -118,7 +125,7 @@ class ProductCard extends StatelessWidget {
             width: width,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.all(Radius.circular(24)),
-              color: mediumYellow,
+              color: THEME_COLOR_1,
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.end,
@@ -129,42 +136,7 @@ class ProductCard extends StatelessWidget {
                   onPressed: () {},
                   color: Colors.white,
                 ),
-                Column(
-                  children: <Widget>[
-                    Align(
-                        alignment: Alignment.topLeft,
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            product.name,
-                            style:
-                                TextStyle(color: Colors.white, fontSize: 16.0),
-                          ),
-                        )),
-
-
-                    Align(
-                      alignment: Alignment.topRight,
-                      child: Container(
-                        margin: const EdgeInsets.only(bottom: 12.0),
-                        padding: const EdgeInsets.fromLTRB(8.0, 4.0, 12.0, 4.0),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(10),
-                              bottomLeft: Radius.circular(10)),
-                          color: Color.fromRGBO(224, 69, 10, 1),
-                        ),
-                        child: Text(
-                          '\Rs. ${product.price}',
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                
               ],
             ),
           ),
@@ -205,6 +177,74 @@ class ProductCard extends StatelessWidget {
               ),
             ),
           ),
+
+    Positioned(
+                        bottom:60,
+                        left: 40,
+                        width: cardWidth-30,
+                        child: Padding(
+                          padding: const EdgeInsets.all(2.0),
+                          child: Text(
+                            product.name,
+                            maxLines: 3,
+                            style:
+                                TextStyle(color: Colors.white,
+                                
+                                 fontSize: 14.0,
+                                overflow: TextOverflow.ellipsis
+                                ),
+                          ),
+                        )),
+
+                         Positioned(
+                          bottom:35,
+                          right:0,
+                      child: 
+                      Container(
+                        width:MediaQuery.of(context).size.width/5.5,
+                        padding: const EdgeInsets.fromLTRB(8.0, 4.0, 12.0, 4.0),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(10),
+                              bottomLeft: Radius.circular(10)),
+                          color: PRICE_COLOR_SALE.withOpacity(0.7),
+                        ),
+                        child:
+                         Text(
+                          '\Rs. ${Utils.thousandSeperate(product.price)}',
+                          
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 10,
+                              fontWeight: FontWeight.bold),
+                        )
+                        
+                      ),
+                    ),
+                    product.isOnSale() ? 
+                    Positioned(
+                      bottom:-2,
+                          right:0,
+                      child: 
+                      Container(
+                        margin: const EdgeInsets.only(bottom: 12.0),
+                        padding: const EdgeInsets.fromLTRB(8.0, 4.0, 12.0, 4.0),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(10),
+                              bottomLeft: Radius.circular(10)),
+                          color: Colors.white.withOpacity(0.7),
+                        ),
+                        child:
+                        Text(
+                          '\Rs. ${Utils.thousandSeperate(product.regular_price)}',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 10,
+                               decoration: TextDecoration.lineThrough, // Add strikethrough effec
+                              fontWeight: FontWeight.bold),
+                        ),))
+                      : Container()
 
         ],
       ),

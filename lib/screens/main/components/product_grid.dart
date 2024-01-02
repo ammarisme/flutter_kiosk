@@ -1,6 +1,8 @@
 import 'package:ecommerce_int2/app_properties.dart';
+import 'package:ecommerce_int2/common/utils.dart';
 import 'package:ecommerce_int2/models/product.dart';
 import 'package:ecommerce_int2/screens/product/product_page.dart';
+import 'package:ecommerce_int2/screens/product/view_product_page.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter/material.dart';
 
@@ -12,6 +14,7 @@ class ProductGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double cardWidth = MediaQuery.of(context).size.width / 2;
     return Column(
       children: <Widget>[
         SizedBox(
@@ -22,18 +25,25 @@ class ProductGrid extends StatelessWidget {
               IntrinsicHeight(
                 child: Container(
                   margin: const EdgeInsets.only(left: 16.0, right: 8.0),
-                  width: 4,
-                  color: mediumYellow,
+                  color: THEME_COLOR_1,
                 ),
               ),
-              Center(
-                  child: Text(
-                product_grid_title,
-                style: TextStyle(
-                    color: darkGrey,
-                    fontSize: 16.0,
-                    fontWeight: FontWeight.bold),
-              )),
+              Container(
+                width : 100,
+                  
+                  child: 
+                  
+                  Text(
+                            product_grid_title,
+                            maxLines: 3,
+                            style:
+                                TextStyle(color: Colors.white,
+                                
+                                 fontSize: 14.0,
+                                overflow: TextOverflow.ellipsis
+                                ),
+                          ),
+              )
             ],
           ),
         ),
@@ -49,9 +59,18 @@ class ProductGrid extends StatelessWidget {
                 borderRadius: BorderRadius.all(Radius.circular(5.0)),
                 child: InkWell(
                   onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                      builder: (_) => ProductPage(product: products[index]))),
+                      builder: (_) => ViewProductPage(product: products[index]))),
                   child: Container(
                     decoration: BoxDecoration(
+                      // border: Border.all(width: 0.5),
+                      boxShadow: [
+      BoxShadow(
+        color: Colors.black.withOpacity(0.7), // Shadow color and opacity
+        spreadRadius: 10, // Spread radius
+        blurRadius: 10, // Blur radius
+        offset: Offset(0, 10), // Shadow position, positive values are below the widget
+      ),
+    ],
                       gradient: RadialGradient(
                           colors: [
                             Colors.grey.withOpacity(0.3),
@@ -74,6 +93,7 @@ class ProductGrid extends StatelessWidget {
                               top: 5,
                               left: 0,
                               child: Container(
+                                width: cardWidth-40,
                                 margin: const EdgeInsets.only(bottom: 12.0),
                                 padding: const EdgeInsets.fromLTRB(
                                     8.0, 4.0, 12.0, 4.0),
@@ -82,78 +102,71 @@ class ProductGrid extends StatelessWidget {
                                     topRight: Radius.circular(10),
                                     bottomRight: Radius.circular(10),
                                   ),
-                                  color: Color.fromRGBO(200, 200, 200,
-                                      0.8), // Adjust the opacity if needed
+                                  color: THEME_COLOR_1.withOpacity(0.2), // Adjust the opacity if needed
                                 ),
                                 child: Text(
                                   '${products[index].name}',
+                                  maxLines: 3,
                                   // Replace this with your price text
                                   style: TextStyle(
                                       color: Colors.black,
                                       fontSize: 12,
+                                      overflow: TextOverflow.ellipsis,
                                       fontWeight: FontWeight.bold,),
                                 ),
                               ),
                             ),
-                            Positioned(
-                              bottom: 25,
-                              right: 0,
-                              child: Container(
-                                margin: const EdgeInsets.only(bottom: 12.0),
-                                padding: const EdgeInsets.fromLTRB(
-                                    8.0, 4.0, 12.0, 4.0),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(10),
-                                    bottomLeft: Radius.circular(10),
-                                  ),
-                                  color: Color.fromRGBO(224, 69, 10,
-                                      0.8), // Adjust the opacity if needed
-                                ),
-                                child: Text(
-                                  'Rs. ${products[index].price}',
-                                  // Replace this with your price text
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Positioned(
-                              bottom: 0,
-                              right: 0,
-                              child: Container(
-                                margin: const EdgeInsets.only(bottom: 12.0),
-                                padding: const EdgeInsets.fromLTRB(
-                                    8.0, 4.0, 12.0, 4.0),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(10),
-                                    bottomLeft: Radius.circular(10),
-                                  ),
-                                  color: Color.fromRGBO(200, 200, 200,
-                                      0.8), // Adjust the opacity if needed
-                                ),
-                                child: (products[index].regular_price !=
-                                            products[index].sale_price &&
-                                        products[index].regular_price !=
-                                            products[index].price &&
-                                        products[index].regular_price != "0")
-                                    ? Text(
-                                        'Rs. ${products[index].regular_price}',
-                                        // Replace this with your price text
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.bold,
-                                            decoration:
-                                                TextDecoration.lineThrough),
-                                      )
-                                    : Container(),
-                              ),
-                            ),
+                           
+
+                                             Positioned(
+                          bottom:35,
+                          left:0,
+                      child: 
+                      Container(
+                        width:MediaQuery.of(context).size.width/5.5,
+                        padding: const EdgeInsets.fromLTRB(8.0, 4.0, 12.0, 4.0),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.only(
+                              topRight: Radius.circular(10),
+                              bottomRight: Radius.circular(10)),
+                          color: PRICE_COLOR_SALE.withOpacity(0.7),
+                        ),
+                        child:
+                         Text(
+                          '\Rs. ${Utils.thousandSeperate(products[index].price)}',
+                          
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 10,
+                              fontWeight: FontWeight.bold),
+                        )
+                        
+                      ),
+                    ),
+                    products[index].isOnSale() ? 
+                    Positioned(
+                      bottom:-2,
+                          left:0,
+                      child: 
+                      Container(
+                        margin: const EdgeInsets.only(bottom: 12.0),
+                        padding: const EdgeInsets.fromLTRB(8.0, 4.0, 12.0, 4.0),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.only(
+                              topRight: Radius.circular(10),
+                              bottomRight: Radius.circular(10)),
+                          color: Colors.white.withOpacity(0.7),
+                        ),
+                        child:
+                        Text(
+                          '\Rs. ${Utils.thousandSeperate(products[index].regular_price)}',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 10,
+                               decoration: TextDecoration.lineThrough, // Add strikethrough effec
+                              fontWeight: FontWeight.bold),
+                        ),))
+                      : Container()
                           ],
                         ),
                       ],

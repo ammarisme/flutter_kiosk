@@ -49,7 +49,7 @@ class ProfilePage extends StatelessWidget {
                       color: Colors.white,
                       boxShadow: [
                         BoxShadow(
-                            color: transparentYellow,
+                            color: THEME_COLOR_3,
                             blurRadius: 4,
                             spreadRadius: 1,
                             offset: Offset(0, 1))
