@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../../app_properties.dart';
-import '../address/add_address_page.dart';
+import 'package:dropdown_search/dropdown_search.dart';
 
 class ActionButton extends StatelessWidget {
   final String buttonText;
@@ -42,17 +42,49 @@ class ActionButton extends StatelessWidget {
   }
 }
 
+class SearchableDropDown extends StatelessWidget{
+  List<dynamic> selectableItems;
+  String label;
+  String hint;
+
+  SearchableDropDown({
+    required this.selectableItems,
+    required this.label,
+    required this.hint
+  });
+
+  @override
+  Widget build(Object context) {
+    return DropdownSearch<dynamic>(
+                      items: selectableItems,
+                      dropdownDecoratorProps: DropDownDecoratorProps(
+                        dropdownSearchDecoration: InputDecoration(
+                          labelText: label,
+                          hintText: hint,
+                        ),
+                      ));
+  }
+  
+}
+
 class CustomTextField extends StatelessWidget {
   final String placeholder_text;
   final void Function(String)? onChange;
+  final Icon icon;
+  final String defaultValue;
+  TextEditingController textEditingController = TextEditingController();
 
-  const CustomTextField({
+
+  CustomTextField({
     Key? key,
     required this.placeholder_text,
     required this.onChange,
+    required this.icon,
+    required this.defaultValue
   }) : super(key: key);
 
   Widget build(BuildContext context) {
+    textEditingController.text = defaultValue;
     return Container(
       padding: EdgeInsets.only(left: 16.0, top: 4.0, bottom: 4.0),
       decoration: BoxDecoration(
@@ -60,9 +92,11 @@ class CustomTextField extends StatelessWidget {
         color: Colors.white,
       ),
       child: TextField(
+        controller: textEditingController,
         decoration: InputDecoration(
-            border: InputBorder.none, hintText: this.placeholder_text),
-        onChanged: this.onChange,
+            border: InputBorder.none, hintText: this.placeholder_text, prefixIcon: icon),
+        onChanged: this.onChange, // Icon before the input
+
       ),
     );
   }
@@ -72,12 +106,16 @@ class CustomDropDownField extends StatelessWidget {
   final List<String> input_list;
   final String placeholder_text;
   final void Function(String?) onChange;
+  final Icon icon;
+  final String defaultValue;
 
   const CustomDropDownField({
     Key? key,
     required this.input_list,
     required this.placeholder_text,
     required this.onChange,
+    required this.icon,
+    required this.defaultValue
   }) : super(key: key);
 
   Widget build(BuildContext context) {
@@ -91,6 +129,7 @@ class CustomDropDownField extends StatelessWidget {
         decoration: InputDecoration(
           border: InputBorder.none,
           hintText: this.placeholder_text,
+          prefixIcon: icon
         ),
         items: this.input_list.map((String value) {
           return DropdownMenuItem<String>(

@@ -11,18 +11,14 @@ import 'package:ecommerce_int2/screens/shop/components/shop_item_list.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-
-
-
 class CheckOutPage extends StatelessWidget {
-
- SwiperController swiperController = SwiperController();
+  SwiperController swiperController = SwiperController();
 
   @override
   Widget build(BuildContext context) {
-
-    CartNotifier cartNotifier = Provider.of<CartNotifier>(context, listen: false);
-          return Container(
+    CartNotifier cartNotifier =
+        Provider.of<CartNotifier>(context, listen: false);
+    return Container(
       child: FutureBuilder<Cart?>(
         future: cartNotifier.getCart(),
         builder: (context, snapshot) {
@@ -30,104 +26,116 @@ class CheckOutPage extends StatelessWidget {
           if (cart != null) {
             cartNotifier.loadProduct(cart);
             return Scaffold(
-            backgroundColor: Colors.white,
-            appBar: AppBar(
-              backgroundColor: Colors.transparent,
-              elevation: 0.0,
-              iconTheme: IconThemeData(color: THEME_COLOR_1),
-              actions: <Widget>[
-                IconButton(
-                  icon: Image.asset('assets/icons/denied_wallet.png'),
-                  onPressed: () => Navigator.of(context)
-                      .push(MaterialPageRoute(builder: (_) => UnpaidPage())),
-                )
-              ],
-              title: Text(
-                'Checkout',
-                style: TextStyle(
-                    color: darkGrey, fontWeight: FontWeight.w500, fontSize: 18.0),
+              backgroundColor: Colors.white,
+              appBar: AppBar(
+                backgroundColor: Colors.transparent,
+                elevation: 0.0,
+                iconTheme: IconThemeData(color: THEME_COLOR_1),
+                actions: <Widget>[
+                  IconButton(
+                    icon: Image.asset('assets/icons/denied_wallet.png'),
+                    onPressed: () => Navigator.of(context)
+                        .push(MaterialPageRoute(builder: (_) => UnpaidPage())),
+                  )
+                ],
+                title: Text(
+                  'My Cart',
+                  style: TextStyle(
+                      color: darkGrey,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 18.0),
+                ),
               ),
-            ),
-            body: LayoutBuilder(
-              builder: (_, constraints) => SingleChildScrollView(
-                physics: ClampingScrollPhysics(),
-                child: ConstrainedBox(
-                  constraints: BoxConstraints(minHeight: constraints.maxHeight),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Container(
-                        padding: EdgeInsets.symmetric(horizontal: 32.0),
-                        height: screenAwareSize(24, context),
-                        color: PAGE_BACKGROUND_COLOR,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Text(
-                              'Subtotal (Before discount): Rs '+Utils.thousandSeperate(cart!.getTotalBeforeDiscount().toString()) + "/=",
-                              style: TextStyle(
-                                  color: CONTENT_TEXT_COLOR_1,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 12),
-                            ),
-                            Text(
-                              "("+cart!.line_items.length.toString() + ' items)',
-                              style: TextStyle(
-                                  color: CONTENT_TEXT_COLOR_1,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 12),
-                            )
-                          ],
-                        ),
-                      ),
-                      SizedBox(
-                        height: screenAwareSize(80, context),
-                        width: screenAwareWidth(72, context),
-                        child: Scrollbar(
-                          
-                          thumbVisibility: true,
-                          child: ListView.builder(
-                            itemBuilder: (_, index) => cart==null ? Container() : ShopItemList(
-                              cart!.line_items[index],
-                              onRemove: () {
-                                  cart!.line_items.remove(cart!.line_items[index]);
-                              },
-                            ),
-                            itemCount: cart!.line_items.length,
+              body: LayoutBuilder(
+                builder: (_, constraints) => SingleChildScrollView(
+                  physics: ClampingScrollPhysics(),
+                  child: ConstrainedBox(
+                    constraints:
+                        BoxConstraints(minHeight: constraints.maxHeight),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Container(
+                          padding: EdgeInsets.symmetric(horizontal: 32.0),
+                          height: screenAwareSize(24, context),
+                          color: PAGE_BACKGROUND_COLOR,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Text(
+                                'Subtotal (Before discount): Rs ' +
+                                    Utils.thousandSeperate(cart!
+                                        .getTotalBeforeDiscount()
+                                        .toString()) +
+                                    "/=",
+                                style: TextStyle(
+                                    color: CONTENT_TEXT_COLOR_1,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 12),
+                              ),
+                              Text(
+                                "(" +
+                                    cart!.line_items.length.toString() +
+                                    ' items)',
+                                style: TextStyle(
+                                    color: CONTENT_TEXT_COLOR_1,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 12),
+                              )
+                            ],
                           ),
                         ),
-                      ),
-
-                      SizedBox(height: screenAwareSize(15, context),
-                      child:Container() // display the subtotal, total item count here
-                      ),
-                      Center(
-                          child: Padding(
-                        padding: EdgeInsets.only(
-                            bottom: MediaQuery.of(context).padding.bottom == 0
-                                ? 20
-                                : MediaQuery.of(context).padding.bottom),
-                        child: ActionButton(
-                          buttonText: 'Checkout',
-                          onTap: () {
-                            Navigator.of(context).push(MaterialPageRoute(builder: (_) => AddAddressPage()));
-                          },
+                        SizedBox(
+                          height: screenAwareSize(80, context),
+                          width: screenAwareWidth(72, context),
+                          child: Scrollbar(
+                            thumbVisibility: true,
+                            child: ListView.builder(
+                              itemBuilder: (_, index) => cart == null
+                                  ? Container()
+                                  : ShopItemList(
+                                      cart!.line_items[index],
+                                      onRemove: () {
+                                        cart!.line_items
+                                            .remove(cart!.line_items[index]);
+                                      },
+                                    ),
+                              itemCount: cart!.line_items.length,
+                            ),
+                          ),
                         ),
-                      ))
-                    ],
+                        SizedBox(
+                            height: screenAwareSize(15, context),
+                            child:
+                                Container() // display the subtotal, total item count here
+                            ),
+                        Center(
+                            child: Padding(
+                          padding: EdgeInsets.only(
+                              bottom: MediaQuery.of(context).padding.bottom == 0
+                                  ? 20
+                                  : MediaQuery.of(context).padding.bottom),
+                          child: ActionButton(
+                            buttonText: 'Checkout',
+                            onTap: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (_) => AddAddressPage()));
+                            },
+                          ),
+                        ))
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
-          );
-
+            );
           } else {
             // After reading from storage, use the data to build your widget
             return Container();
           }
         },
       ),
-    ); 
+    );
   }
 }
 

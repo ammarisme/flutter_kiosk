@@ -1,6 +1,6 @@
 import 'package:ecommerce_int2/app_properties.dart';
 import 'package:ecommerce_int2/screens/address/address_form.dart';
-import 'package:ecommerce_int2/screens/address/select_shipping_method.dart';
+import 'package:ecommerce_int2/screens/address/select_shipping_and_payment_methods.dart';
 import 'package:ecommerce_int2/screens/select_card_page.dart';
 import 'package:ecommerce_int2/screens/shop/select_payment_method.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +10,8 @@ import '../../change_notifiers/cart_notifiers.dart';
 import '../components/ui_components.dart';
 
 class AddAddressPage extends StatelessWidget {
+
+
   @override
   Widget build(BuildContext context) {
     CartNotifier cartNotifier =
@@ -22,7 +24,7 @@ class AddAddressPage extends StatelessWidget {
         elevation: 0.0,
         iconTheme: IconThemeData(color: darkGrey),
         title: Text(
-          'Checkout',
+          'Your information (1/3)',
           style: const TextStyle(
               color: darkGrey,
               fontWeight: FontWeight.w500,
@@ -50,6 +52,10 @@ class AddAddressPage extends StatelessWidget {
                   Center(child: ActionButton(
                       buttonText: 'Next',
                       onTap: () {
+                        //TODO: do validations
+                        //update the customer. 
+                        //create a customer if customer doesn't exist
+                        //copy shipping info to billing info if ticked.
                         Navigator.of(context)
                             .push(MaterialPageRoute(builder: (_) => SelectShippingMethodPage()));
                       }))

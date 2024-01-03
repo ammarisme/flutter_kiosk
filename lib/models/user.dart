@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 part 'user.g.dart';
 
 class User {
@@ -39,12 +41,35 @@ class User {
 }
 
 class BillingInfo extends Info {
-  late String company;
-  late String email;
-  late String phone;
+  String company;
+  String email;
+  String phone;
+  String first_name; 
+  String last_name;
+  String address_1;
+  String address_2;
+  String city;
+  String postcode;
+  String country;
+  String state;
+
+  BillingInfo({
+    required this.company,
+    required this.email,
+    required this.phone,
+    required this.first_name,
+    required this.last_name,
+    required this.address_1,
+    required this.address_2,
+    required this.city,
+    required this.postcode,
+    required this.country,
+    required this.state,
+  });
 }
 
 class ShippingInfo {
+  get address_1 => null;
 
 }
 

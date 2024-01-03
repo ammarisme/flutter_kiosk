@@ -40,4 +40,43 @@ class UserAPIs{
     }
   }
 
+  static Future<User?> getCurrentlyLoggedInUser() async {
+    print('fetching user........');
+    try {
+
+      final storage = FlutterSecureStorage();
+      final userStr = await storage.read(key: 'user');
+      User user = User.fromJson(json.decode(userStr!));
+
+
+      
+      final Uri url = Uri.parse(Variables.base_url + '/customers/${user.id}');
+
+      final response = await http.get(
+        url,
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization" : "Basic "+Settings.TOKEN
+        },
+      );
+
+      if (response.statusCode == 200) {
+        dynamic data = json.decode(response.body);
+        User user =  User.fromJson(data);
+
+        //save the user in the storage
+        await storage.write(key: "user", value: response.body);
+        
+        return user;
+      } else {
+        print('Failed to fetch user info: ${response.statusCode}');
+        return null;
+      }
+    } catch (e) {
+      print('Error fetching user: $e');
+      return null;
+    }
+  }
+
+
 }
