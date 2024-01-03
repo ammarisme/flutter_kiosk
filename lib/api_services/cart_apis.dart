@@ -75,6 +75,47 @@ class CartAPIs {
     return false;
   }
 
+  static Future<bool> updateMyCartItemByKey(
+      {required String key,
+      required int id,
+      required int quantity,
+      required String nonce,
+      }) async {
+  Map<String, dynamic> data = {
+      'key': key,
+      'id': id.toString(),
+      'quantity': quantity.toString(),
+
+    };
+    
+    final encoded_body = jsonEncode(data);
+
+       try {
+
+    final Uri url = Uri.parse( 'https://catlitter.lk/wp-json/wc/store'+ '/cart/items/'+ key);
+
+    final response = await http.put(
+        url,
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization":
+              "Basic "+Settings.WRITE_TOKEN,
+          'nonce': nonce, // Add your nonce here
+        },
+        body: encoded_body);
+
+    if (response.statusCode >= 200 && response.statusCode < 300) {
+      final jsonStr = json.decode(response.body);
+
+      return true;
+    } else {
+      return false;
+    }
+       } catch (ex){
+        return false;
+       }
+  }
+
   Future<bool> createOrder(Cart? cart) async {
     try {
       final Uri url = Uri.parse( 'https://catlitter.lk/wp-json/wc/v3'+ '/orders');

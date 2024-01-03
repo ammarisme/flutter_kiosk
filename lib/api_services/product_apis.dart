@@ -18,13 +18,13 @@ class ProductAPIs {
     return 'https://catlitter.lk/wp-json/wc/v3';
   }
 
-  static Future<double> getProductRating(String productId) async{
+  static Future<double> getProductRating(String productId) async {
     var product_reviews = await ProductAPIs.getProductReviews(productId);
 
     double calculateAverageRating() {
       int totalRatings = product_reviews.fold<int>(
         0,
-            (sum, review) => sum + (review.rating),
+        (sum, review) => sum + (review.rating),
       );
 
       int reviewCount = product_reviews.length;
@@ -32,9 +32,7 @@ class ProductAPIs {
     }
 
     return calculateAverageRating();
-
   }
-
 
   static Future<List<Product>> getProducts(dynamic categoryId) async {
     print('fetching products........');
@@ -45,8 +43,7 @@ class ProductAPIs {
         url,
         headers: {
           "Content-Type": "application/json",
-          "Authorization":
-              "Basic "+Settings.TOKEN
+          "Authorization": "Basic " + Settings.TOKEN
         },
       );
 
@@ -68,14 +65,14 @@ class ProductAPIs {
   static Future<List<ProductReview>> getProductReviews(String productId) async {
     print('fetching product reviews........');
     try {
-      final Uri url = Uri.parse(base_url() + '/products/reviews?product=' + productId);
+      final Uri url =
+          Uri.parse(base_url() + '/products/reviews?product=' + productId);
 
       final response = await http.get(
         url,
         headers: {
           "Content-Type": "application/json",
-          "Authorization":
-              "Basic "+Settings.TOKEN
+          "Authorization": "Basic " + Settings.TOKEN
         },
       );
 
@@ -96,18 +93,18 @@ class ProductAPIs {
     }
   }
 
-
-  static Future<List<ProductVariation>> getProductVariations(String productId) async {
+  static Future<List<ProductVariation>> getProductVariations(
+      String productId) async {
     print('fetching product variations........');
     try {
-      final Uri url = Uri.parse(base_url() + '/products/' + productId+"/variations");
+      final Uri url =
+          Uri.parse(base_url() + '/products/' + productId + "/variations");
 
       final response = await http.get(
         url,
         headers: {
           "Content-Type": "application/json",
-          "Authorization":
-              "Basic "+Settings.TOKEN
+          "Authorization": "Basic " + Settings.TOKEN
         },
       );
 
@@ -128,18 +125,17 @@ class ProductAPIs {
     }
   }
 
-
   static Future<List<Category>> getCategories() async {
     print('fetching categories........');
     try {
-      final Uri url = Uri.parse(base_url() + '/products/categories?per_page=100');
+      final Uri url =
+          Uri.parse(base_url() + '/products/categories?per_page=100');
 
       final response = await http.get(
         url,
         headers: {
           "Content-Type": "application/json",
-          "Authorization":
-          "Basic "+Settings.TOKEN
+          "Authorization": "Basic " + Settings.TOKEN
         },
       );
 
@@ -147,7 +143,7 @@ class ProductAPIs {
         List<dynamic> data = json.decode(response.body);
 
         List<Category> categories =
-        data.map((item) => Category.fromJson(item)).toList();
+            data.map((item) => Category.fromJson(item)).toList();
         return categories;
       } else {
         print('Failed to load categories: ${response.statusCode}');
@@ -169,8 +165,7 @@ class ProductAPIs {
         url,
         headers: {
           "Content-Type": "application/json",
-          "Authorization":
-          "Basic "+Settings.TOKEN
+          "Authorization": "Basic " + Settings.TOKEN
         },
       );
 
@@ -191,21 +186,21 @@ class ProductAPIs {
   static Future<List<Product>> searchProducts(String search_text) async {
     print('fetching products........');
     try {
-      final Uri url = Uri.parse('https://catlitter.lk/wp-json/wc/v3/products?per_page=100&search=${search_text}');
+      final Uri url = Uri.parse(
+          'https://catlitter.lk/wp-json/wc/v3/products?per_page=100&search=${search_text}');
       print(url);
       final response = await http.get(
         url,
         headers: {
           "Content-Type": "application/json",
-          "Authorization":
-          "Basic "+Settings.TOKEN
+          "Authorization": "Basic " + Settings.TOKEN
         },
       );
 
       if (response.statusCode == 200) {
         List<dynamic> data = json.decode(response.body);
         List<Product> products =
-        data.map((item) => Product.fromJson(item)).toList();
+            data.map((item) => Product.fromJson(item)).toList();
         return products;
       } else {
         print('Failed to load products: ${response.statusCode}');
@@ -216,7 +211,4 @@ class ProductAPIs {
       return [];
     }
   }
-
-
-
 }

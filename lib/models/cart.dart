@@ -1,3 +1,5 @@
+import 'package:ecommerce_int2/models/product.dart';
+
 class Cart {
  //for json output
   Address billing;
@@ -241,6 +243,7 @@ class CartItem {
   final double linetotal;
   final double linediscount;
   final List<dynamic> variations;
+  Product? product = null;
 
   CartItem(
       {required this.key,
