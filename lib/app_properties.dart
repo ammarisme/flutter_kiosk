@@ -5,6 +5,8 @@ const Color THEME_COLOR_1 = Color.fromARGB(150, 0, 0, 0);
 const Color THEME_COLOR_2 = Color.fromARGB(150, 0, 0, 0);
 const Color THEME_COLOR_3 = Color.fromRGBO(0, 0, 0, 0.694);
 const Color darkGrey = Color(0xff202020);
+const Color CONTENT_TEXT_COLOR_1 = Color.fromARGB(150, 0, 0, 0);
+
 
 const Color PRICE_COLOR_SALE = Colors.orange;
 
@@ -13,10 +15,11 @@ const Color BUTTON_COLOR_1 = Color.fromARGB(240, 165, 0, 0);
 const Color BUTTON_COLOR_1_INACTIVE = Color.fromARGB(120, 165, 0, 0);
 const Color BUTTON_TEXT_COLOR1 = Color.fromARGB(255, 255, 255, 255);
 const MAIN_BUTTON_FACTOR = 4;
+const MAIN_BUTTON_HEIGHT_FACTOR = 10;
 const double BUTTON_FONT_SIZE = 10;
 
 
-//Text colors
+//Button colors
 const Color TEXT_COLOR_1 = Color(0xff202020);
 const double BUTTON_ICON_SIZE = 18;
 
@@ -33,6 +36,12 @@ const List<BoxShadow> shadow = [
 ];
 
 screenAwareSize(int size, BuildContext context) {
-  double baseHeight = 640.0;
+  double baseHeight = 160;
   return size * MediaQuery.of(context).size.height / baseHeight;
+}
+
+screenAwareWidth(int width, BuildContext context) {
+
+  double baseWidth = 75;
+  return width * MediaQuery.of(context).size.width / baseWidth;
 }

@@ -20,26 +20,32 @@ import '../../../change_notifiers/product_notifier.dart';
 class ShopItemList extends StatelessWidget {
   final CartItem cart_item;
   final VoidCallback onRemove;
+  TextEditingController textEditingController = TextEditingController();
+
 
   ShopItemList(this.cart_item, {required this.onRemove});
 
   @override
   Widget build(BuildContext context) {
-    int quantity = 1;
     ProductNotifier productNotifier = Provider.of<ProductNotifier>(context, listen: false);
-    CartNotifier cartNotifier = Provider.of<CartNotifier>(context, listen: false);
+    CartNotifier cartNotifier = Provider.of<CartNotifier>(context, listen: true);
 
+
+  
     return FutureBuilder<Product?>(
         future: productNotifier.getProduct(this.cart_item.product_id),
         builder: (context, snapshot) {
+    //textEditingController.text =  cartNotifier.cart!.line_items.where((cart_item) => cart_item.product_id == cart_item.product_id).first.quantity.toString();
+
+
           return Container(
             margin: EdgeInsets.only(top: 20),
-            height: 130,
+            height: screenAwareSize(20, context),
             child: Stack(
               children: <Widget>[
                 Container(
-                      height: 100,
-                      margin: EdgeInsets.symmetric(horizontal: 16.0),
+                      height: screenAwareSize(80, context),
+                      margin: EdgeInsets.symmetric(horizontal: 0.0),
                       decoration: BoxDecoration(
                           color: Colors.white,
                           boxShadow: shadow,
@@ -47,7 +53,7 @@ class ShopItemList extends StatelessWidget {
                               bottomLeft: Radius.circular(10),
                               bottomRight: Radius.circular(10))),
                       child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: <Widget>[
                             ShopProductDisplay(
                               onPressed: () => {},
@@ -93,29 +99,80 @@ class ShopItemList extends StatelessWidget {
                                 ],
                               ),
                             ),
+Container(
+    padding: EdgeInsets.only(top: 10.0), // Add padding to the top
 
-                            Theme(
-                                data: ThemeData(
-                                    //accentColor: Colors.black,
-                                    textTheme: TextTheme(
-                                  headline6: TextStyle(
-                                      fontFamily: 'Montserrat',
-                                      fontSize: 14,
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.bold),
-                                  bodyText1: TextStyle(
-                                    fontFamily: 'Montserrat',
-                                    fontSize: 12,
-                                    color: Colors.grey[400],
-                                  ),
-                                )),
-                                child: NumberPicker(
-                                    value: cart_item.quantity,
-                                    minValue: 1,
-                                    maxValue: 10,
-                                    onChanged: (value) {
-                                      cartNotifier.updateLineItemQuantity(cart_item.product_id, value);
-                                    }))
+width :screenAwareWidth(10, context),
+child: Column(
+  crossAxisAlignment: CrossAxisAlignment.center,
+  children: <Widget>[
+    GestureDetector(
+  onTap: () {
+    // Your tap event handling logic goes here
+    print("update cart");
+    cart_item.quantity+=1;
+    cartNotifier.updateLineItemQuantity(cart_item.product_id, cart_item.quantity);
+textEditingController.text = (cart_item.quantity).toString();
+    // Add any other actions you want to perform on tap
+  },
+  child:
+    Container(
+      width: 20,
+      height: 20,
+  decoration: BoxDecoration(
+    color: Colors.grey, // Set the background color here
+    shape: BoxShape.rectangle, // Adjust the shape as needed (circle, square, etc.)
+  ),
+  padding: EdgeInsets.all(0.0), // Adjust padding as needed
+  margin: EdgeInsets.all(8.0), // Add margin here
+  child: Icon(
+    Icons.add,
+    size: 14.0,
+    color: const Color.fromRGBO(0, 0, 0, 1), // Icon color
+  ),
+)),
+    TextField(
+      readOnly: true,
+  controller: textEditingController,
+  maxLength: 2,
+    style: TextStyle(fontSize: 14.0), // Change the font size here
+
+  textAlign: TextAlign.center,
+  decoration: InputDecoration(
+        isDense: true, // Reduces the height of the TextField
+
+    counterText: '', // Remove default character counter
+    contentPadding: EdgeInsets.symmetric(vertical: 0.0), // Adjust vertical padding
+    focusedBorder: OutlineInputBorder(
+      borderSide: BorderSide(width: 1.0, color: Colors.grey), // Border when focused
+    ),
+    enabledBorder: OutlineInputBorder(
+      borderSide: BorderSide(width: 1.0, color: Colors.grey), // Default border
+    ),
+  ),
+  keyboardType: TextInputType.number,
+  onChanged: (value) {
+        // Handle onChanged event if needed
+  },
+),
+      Container(
+   width: 20,
+      height: 20,
+  decoration: BoxDecoration(
+    color: Colors.grey, // Set the background color here
+    shape: BoxShape.rectangle, // Adjust the shape as needed (circle, square, etc.)
+  ),
+  padding: EdgeInsets.all(0.0), // Adjust padding as needed
+  margin: EdgeInsets.all(8.0), // Add margin here
+  child: Icon(
+    Icons.remove,
+    size: 14.0,
+    color: const Color.fromRGBO(0, 0, 0, 1), // Icon color
+  ),
+),
+
+  ],
+))
                           ])),
                 // TODO:
 

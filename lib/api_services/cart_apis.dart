@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 
 import '../models/cart.dart';
@@ -8,8 +9,7 @@ class CartAPIs {
   final base_url = 'https://catlitter.lk/wp-json/wc/store';
 
   Future<Cart?> getCart() async {
-    print('fetching cart........');
-    try {
+        try {
       final Uri url = Uri.parse(this.base_url + '/cart');
       final response = await http.get(
         url,
@@ -24,6 +24,10 @@ class CartAPIs {
         dynamic data = json.decode(response.body);
         Cart cart = Cart.fromJson(data);
         cart.nonce = response.headers['nonce']!;
+        
+        final storage = FlutterSecureStorage();
+        await storage.write(key: 'cart_nonce', value: cart.nonce);
+        
         return cart;
       } else {
         print('Failed to load cart info: ${response.statusCode}');
@@ -52,7 +56,7 @@ class CartAPIs {
         headers: {
           "Content-Type": "application/json",
           "Authorization":
-              "Basic "+Settings.TOKEN,
+              "Basic "+Settings.WRITE_TOKEN,
           'nonce': nonce, // Add your nonce here
         },
         body: encodedData,

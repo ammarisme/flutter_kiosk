@@ -1,15 +1,17 @@
 import 'package:card_swiper/card_swiper.dart';
+import 'package:ecommerce_int2/api_services/woocommerce_api.dart';
 import 'package:ecommerce_int2/app_properties.dart';
 import 'package:ecommerce_int2/change_notifiers/cart_notifiers.dart';
+import 'package:ecommerce_int2/common/utils.dart';
+import 'package:ecommerce_int2/models/cart.dart';
 import 'package:ecommerce_int2/screens/address/add_address_page.dart';
+import 'package:ecommerce_int2/screens/components/ui_components.dart';
 import 'package:ecommerce_int2/screens/payment/unpaid_page.dart';
-import 'package:ecommerce_int2/screens/shop/webxpay_payment_page.dart';
+import 'package:ecommerce_int2/screens/shop/components/shop_item_list.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../components/ui_components.dart';
-import '../webview.dart';
-import 'components/shop_item_list.dart';
+
 
 
 class CheckOutPage extends StatelessWidget {
@@ -18,19 +20,21 @@ class CheckOutPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    CartNotifier cartNotifier =
-    Provider.of<CartNotifier>(context, listen: false);
-    cartNotifier.getCart();
 
-    return Consumer<CartNotifier>(
-        builder: (context, productNotifier, _) {
-          return cartNotifier.cart == null ? Container() :
-          Scaffold(
+    CartNotifier cartNotifier = Provider.of<CartNotifier>(context, listen: false);
+          return Container(
+      child: FutureBuilder<Cart?>(
+        future: cartNotifier.getCart(),
+        builder: (context, snapshot) {
+          final cart = snapshot.data;
+          if (cart != null) {
+            cartNotifier.loadProduct(cart);
+            return Scaffold(
             backgroundColor: Colors.white,
             appBar: AppBar(
               backgroundColor: Colors.transparent,
               elevation: 0.0,
-              iconTheme: IconThemeData(color: darkGrey),
+              iconTheme: IconThemeData(color: THEME_COLOR_1),
               actions: <Widget>[
                 IconButton(
                   icon: Image.asset('assets/icons/denied_wallet.png'),
@@ -54,44 +58,49 @@ class CheckOutPage extends StatelessWidget {
                     children: <Widget>[
                       Container(
                         padding: EdgeInsets.symmetric(horizontal: 32.0),
-                        height: 48.0,
+                        height: screenAwareSize(24, context),
                         color: PAGE_BACKGROUND_COLOR,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
                             Text(
-                              'Subtotal',
+                              'Subtotal (Before discount): Rs '+Utils.thousandSeperate(cart!.getTotalBeforeDiscount().toString()) + "/=",
                               style: TextStyle(
-                                  color: Colors.white,
+                                  color: CONTENT_TEXT_COLOR_1,
                                   fontWeight: FontWeight.bold,
-                                  fontSize: 16),
+                                  fontSize: 12),
                             ),
                             Text(
-                              cartNotifier.cart!.line_items.length.toString() + ' items',
+                              "("+cart!.line_items.length.toString() + ' items)',
                               style: TextStyle(
-                                  color: Colors.white,
+                                  color: CONTENT_TEXT_COLOR_1,
                                   fontWeight: FontWeight.bold,
-                                  fontSize: 16),
+                                  fontSize: 12),
                             )
                           ],
                         ),
                       ),
                       SizedBox(
-                        height: 600,
+                        height: screenAwareSize(80, context),
+                        width: screenAwareWidth(72, context),
                         child: Scrollbar(
+                          
+                          thumbVisibility: true,
                           child: ListView.builder(
-                            itemBuilder: (_, index) => ShopItemList(
-                              cartNotifier.cart!.line_items[index],
+                            itemBuilder: (_, index) => cart==null ? Container() : ShopItemList(
+                              cart!.line_items[index],
                               onRemove: () {
-                                  cartNotifier.cart!.line_items.remove(cartNotifier.cart!.line_items[index]);
+                                  cart!.line_items.remove(cart!.line_items[index]);
                               },
                             ),
-                            itemCount: cartNotifier.cart!.line_items.length,
+                            itemCount: cart!.line_items.length,
                           ),
                         ),
                       ),
 
-                      SizedBox(height: 24),
+                      SizedBox(height: screenAwareSize(15, context),
+                      child:Container() // display the subtotal, total item count here
+                      ),
                       Center(
                           child: Padding(
                         padding: EdgeInsets.only(
@@ -111,11 +120,14 @@ class CheckOutPage extends StatelessWidget {
               ),
             ),
           );
-        }
-    );
 
-
-
+          } else {
+            // After reading from storage, use the data to build your widget
+            return Container();
+          }
+        },
+      ),
+    ); 
   }
 }
 

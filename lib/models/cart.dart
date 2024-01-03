@@ -88,6 +88,14 @@ class Cart {
       'shipping_lines' :this.shipping_lines,
     };
   }
+
+  double getTotalBeforeDiscount() {
+    double total = 0;
+    for (var item in line_items) {
+      total += item.quantity*item.salePrice; // Assuming 'price' is the property representing item price
+    }
+    return total;
+  }
 }
 
 class Address {
@@ -221,7 +229,7 @@ class Totals {
 class CartItem {
   final String key;
   final int product_id;
-  late final int quantity;
+  late  int quantity;
   final String name;
   late final double regularPrice;
   late final double salePrice;

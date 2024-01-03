@@ -40,6 +40,7 @@ dependencies:
   loading_animation_widget:
   flutter_secure_storage:
   jwt_decode:
+  flutter_wp_woocommerce:
   webxpay_flutter_sdk:
     path: ../webxpay_staging_sample/webxpay_flutter_sdk
 

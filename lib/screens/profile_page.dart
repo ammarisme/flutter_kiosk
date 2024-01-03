@@ -1,9 +1,7 @@
 import 'package:ecommerce_int2/app_properties.dart';
 import 'package:ecommerce_int2/screens/faq_page.dart';
-import 'package:ecommerce_int2/screens/payment/payment_page.dart';
 import 'package:ecommerce_int2/screens/settings/settings_page.dart';
 import 'package:ecommerce_int2/screens/tracking_page.dart';
-import 'package:ecommerce_int2/screens/wallet/wallet_page.dart';
 import 'package:flutter/material.dart';
 
 import '../models/user.dart';
@@ -63,22 +61,6 @@ class ProfilePage extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
                             IconButton(
-                              icon: Image.asset('assets/icons/wallet.png'),
-                              onPressed: () =>
-                                  Navigator.of(context).push(
-                                      MaterialPageRoute(
-                                          builder: (_) => WalletPage())),
-                            ),
-                            Text(
-                              'Wallet',
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            )
-                          ],
-                        ), //TODO : Wallet
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            IconButton(
                               icon: Image.asset('assets/icons/truck.png'),
                               onPressed: () =>
                                   Navigator.of(context).push(
@@ -87,22 +69,6 @@ class ProfilePage extends StatelessWidget {
                             ),
                             Text(
                               'Tracking',
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            )
-                          ],
-                        ),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            IconButton(
-                              icon: Image.asset('assets/icons/card.png'),
-                              onPressed: () =>
-                                  Navigator.of(context).push(
-                                      MaterialPageRoute(
-                                          builder: (_) => PaymentPage())),
-                            ),
-                            Text(
-                              'Payment',
                               style: TextStyle(fontWeight: FontWeight.bold),
                             )
                           ],
@@ -165,3 +131,66 @@ class ProfilePage extends StatelessWidget {
     );
   }
 }
+
+
+        // Column(
+        //                   mainAxisAlignment: MainAxisAlignment.center,
+        //                   children: <Widget>[
+        //                     IconButton(
+        //                       icon: Image.asset('assets/icons/wallet.png'),
+        //                       onPressed: () =>
+        //                           Navigator.of(context).push(
+        //                               MaterialPageRoute(
+        //                                   builder: (_) => WalletPage())),
+        //                     ),
+        //                     Text(
+        //                       'Wallet',
+        //                       style: TextStyle(fontWeight: FontWeight.bold),
+        //                     )
+        //                   ],
+        //                 ), //TODO : Wallet
+        //                 Column(
+        //                   mainAxisAlignment: MainAxisAlignment.center,
+        //                   children: <Widget>[
+        //                     IconButton(
+        //                       icon: Image.asset('assets/icons/truck.png'),
+        //                       onPressed: () =>
+        //                           Navigator.of(context).push(
+        //                               MaterialPageRoute(
+        //                                   builder: (_) => TrackingPage())),
+        //                     ),
+        //                     Text(
+        //                       'Tracking',
+        //                       style: TextStyle(fontWeight: FontWeight.bold),
+        //                     )
+        //                   ],
+        //                 ),
+        //                 Column(
+        //                   mainAxisAlignment: MainAxisAlignment.center,
+        //                   children: <Widget>[
+        //                     IconButton(
+        //                       icon: Image.asset('assets/icons/card.png'),
+        //                       onPressed: () =>
+        //                           Navigator.of(context).push(
+        //                               MaterialPageRoute(
+        //                                   builder: (_) => PaymentPage())),
+        //                     ),
+        //                     Text(
+        //                       'Payment',
+        //                       style: TextStyle(fontWeight: FontWeight.bold),
+        //                     )
+        //                   ],
+        //                 ),
+        //                 Column(
+        //                   mainAxisAlignment: MainAxisAlignment.center,
+        //                   children: <Widget>[
+        //                     IconButton(
+        //                       icon: Image.asset('assets/icons/contact_us.png'),
+        //                       onPressed: () {},
+        //                     ),
+        //                     Text(
+        //                       'Support',
+        //                       style: TextStyle(fontWeight: FontWeight.bold),
+        //                     )
+        //                   ],
+        //                 ),

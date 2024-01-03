@@ -62,14 +62,16 @@ class ShopProductDisplay extends StatelessWidget {
         future: productNotifier.getProduct(this.car_item.product_id),
         builder: (context, snapshot) {
           product = snapshot.data;
-          print(product!.image);
           return product!= null && product!.image != ""
-              ? Image.network(
-                  product!.image,
-                  height: 80,
+              ? 
+          FadeInImage(
+                        placeholder: AssetImage('assets/icons/logo_small.png'), // Placeholder image asset
+                        image: NetworkImage(product!.image), // Network image URL
+                         height: 80,
                   width: 80,
-                )
-              : Container();
+                        fit: BoxFit.cover,
+                      )
+                      : Image.asset('assets/icons/logo_small.png');
         });
   }
 }

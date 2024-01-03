@@ -6,8 +6,8 @@ import 'package:provider/provider.dart';
 
 class LoginPage extends StatelessWidget {
   TextEditingController username =
-  TextEditingController(text: 'catlitter.lk');
-  TextEditingController password = TextEditingController(text: 'Eha&uDuy*4hoTTCXYwMCfDF(');
+  TextEditingController(text: '94777123030');
+  TextEditingController password = TextEditingController(text: 'abcd@1234'); //Eha&uDuy*4hoTTCXYwMCfDF(
 
   @override
   Widget build(BuildContext context) {
@@ -20,16 +20,15 @@ class LoginPage extends StatelessWidget {
     Widget subTitle = Padding(
         padding: const EdgeInsets.only(right: 56.0),
         child: Text(
-          'Login to your account using your email', //TODO: change to mobile number
+          'Login with your mobile number/password.', //TODO: change to mobile number
           style: TextStyle(
-            color: Colors.white,
+            color: CONTENT_TEXT_COLOR_1,
             fontSize: 16.0,
           ),
         ));
 
-    Widget loginButton = Positioned(
-      left: MediaQuery.of(context).size.width / 4,
-      bottom: 40,
+    Widget loginButton = Padding(
+                  padding: const EdgeInsets.only(top: 8.0),
       child: InkWell(
         onTap: () {
           //TODO: login
@@ -37,8 +36,8 @@ class LoginPage extends StatelessWidget {
           userNotifier.login(this.username.text, this.password.text);
         },
         child: Container(
-          width: MediaQuery.of(context).size.width / 2,
-          height: 80,
+          width: MediaQuery.of(context).size.width / MAIN_BUTTON_FACTOR,
+          height: MediaQuery.of(context).size.width / MAIN_BUTTON_HEIGHT_FACTOR,
           child: Center(
               child: new Text("Log In",
                   style: const TextStyle(
@@ -47,14 +46,7 @@ class LoginPage extends StatelessWidget {
                       fontStyle: FontStyle.normal,
                       fontSize: 20.0))),
           decoration: BoxDecoration(
-              gradient: LinearGradient(
-                  colors: [
-                    Color.fromRGBO(236, 60, 3, 1),
-                    Color.fromRGBO(234, 60, 3, 1),
-                    Color.fromRGBO(216, 78, 16, 1),
-                  ],
-                  begin: FractionalOffset.topCenter,
-                  end: FractionalOffset.bottomCenter),
+            color: BUTTON_COLOR_1,
               boxShadow: [
                 BoxShadow(
                   color: Color.fromRGBO(0, 0, 0, 0.16),
@@ -72,9 +64,9 @@ class LoginPage extends StatelessWidget {
       child: Stack(
         children: <Widget>[
           Container(
-            height: 160,
+            height: 240,
             width: MediaQuery.of(context).size.width,
-            padding: const EdgeInsets.only(left: 32.0, right: 12.0),
+            padding: const EdgeInsets.only(left: 12.0, right: 12.0),
             decoration: BoxDecoration(
                 color: Color.fromRGBO(255, 255, 255, 0.8),
                 borderRadius: BorderRadius.only(
@@ -85,23 +77,38 @@ class LoginPage extends StatelessWidget {
               children: <Widget>[
                 Padding(
                   padding: const EdgeInsets.only(top: 8.0),
-                  child: TextField(
+                  child: 
+                    Row(children: 
+                    [
+                      Expanded(child:TextField(
                     controller: username,
                     style: TextStyle(fontSize: 16.0),
-                  ),
+                    decoration: InputDecoration(
+                hintText: 'Username',
+                prefixIcon: Icon(Icons.person), // Icon before the input
+              )
+                  ) )
+                      ]),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 8.0),
-                  child: TextField(
+                  child:   Row(children: 
+                    [
+                      Expanded(child:TextField(
                     controller: password,
                     style: TextStyle(fontSize: 16.0),
                     obscureText: true,
+                    decoration: InputDecoration(
+                hintText: 'Password',
+                prefixIcon: Icon(Icons.security_rounded), // Icon before the input
+              )
                   ),
-                ),
+                )]))
+              ,
+              loginButton
               ],
             ),
           ),
-          loginButton,
         ],
       ),
     );
@@ -147,7 +154,7 @@ class LoginPage extends StatelessWidget {
           ),
           Container(
             decoration: BoxDecoration(
-              color: THEME_COLOR_3,
+              color: PAGE_BACKGROUND_COLOR,
 
             ),
           ),
@@ -188,7 +195,7 @@ class WelcomeBack extends StatelessWidget {
             return    Text(
       'Welcome Back ${snapshot.data},',
       style: TextStyle(
-          color: Colors.white,
+          color:CONTENT_TEXT_COLOR_1,
           fontSize: 34.0,
           fontWeight: FontWeight.bold,
           shadows: [
@@ -205,7 +212,7 @@ class WelcomeBack extends StatelessWidget {
             return Text(
       'Welcome',
       style: TextStyle(
-          color: Colors.white,
+          color: CONTENT_TEXT_COLOR_1,
           fontSize: 34.0,
           fontWeight: FontWeight.bold,
           shadows: [

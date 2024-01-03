@@ -1,6 +1,7 @@
 // Define a ProductNotifier class that extends ChangeNotifier
 import 'package:ecommerce_int2/api_services/cart_apis.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import '../models/cart.dart';
 
@@ -59,19 +60,26 @@ class CartNotifier extends ChangeNotifier {
     this.total = (totalBeforeDiscounts - totalLineDiscounts) - discountOnTotal;
   }
 
-  Future<void> getCart() async {
+  Future<Cart?> getCart() async {
     print("cart fetched");
     CartAPIs cartAPIs = CartAPIs();
-    this.cart = await cartAPIs.getCart();
-
-    notifyListeners();
+    return cartAPIs.getCart();
   }
 
-  Future<void> addItem(product_id, quantity, nonce) async {
-    print(product_id);
+  Future<void> addItem(product_id, quantity) async {
     CartAPIs cartAPIs = CartAPIs();
-    notifyListeners();
+    readCartNonce().then((nonce) {
+        cartAPIs.addItem(product_id, quantity, nonce);
+        notifyListeners();
+    });
   }
+
+  Future<String?> readCartNonce() async {
+      final storage = FlutterSecureStorage();
+      return await storage.read(key: 'cart_nonce');
+  }
+
+  
 
   addOrUpdateAddress1(String address1) {
     if (this.cart?.shipping == null) {
@@ -230,7 +238,7 @@ class CartNotifier extends ChangeNotifier {
     this.cart = _cart;
   }
 
-  void updateLineItemQuantity(int id, int quantity) {
+  void updateLineItemQuantity(int id,int quantity) {
     int? index = this.cart?.line_items.indexWhere((cart_item) => cart_item.product_id == id);
     this.cart?.line_items[index as int].quantity = quantity;
   }

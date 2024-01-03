@@ -169,12 +169,7 @@ class _ProductOptionState extends State<ProductOption> {
                   InkWell(
                     onTap: () {
                       if(widget.product.stock_quantity>0){
-                        print(cartNotifier.cart?.nonce);
-                        cartNotifier.addItem(widget.product.id,1, cartNotifier.cart?.nonce);
-                        // scaffoldKey.currentState!.showBottomSheet((context) {
-                        //   cartNotifier.addItem(16652,1, cartNotifier.cart?.nonce);
-                        //   return ShopBottomSheet();
-                        // });
+                        cartNotifier.addItem(widget.product.id,1);
                       }
                     },
                     child: Container(
