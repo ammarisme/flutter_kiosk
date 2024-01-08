@@ -1,13 +1,16 @@
+import 'package:ecommerce_int2/api_services/authentication_apis.dart';
 import 'package:ecommerce_int2/app_properties.dart';
 import 'package:ecommerce_int2/change_notifiers/user_notifier.dart';
+import 'package:ecommerce_int2/common/utils.dart';
 import 'package:ecommerce_int2/screens/auth/register_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class LoginPage extends StatelessWidget {
   TextEditingController username =
   TextEditingController(text: '94777123030');
-  TextEditingController password = TextEditingController(text: 'abcd@1234'); //Eha&uDuy*4hoTTCXYwMCfDF(
+  TextEditingController password = TextEditingController(text: 'Cats@Dogs@123'); //Eha&uDuy*4hoTTCXYwMCfDF(
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +36,15 @@ class LoginPage extends StatelessWidget {
         onTap: () {
           //TODO: login
           UserNotifier userNotifier = Provider.of<UserNotifier>(context, listen: false);
-          userNotifier.login(this.username.text, this.password.text);
+          userNotifier.login(this.username.text, this.password.text).then((response)
+          {if (response.status == true){
+              Utils.showToast("Welcome!", ToastType.done_success);
+            print(response.status);
+          } else {
+            Utils.showToast("Login failed : "+ (response.error_message as String), ToastType.done_error);
+            print(response.status);
+          }
+          });
         },
         child: Container(
           width: MediaQuery.of(context).size.width / MAIN_BUTTON_FACTOR,

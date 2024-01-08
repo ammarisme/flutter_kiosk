@@ -13,13 +13,17 @@ class UserNotifier extends ChangeNotifier {
   late User logged_in_user;
   late bool logged_in = false;
 
-  Future<String?> login(String email, String password) async {
-    final jwt_payload = await AuthenticationAPIs.getToken(email, password);
-    if (jwt_payload != null) {
+  Future<AuthenticationResponse> login(String email, String password) async {
+    final authentication_response = await AuthenticationAPIs.getToken(email, password);
+    if (authentication_response.status == true) {
       this.logged_in = true;
       //fetch user info
-      logged_in_user = (await UserAPIs.getUser(jwt_payload["id"]))!;
+      logged_in_user = (await UserAPIs.getUser(authentication_response.token!["id"]))!;
       notifyListeners();
+      return authentication_response;
+    }else{
+      //display an error popup
+      return authentication_response;
     }
   }
 
@@ -87,4 +91,6 @@ class UserNotifier extends ChangeNotifier {
               return "";
             }
       }
+
+  
 }

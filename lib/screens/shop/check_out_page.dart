@@ -22,6 +22,13 @@ class CheckOutPage extends StatelessWidget {
       child: FutureBuilder<Cart?>(
         future: cartNotifier.getCart(),
         builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            // Show a loading indicator while waiting for the API call
+            return Center(
+              child: CircularProgressIndicator(), // Or any other loader widget
+            );
+          }
+
           final cart = snapshot.data;
           if (cart != null) {
             cartNotifier.loadProduct(cart);
@@ -142,8 +149,7 @@ class CheckOutPage extends StatelessWidget {
 class Scroll extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
-    // TODO: implement paint
-
+    
     LinearGradient grT = LinearGradient(
         colors: [Colors.transparent, Colors.black26],
         begin: Alignment.topCenter,

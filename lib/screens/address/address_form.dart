@@ -2,110 +2,136 @@ import 'package:ecommerce_int2/api_services/user_apis.dart';
 import 'package:ecommerce_int2/app_properties.dart';
 import 'package:ecommerce_int2/data/data.dart';
 import 'package:ecommerce_int2/models/user.dart';
+import 'package:ecommerce_int2/screens/address/select_shipping_and_payment_methods.dart';
 import 'package:ecommerce_int2/screens/components/ui_components.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
-import '../../change_notifiers/cart_notifiers.dart';
 
 class AddAddressForm extends StatefulWidget {
   AddAddressForm();
 
+
   @override
-  _AddAddressForm createState() => _AddAddressForm();
+  _AddAddressFormState createState() => _AddAddressFormState();
 }
 
-class _AddAddressForm extends State<AddAddressForm> {
- 
 
-  User? user;
+class _AddAddressFormState extends State<AddAddressForm> {
+  bool isLoading = true;
+    User? user;
 
-  @override
-  void initState() {
-    super.initState();
-    UserAPIs.getCurrentlyLoggedInUser().then((value) {
-      setState(() {
-        user = value;
-      });
+@override
+void initState() {
+  super.initState();
+  // Make API call here
+  UserAPIs.getCurrentlyLoggedInUser().then((value) {
+    setState(() {
+      user = value;
+      isLoading = false;
     });
-
-    // Make API call here
   }
+  );
+}
 
   @override
   Widget build(BuildContext context) {
-    CartNotifier cartNotifier =
-        Provider.of<CartNotifier>(context, listen: false);
+    return isLoading? Center(
+              child: CircularProgressIndicator(), // Or any other loader widget
+            ):
+    SizedBox(
+              height: screenAwareSize(100, context),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  CustomTextField(
+                    placeholder_text: 'First name (eg:- Jhon)',
+                    onChange: (value)
+                        {
+                          setState(() {
+                          this.user!.first_name = value;
+                          });
+                          //cartNotifier.addOrUpdateFirstName(value)
+                        },
+                    icon: Icon(Icons.person),
+                    defaultValue: user!.first_name,
+                  ),
+                  CustomTextField(
+                    placeholder_text: 'Last name (eg:- Prince Street)',
+                    onChange: (value) =>
+                        {
+                          //cartNotifier.addOrUpdateLastName(value)
+                          },
+                    icon: Icon(Icons.person),
+                    defaultValue: user!.last_name,
+                  ),
+                  CustomTextField(
+                    placeholder_text: 'House/Flat Number (eg:- 34/2 A)',
+                    onChange: (value) =>
+                        {
+                          //cartNotifier.addOrUpdateAddress1(value)
+                          },
+                    icon: Icon(Icons.house),
+                    defaultValue: user!.billing_info.address_1,
+                  ),
+                  CustomTextField(
+                      placeholder_text: 'Street name (eg:- Prince Street',
+                      onChange: (value) =>
+                          {
+                            //cartNotifier.addOrUpdateAddress2(value)
+                            },
+                      icon: Icon(Icons.add_road),
+                      defaultValue: user!.billing_info.address_2),
+                  // SearchableDropDown(
+                  //   label: "",
+                  //   hint: "",
+                  //   selectableItems: Data.cities,
+                  // ),
+                  CustomDropDownField(
+                      input_list: Data.cities,
+                      placeholder_text: 'Select City',
+                      onChange: (value) =>
+                          {
+                            //cartNotifier.addOrUpdateCity(value!)
+                            },
+                      defaultValue: "",
+                      icon: Icon(Icons.place)),
+                  CustomDropDownField(
+                      input_list: Data.provinces,
+                      placeholder_text: 'Select Province',
+                      onChange: (value) =>
+                          {
+                            //cartNotifier.addOrUpdateStateOrProvince(value!)
+                            },
+                      defaultValue: "",
+                      icon: Icon(Icons.location_city)),
+                  //Street name
+                  Row(
+                    children: <Widget>[
+                      Checkbox(
+                        value: true,
+                        onChanged: (value) {
+                          if (value == true) {
 
-    return user == null
-        ? Container()
-        : SizedBox(
-            height: screenAwareSize(100, context),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                CustomTextField(
-                  placeholder_text: 'First name (eg:- Jhon)',
-                  onChange: (value) =>
-                      {cartNotifier.addOrUpdateFirstName(value)},
-                  icon: Icon(Icons.person),
-                  defaultValue: user!.first_name,
-                ),
-                CustomTextField(
-                  placeholder_text: 'Last name (eg:- Prince Street',
-                  onChange: (value) =>
-                      {cartNotifier.addOrUpdateLastName(value)},
-                  icon: Icon(Icons.person),
-                  defaultValue: user!.last_name,
-                ),
-                CustomTextField(
-                  placeholder_text: 'House/Flat Number (eg:- 34/2 A)',
-                  onChange: (value) =>
-                      {cartNotifier.addOrUpdateAddress1(value)},
-                  icon: Icon(Icons.house),
-                  defaultValue: user!.billing_info.address_1,
-                ),
-                CustomTextField(
-                    placeholder_text: 'Street name (eg:- Prince Street',
-                    onChange: (value) =>
-                        {cartNotifier.addOrUpdateAddress2(value)},
-                    icon: Icon(Icons.add_road),
-                    defaultValue: user!.billing_info.address_2),
-                    // SearchableDropDown(
-                    //   label: "",
-                    //   hint: "",
-                    //   selectableItems: Data.cities,
-                    // ),
-                CustomDropDownField(
-                    input_list: Data.cities,
-                    placeholder_text: 'Select City',
-                    onChange: (value) => {cartNotifier.addOrUpdateCity(value!)},
-                    defaultValue: "",
-                    icon: Icon(Icons.place)),
-                CustomDropDownField(
-                    input_list: Data.provinces,
-                    placeholder_text: 'Select Province',
-                    onChange: (value) =>
-                        {cartNotifier.addOrUpdateStateOrProvince(value!)},
-                    defaultValue: "",
-                    icon: Icon(Icons.location_city)),
-                //Street name
-                Row(
-                  children: <Widget>[
-                    Checkbox(
-                      value: true,
-                      onChanged: (value) {
-                        if (value == true) {
-                          cartNotifier.copyShippingInfoToBilling();
-                        } else {}
-                      },
-                    ),
-                    Text('Use the same as the Billing address.')
-                  ],
-                )
-              ],
-            ),
-          );
+                          } else {}
+                        },
+                      ),
+                      Text('Use the same as the Billing address.')
+                    ],
+                  )
+                 ,Center(child: ActionButton(
+                      buttonText: 'Next',
+                      onTap: () {
+                        //TODO: do validations
+                        //update the customer.
+                        UserAPIs.updateCustomer(this.user as User);
+                        //create a customer if customer doesn't exist
+                        //copy shipping info to billing info if ticked.
+                        Navigator.of(context)
+                            .push(MaterialPageRoute(builder: (_) => SelectShippingMethodPage()));
+                      }))
+                ],
+              ),
+            );
   }
 }

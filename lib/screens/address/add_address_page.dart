@@ -1,22 +1,12 @@
 import 'package:ecommerce_int2/app_properties.dart';
 import 'package:ecommerce_int2/screens/address/address_form.dart';
-import 'package:ecommerce_int2/screens/address/select_shipping_and_payment_methods.dart';
-import 'package:ecommerce_int2/screens/select_card_page.dart';
-import 'package:ecommerce_int2/screens/shop/select_payment_method.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
-import '../../change_notifiers/cart_notifiers.dart';
-import '../components/ui_components.dart';
 
 class AddAddressPage extends StatelessWidget {
-
-
+Widget addAddressForm = AddAddressForm(); 
   @override
   Widget build(BuildContext context) {
-    CartNotifier cartNotifier =
-        Provider.of<CartNotifier>(context, listen: false);
-
+ 
     return Scaffold(
       backgroundColor: Colors.grey[100],
       appBar: AppBar(
@@ -48,17 +38,7 @@ class AddAddressPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
-                  AddAddressForm(),
-                  Center(child: ActionButton(
-                      buttonText: 'Next',
-                      onTap: () {
-                        //TODO: do validations
-                        //update the customer. 
-                        //create a customer if customer doesn't exist
-                        //copy shipping info to billing info if ticked.
-                        Navigator.of(context)
-                            .push(MaterialPageRoute(builder: (_) => SelectShippingMethodPage()));
-                      }))
+                  addAddressForm 
                 ],
               ),
             ),

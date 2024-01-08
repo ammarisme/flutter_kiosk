@@ -42,6 +42,7 @@ dependencies:
   jwt_decode:
   flutter_wp_woocommerce:
   dropdown_search:
+  fluttertoast:
   webxpay_flutter_sdk:
     path: ../webxpay_staging_sample/webxpay_flutter_sdk
 
