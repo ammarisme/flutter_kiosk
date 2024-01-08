@@ -20,8 +20,10 @@ class CartNotifier extends ChangeNotifier {
   int selected_payment_method = 0;
   late String payment_method = "";
   Map<String, double> payment_method_discounts = {
-    'cash': 1,
+    'cash': 3,
     'card': 0,
+    'card_on_delivery': 0,
+    'bt': 0,
   };
   double payment_method_discount_amount = 0;
   double payment_method_discount_percentage = 0;

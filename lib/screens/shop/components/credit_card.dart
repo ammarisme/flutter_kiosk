@@ -135,3 +135,50 @@ class SwiperCard extends StatelessWidget {
     );
   }
 }
+
+
+
+class SwipeSelectItem extends StatelessWidget {
+  final String title;
+  final String tag;
+  final Icon icon;
+  final Color color;
+
+  const SwipeSelectItem({
+    required this.icon,
+    required this.title,
+    required this.color,
+    required this.tag
+    });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 200,
+      width: 250,
+      padding: EdgeInsets.all(16.0),
+      decoration: BoxDecoration(
+        color:color,
+        borderRadius: BorderRadius.all(Radius.circular(10)),
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          icon,
+          SizedBox(height: 12), // Space between icon and text
+          Text(
+            title,
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 14, // Adjust text size
+              fontWeight: FontWeight.bold, // Make the text bold
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+

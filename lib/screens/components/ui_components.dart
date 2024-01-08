@@ -127,7 +127,6 @@ class _CustomDropDownFieldState extends State<CustomDropDownField> {
   }
 
   Widget build(BuildContext context) {
-    print("rendering");
     dropdownBtn =  DropdownButtonFormField<String>(
         decoration: InputDecoration(
             border: InputBorder.none,
