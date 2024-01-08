@@ -42,29 +42,25 @@ class ActionButton extends StatelessWidget {
   }
 }
 
-class SearchableDropDown extends StatelessWidget{
+class SearchableDropDown extends StatelessWidget {
   List<dynamic> selectableItems;
   String label;
   String hint;
 
-  SearchableDropDown({
-    required this.selectableItems,
-    required this.label,
-    required this.hint
-  });
+  SearchableDropDown(
+      {required this.selectableItems, required this.label, required this.hint});
 
   @override
   Widget build(Object context) {
     return DropdownSearch<dynamic>(
-                      items: selectableItems,
-                      dropdownDecoratorProps: DropDownDecoratorProps(
-                        dropdownSearchDecoration: InputDecoration(
-                          labelText: label,
-                          hintText: hint,
-                        ),
-                      ));
+        items: selectableItems,
+        dropdownDecoratorProps: DropDownDecoratorProps(
+          dropdownSearchDecoration: InputDecoration(
+            labelText: label,
+            hintText: hint,
+          ),
+        ));
   }
-  
 }
 
 class CustomTextField extends StatelessWidget {
@@ -74,14 +70,13 @@ class CustomTextField extends StatelessWidget {
   final String defaultValue;
   TextEditingController textEditingController = TextEditingController();
 
-
-  CustomTextField({
-    Key? key,
-    required this.placeholder_text,
-    required this.onChange,
-    required this.icon,
-    required this.defaultValue
-  }) : super(key: key);
+  CustomTextField(
+      {Key? key,
+      required this.placeholder_text,
+      required this.onChange,
+      required this.icon,
+      required this.defaultValue})
+      : super(key: key);
 
   Widget build(BuildContext context) {
     textEditingController.text = defaultValue;
@@ -94,52 +89,67 @@ class CustomTextField extends StatelessWidget {
       child: TextField(
         controller: textEditingController,
         decoration: InputDecoration(
-            border: InputBorder.none, hintText: this.placeholder_text, prefixIcon: icon),
+            border: InputBorder.none,
+            hintText: this.placeholder_text,
+            prefixIcon: icon),
         onChanged: this.onChange, // Icon before the input
-
       ),
     );
   }
 }
 
-class CustomDropDownField extends StatelessWidget {
+class CustomDropDownField extends StatefulWidget {
   final List<String> input_list;
   final String placeholder_text;
   final void Function(String?) onChange;
   final Icon icon;
   final String defaultValue;
 
-  const CustomDropDownField({
-    Key? key,
-    required this.input_list,
-    required this.placeholder_text,
-    required this.onChange,
-    required this.icon,
-    required this.defaultValue
-  }) : super(key: key);
+  const CustomDropDownField(
+      {Key? key,
+      required this.input_list,
+      required this.placeholder_text,
+      required this.onChange,
+      required this.icon,
+      required this.defaultValue})
+      : super(key: key);
+
+  @override
+  _CustomDropDownFieldState createState() => _CustomDropDownFieldState();
+}
+
+class _CustomDropDownFieldState extends State<CustomDropDownField> {
+  DropdownButtonFormField<String>? dropdownBtn;
+  @override
+  void initState() {
+    super.initState();
+    // Make API call here
+  }
 
   Widget build(BuildContext context) {
+    print("rendering");
+    dropdownBtn =  DropdownButtonFormField<String>(
+        decoration: InputDecoration(
+            border: InputBorder.none,
+            hintText: widget.placeholder_text,
+            prefixIcon: widget.icon),
+        items: widget.input_list.map((String value) {
+          return DropdownMenuItem<String>(
+            value: value,
+            child: Text(value),
+          );
+        }).toList(),
+        onChanged: widget.onChange,
+        value: widget.input_list[0], // Track the selected area
+      );
+
+
     return Container(
       padding: EdgeInsets.only(left: 16.0, top: 4.0, bottom: 4.0),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(5)),
         color: Colors.white,
       ),
-      child: DropdownButtonFormField<String>(
-        decoration: InputDecoration(
-          border: InputBorder.none,
-          hintText: this.placeholder_text,
-          prefixIcon: icon
-        ),
-        items: this.input_list.map((String value) {
-          return DropdownMenuItem<String>(
-            value: value,
-            child: Text(value),
-          );
-        }).toList(),
-        onChanged: this.onChange,
-        value: null, // Track the selected area
-      ),
-    );
+      child: dropdownBtn );
   }
 }

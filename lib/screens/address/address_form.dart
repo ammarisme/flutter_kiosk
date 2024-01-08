@@ -19,10 +19,14 @@ class AddAddressForm extends StatefulWidget {
 class _AddAddressFormState extends State<AddAddressForm> {
   bool isLoading = true;
     User? user;
+    Data_DistrictsCities data_districtsCities = Data_DistrictsCities();
+    String? selectedDistrict;
+    String? selectedCity;
 
 @override
 void initState() {
   super.initState();
+  data_districtsCities.loadJson();
   // Make API call here
   UserAPIs.getCurrentlyLoggedInUser().then((value) {
     setState(() {
@@ -87,25 +91,33 @@ void initState() {
                   //   hint: "",
                   //   selectableItems: Data.cities,
                   // ),
-                  CustomDropDownField(
-                      input_list: Data.cities,
-                      placeholder_text: 'Select City',
-                      onChange: (value) =>
-                          {
-                            //cartNotifier.addOrUpdateCity(value!)
-                            },
-                      defaultValue: "",
-                      icon: Icon(Icons.place)),
-                  CustomDropDownField(
-                      input_list: Data.provinces,
-                      placeholder_text: 'Select Province',
-                      onChange: (value) =>
-                          {
+                   CustomDropDownField(
+                      input_list: data_districtsCities.getDistricts(),
+                      placeholder_text: 'Select District',
+                      onChange: (value)
+                          { 
+                            setState(() {
+                              selectedDistrict = value;
+                              selectedCity = "";
+                            });
+                           
                             //cartNotifier.addOrUpdateStateOrProvince(value!)
                             },
                       defaultValue: "",
                       icon: Icon(Icons.location_city)),
                   //Street name
+                  CustomDropDownField(
+                      input_list:  selectedDistrict != null ? data_districtsCities.getCities(selectedDistrict as String) : [],
+                      placeholder_text: 'Select City',
+                      onChange: (value)
+                          {
+                            setState(() {
+                              selectedCity = value;
+                            });
+                            },
+                      defaultValue: "",
+                      icon: Icon(Icons.place)),
+                 
                   Row(
                     children: <Widget>[
                       Checkbox(

@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'package:flutter/services.dart' show rootBundle;
+
 class Data {
     static List<String> cities =  [
         'Akkaraipattu'	,
@@ -1860,4 +1863,27 @@ class Data {
  'Northern'	
 
     ];
+}
+
+class Data_DistrictsCities {
+  late Map<String, dynamic> districtCityMap;
+
+  Future<void> loadJson() async {
+    // String jsonString = await rootBundle.loadString('cities-by-district.json');
+    // districtCityMap = json.decode(jsonString);
+    try {
+      String jsonString = await rootBundle.loadString('assets/cities-by-district.json');
+      districtCityMap = json.decode(jsonString);
+    } catch (e) {
+      print('Error loading JSON: $e');
+    }
+  }
+
+  List<String> getDistricts() {
+    return districtCityMap.keys.toList();
+  }
+
+  List<String> getCities(String district) {
+    return districtCityMap[district]['cities'].cast<String>();
+  }
 }
