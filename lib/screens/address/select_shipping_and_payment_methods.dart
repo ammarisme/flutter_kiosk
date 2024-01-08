@@ -28,19 +28,19 @@ class _SelectShippingMethodPageState extends State<SelectShippingMethodPage> {
           ),
           color:  Colors.green.shade300,
           ),
-        SwipeSelectItem(title: "Card",tag: "cc", icon: Icon(
+        // SwipeSelectItem(title: "Card",tag: "cc", icon: Icon(
+        //     Icons.credit_card,
+        //     size: 36, // Adjust the size of the icon
+        //     color: Colors.white,
+        //   ),
+        //   color: Colors.blue
+        //   ),
+          SwipeSelectItem(title: "Card payment on delivery", tag: "card_on_delivery",icon: Icon(
             Icons.credit_card,
             size: 36, // Adjust the size of the icon
             color: Colors.white,
           ),
           color: Colors.blue
-          ),
-          SwipeSelectItem(title: "Card payment on delivery", tag: "card_on_delivery",icon: Icon(
-            Icons.paid,
-            size: 36, // Adjust the size of the icon
-            color: Colors.white,
-          ),
-          color: Colors.orange
           ),
         SwipeSelectItem(title: "Bank Transfer", tag: "bt", icon: Icon(
             Icons.credit_card,
@@ -48,6 +48,23 @@ class _SelectShippingMethodPageState extends State<SelectShippingMethodPage> {
             color: Colors.white,
           ),
           color: Colors.grey
+          ),
+    ];
+  
+ List<SwipeSelectItem> shipping_methods = [
+      SwipeSelectItem(title: "Door delivery", tag: "dd", icon: Icon(
+            Icons.payments,
+            size: 36, // Adjust the size of the icon
+            color: Colors.white,
+          ),
+          color:  Colors.orange,
+          ),
+        SwipeSelectItem(title: "Store pickup",tag: "sp", icon: Icon(
+            Icons.credit_card,
+            size: 36, // Adjust the size of the icon
+            color: Colors.white,
+          ),
+          color: Colors.black87
           ),
     ];
   
@@ -115,6 +132,33 @@ class _SelectShippingMethodPageState extends State<SelectShippingMethodPage> {
                       fade: 0.7,
                       onIndexChanged: (index) => {
                         cartNotifier.updatePayentMethod(payment_methods[index].tag, payment_methods[index].title)
+                      },
+                    ),
+                  ),
+                   Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Text(
+                      'Select Shipping method : ',
+                      style: TextStyle(
+                          fontSize: 14,
+                          color: darkGrey,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 120,
+                    child: Swiper(
+                      itemCount: shipping_methods.length,
+                      itemBuilder: (_, index) {
+                        return shipping_methods[index];
+                      },
+                      scale: 0.8,
+                      controller: swiperController,
+                      viewportFraction: 0.6,
+                      loop: false,
+                      fade: 0.7,
+                      onIndexChanged: (index) => {
+                        cartNotifier.updateShippingMethod(shipping_methods[index].tag)
                       },
                     ),
                   ),

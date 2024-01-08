@@ -33,8 +33,8 @@ class CartNotifier extends ChangeNotifier {
   late Address? billing_address = null;
   late Address? shipping_address = null;
   Map<String, double> shipping_charges_directory = {
-    'Courier': 200,
-    'Delivery driver': 100
+    'dd': 200,
+    'sp': 100
   };
   double shipping_charges = 0;
   String shipping_method_id = "";
