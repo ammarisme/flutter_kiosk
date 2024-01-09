@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../../app_properties.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 
-enum ButtonType{
+enum ButtonType {
   disabled_navigation,
   enabled_default,
 }
@@ -11,14 +11,14 @@ enum ButtonType{
 class ActionButton extends StatelessWidget {
   final String buttonText;
   final VoidCallback? onTap;
-  ButtonType buttonType = ButtonType.enabled_default ;
+  ButtonType buttonType = ButtonType.enabled_default;
 
-   ActionButton({
-    Key? key,
-    required this.buttonText,
-    required this.onTap,
-    required this.buttonType
-  }) : super(key: key);
+  ActionButton(
+      {Key? key,
+      required this.buttonText,
+      required this.onTap,
+      required this.buttonType})
+      : super(key: key);
 
   Widget build(BuildContext context) {
     return InkWell(
@@ -27,7 +27,9 @@ class ActionButton extends StatelessWidget {
         height: 40,
         width: MediaQuery.of(context).size.width / 2,
         decoration: BoxDecoration(
-            gradient: buttonType == ButtonType.disabled_navigation ? DISABLED_BUTTON_GRADIENTS : MAIN_BUTTON_GRADIENTS,
+            gradient: buttonType == ButtonType.disabled_navigation
+                ? DISABLED_BUTTON_GRADIENTS
+                : MAIN_BUTTON_GRADIENTS,
             boxShadow: [
               BoxShadow(
                 color: Color.fromRGBO(0, 0, 0, 0.16),
@@ -70,13 +72,12 @@ class SearchableDropDown extends StatelessWidget {
   }
 }
 
-
 class CustomTextField extends StatefulWidget {
-final String placeholder_text;
+  final String placeholder_text;
   final void Function(String)? onChange;
   final Icon icon;
   final String defaultValue;
-  TextFieldType fieldType = TextFieldType.text; 
+  TextFieldType fieldType = TextFieldType.text;
 
   TextEditingController textEditingController = TextEditingController();
 
@@ -86,28 +87,26 @@ final String placeholder_text;
       required this.onChange,
       required this.icon,
       required this.defaultValue,
-      required this.fieldType
-      })
+      required this.fieldType})
       : super(key: key);
   @override
   _CustomTextFieldState createState() => _CustomTextFieldState();
 }
 
-
 class _CustomTextFieldState extends State<CustomTextField> {
-
-@override
-void initState() {
-  super.initState();
-  // Make API call here
-      widget.textEditingController.text = widget.defaultValue;
-}
-
-
+  @override
+  void initState() {
+    super.initState();
+    // Make API call here
+    widget.textEditingController.text = widget.defaultValue;
+  }
 
   Widget build(BuildContext context) {
     widget.textEditingController.text = widget.defaultValue;
-    widget.textEditingController..selection = TextSelection.fromPosition(TextPosition(offset:  widget.textEditingController.text.length));
+    widget.textEditingController
+      ..selection = TextSelection.fromPosition(
+          TextPosition(offset: widget.textEditingController.text.length));
+
     return Container(
       padding: EdgeInsets.only(left: 16.0, top: 4.0, bottom: 4.0),
       decoration: BoxDecoration(
@@ -115,15 +114,13 @@ void initState() {
         color: Colors.white,
       ),
       child: TextField(
-        obscureText: widget.fieldType ==  TextFieldType.password,
+        key: widget.key,
+        obscureText: widget.fieldType == TextFieldType.password,
         controller: widget.textEditingController,
         decoration: InputDecoration(
             border: InputBorder.none,
             hintText: widget.placeholder_text,
-            hintStyle: TextStyle(
-              color: Colors.grey,
-              fontSize: 14
-            ),
+            hintStyle: TextStyle(color: Colors.grey, fontSize: 14),
             prefixIcon: widget.icon),
         onChanged: widget.onChange, // Icon before the input
       ),
@@ -131,10 +128,7 @@ void initState() {
   }
 }
 
-enum TextFieldType{
-  password,
-  text
-}
+enum TextFieldType { password, text }
 
 class CustomDropDownField extends StatefulWidget {
   final List<String> input_list;
@@ -165,28 +159,29 @@ class _CustomDropDownFieldState extends State<CustomDropDownField> {
   }
 
   Widget build(BuildContext context) {
-    dropdownBtn =  DropdownButtonFormField<String>(
-        decoration: InputDecoration(
-            border: InputBorder.none,
-            hintText: widget.placeholder_text,
-            prefixIcon: widget.icon),
-        items: widget.input_list.map((String value) {
-          return DropdownMenuItem<String>(
-            value: value,
-            child: Text(value),
-          );
-        }).toList(),
-        onChanged: widget.onChange,
-        value:  widget.input_list.length > 0 ? widget.input_list[0] : "", // Track the selected area
-      );
-
+    dropdownBtn = DropdownButtonFormField<String>(
+      decoration: InputDecoration(
+          border: InputBorder.none,
+          hintText: widget.placeholder_text,
+          prefixIcon: widget.icon),
+      items: widget.input_list.map((String value) {
+        return DropdownMenuItem<String>(
+          value: value,
+          child: Text(value),
+        );
+      }).toList(),
+      onChanged: widget.onChange,
+      value: widget.input_list.length > 0
+          ? widget.input_list[0]
+          : "", // Track the selected area
+    );
 
     return Container(
-      padding: EdgeInsets.only(left: 16.0, top: 4.0, bottom: 4.0),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(5)),
-        color: Colors.white,
-      ),
-      child: dropdownBtn );
+        padding: EdgeInsets.only(left: 16.0, top: 4.0, bottom: 4.0),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(5)),
+          color: Colors.white,
+        ),
+        child: dropdownBtn);
   }
 }

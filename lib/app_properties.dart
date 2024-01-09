@@ -13,7 +13,7 @@ const Color LINK_TEXT_COLOR_1 = Color.fromARGB( 131, 0, 0, 131);
 const Color PRICE_COLOR_SALE = Colors.orange;
 
 //Button colors
-const Color BUTTON_COLOR_1 = Color.fromARGB(240, 165, 0, 0);
+const Color BUTTON_COLOR_1 = Color.fromARGB(238, 22, 10, 0);
 const Color BUTTON_COLOR_1_INACTIVE = Color.fromARGB(120, 165, 0, 0);
 const Color BUTTON_TEXT_COLOR1 = Color.fromARGB(255, 255, 255, 255);
 const MAIN_BUTTON_FACTOR = 4;

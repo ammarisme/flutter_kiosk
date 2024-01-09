@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:ecommerce_int2/api_services/sms_apis.dart';
 import 'package:ecommerce_int2/api_services/user_apis.dart';
 import 'package:ecommerce_int2/app_properties.dart';
@@ -115,6 +116,8 @@ class _RegistrationFormState extends State<RegistrationForm> {
 
   @override
   Widget build(BuildContext context) {
+    final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
     return isLoading
         ? Center(
             child: CircularProgressIndicator(), // Or any other loader widget
@@ -126,6 +129,7 @@ class _RegistrationFormState extends State<RegistrationForm> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 CustomTextField(
+                  key: _formKey,
                   fieldType: TextFieldType.text,
                   placeholder_text: 'First name (eg:- Jhon)',
                   onChange: (value) {
@@ -193,46 +197,117 @@ class _RegistrationFormState extends State<RegistrationForm> {
                 ),
                 Center(
                     child: ActionButton(
-                      buttonType: ButtonType.enabled_default,
+                        buttonType: ButtonType.enabled_default,
                         buttonText: 'Register now!',
                         onTap: () {
+                          ValidationResult valResult =
+                              validate(this.user as User);
+                          if (valResult.status == false) {
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: Text('Invalid inputs found'),
+                                    content: Container(
+                                      width: double.maxFinite,
+                                      height: screenAwareSize(60,
+                                          context), // Set a fixed height (you can adjust this)
+                                      child: ListView.builder(
+                                        itemCount: valResult.errors.length,
+                                        itemBuilder:
+                                            (BuildContext context, int index) {
+                                          return ListTile(
+                                            textColor: Colors.red,
+                                            title:
+                                                Text(valResult.errors[index]),
+                                          );
+                                        },
+                                      ),
+                                    ),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                        child: Text('OK'),
+                                      ),
+                                    ],
+                                  );
+                                });
+                            return;
+                          } else {
+                            
                           this.user!.username = this.user!.phone_number;
                           //Send SMS.
                           Random random = Random();
                           int randomNumber = random.nextInt(9000) + 1000;
 
-                          SMSAPIs.sendSMS(user!.phone_number, "Your OTP is "+ randomNumber.toString())
+                          SMSAPIs.sendSMS(user!.phone_number,
+                                  "Your OTP is " + randomNumber.toString())
                               .then((value) {
                             if (value.status == true) {
                               Utils.showToast(
-                                "OTP sent to ${user!.phone_number}. Please check your SMS inbox.", ToastType.done_success);
-                               Navigator.of(context).push(MaterialPageRoute(
-                              builder: (_) =>
-                                  ConfirmOtpPage(user: (this.user as User), otp: randomNumber,)));
+                                  "OTP sent to ${user!.phone_number}. Please check your SMS inbox.",
+                                  ToastType.done_success);
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (_) => ConfirmOtpPage(
+                                        user: (this.user as User),
+                                        otp: randomNumber,
+                                      )));
                             } else {}
                           });
-                          //Verify OTP and then create the customer.
 
-                          //create a customer
-                          // UserAPIs.createCustomer(this.user as User)
-                          //     .then((value) {
-                          //   if (value.status == true) {
-                          //     Utils.showToast("Created an account!",
-                          //         ToastType.done_success);
-                          //     setState(() {
-                          //       user!.id = value.result.id;
-                          //     });
-                          //     Navigator.of(context).push(MaterialPageRoute(
-                          //         builder: (_) =>
-                          //             ProfilePage(logged_in_user: (this.user as User))));
-                          //   }else{
-                          //      Utils.showToast((value.error_message as String),
-                          //         ToastType.done_error);
-                          //   }
-                          // });
+                            return;
+                          }
                         }))
               ],
             ),
           );
   }
+}
+
+class ValidationResult {
+  bool status = true;
+  List errors = [];
+}
+
+validate(User user) {
+  ValidationResult validationResults = ValidationResult();
+  if (user.first_name.isEmpty) {
+    validationResults.status = false;
+    validationResults.errors.add("First name is required.");
+  }
+  if (user.last_name.isEmpty) {
+    validationResults.status = false;
+    validationResults.errors.add("Last name is required.");
+  }
+  if (user.phone_number.isEmpty) {
+    validationResults.status = false;
+    validationResults.errors.add("Phone number is required.");
+  } else if(user.phone_number.length != 11) {
+    validationResults.status = false;
+    validationResults.errors.add("Phone number has to be 11 digits long.");
+  }
+  if (user.email.isEmpty) {
+    validationResults.status = false;
+    validationResults.errors.add("Email is required.");
+  }
+  if (user.password.isEmpty) {
+    validationResults.status = false;
+    validationResults.errors.add("Password is required.");
+  } else if(user.password.length < 8) {
+    validationResults.status = false;
+    validationResults.errors.add("Password has to be at least 8 characters long.");
+  }
+  RegExp emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+  if (!emailRegex.hasMatch(user.email)) {
+    validationResults.status = false;
+    validationResults.errors.add("A valid email is required.");
+  }
+  if (user.password != user.password2) {
+    validationResults.status = false;
+    validationResults.errors.add("Passwords aren't matching.");
+  }
+
+  return validationResults;
 }

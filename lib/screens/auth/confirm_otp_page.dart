@@ -1,3 +1,4 @@
+import 'package:ecommerce_int2/api_services/authentication_apis.dart';
 import 'package:ecommerce_int2/api_services/user_apis.dart';
 import 'package:ecommerce_int2/app_properties.dart';
 import 'package:ecommerce_int2/common/utils.dart';
@@ -75,6 +76,10 @@ class _ConfirmOtpPageState extends State<ConfirmOtpPage> {
                                     ToastType.done_success);
                                     Utils.showToast("Logging you in..",
                                     ToastType.done_success);
+                                    AuthenticationAPIs.getToken(widget.user.username, widget.user.password).then((value) {
+                                      Utils.showToast("You've logged in as "+ widget.user.first_name + " " + widget.user.last_name,
+                                    ToastType.done_success);
+                                    });
                                 setState(() {
                                   widget.user!.id = value.result.id;
                                 });
