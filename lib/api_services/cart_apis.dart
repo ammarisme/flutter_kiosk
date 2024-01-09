@@ -129,7 +129,7 @@ class CartAPIs {
         headers: {
           "Content-Type": "application/json",
           "Authorization":
-          "Basic "+Settings.TOKEN,
+          "Basic "+Settings.WRITE_TOKEN,
           'nonce': cart!.nonce, // Add your nonce here
         },
         body: encodedData,

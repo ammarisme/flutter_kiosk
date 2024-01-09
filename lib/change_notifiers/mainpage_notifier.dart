@@ -33,12 +33,22 @@ class MainPageNotifier extends ChangeNotifier {
   Category selectedCategory = Category(name: '', image: '', id: 1, parent: 1);
 
   // Method to update the list of products
-  Future<void> updateProducts() async {
-    _products = await ProductAPIs.getProducts("608");
-    _categories = await ProductAPIs.getCategories();
-    _recommended_products = await ProductAPIs.getProducts("609");
-    selectedCategory = _categories.first;
-    notifyListeners();
+  Future<bool> updateProducts() {
+    ProductAPIs.getProducts("608").then((value) {
+      _products = value;
+      notifyListeners();
+    });
+    ProductAPIs.getCategories().then((value) {
+      _categories = value;
+      selectedCategory = _categories.first;
+      notifyListeners();
+    });;
+    ProductAPIs.getProducts("609").then((value) {
+      _recommended_products = value;
+      notifyListeners();
+    });;
+    ;
+    return Future(() => true);
   }
 
   Future<void> selectCategory(dynamic categoryId) async{

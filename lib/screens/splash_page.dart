@@ -1,7 +1,8 @@
 import 'package:ecommerce_int2/app_properties.dart';
-import 'package:ecommerce_int2/screens/auth/welcome_back_page.dart';
+import 'package:ecommerce_int2/change_notifiers/mainpage_notifier.dart';
 import 'package:ecommerce_int2/screens/main/main_page.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -28,6 +29,15 @@ class _SplashScreenState extends State<SplashScreen>
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    MainPageNotifier productNotifier =
+        Provider.of<MainPageNotifier>(context, listen: true);
+
+    productNotifier.updateProducts();
+  }
+
+  @override
   void dispose() {
     controller.dispose();
     super.dispose();
@@ -39,7 +49,7 @@ class _SplashScreenState extends State<SplashScreen>
   }
 
   Widget build(BuildContext context) {
-    return Container(
+    Widget splashScreen = Container(
       decoration: BoxDecoration(
           image: DecorationImage(
               image: AssetImage('assets/background.jpg'), fit: BoxFit.cover)),
@@ -62,7 +72,7 @@ class _SplashScreenState extends State<SplashScreen>
                         children: [
                           TextSpan(text: 'Powered by '),
                           TextSpan(
-                              text: 'Sellular Apps',
+                              text: 'TheSellerStack.com',
                               style: TextStyle(fontWeight: FontWeight.bold))
                         ]),
                   ),
@@ -73,5 +83,6 @@ class _SplashScreenState extends State<SplashScreen>
         ),
       ),
     );
+    return splashScreen;
   }
 }

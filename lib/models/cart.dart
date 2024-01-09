@@ -1,4 +1,5 @@
 import 'package:ecommerce_int2/models/product.dart';
+import 'package:flutter_wp_woocommerce/models/order.dart';
 
 class Cart {
  //for json output
@@ -8,7 +9,7 @@ class Cart {
   String payment_method;
   String payment_method_title;
   List<CartItem> line_items;
-  List<dynamic> shipping_lines;
+  List<ShippingLine> shipping_lines;
 
   //for internal use
   String nonce;
@@ -76,6 +77,7 @@ class Cart {
         );
   }
 
+
   Map<String, dynamic> toJson() {
 
     List<Map<String, dynamic>> lineItemsJson = line_items.map((item) => item.toJson()).toList();
@@ -87,7 +89,7 @@ class Cart {
       'billing': this.billing.toJson(),
       'shipping': this.shipping.toJson(),
       'line_items': lineItemsJson,
-      'shipping_lines' :this.shipping_lines,
+      'shipping_lines' : "",//this.shipping_lines,
     };
   }
 
@@ -98,6 +100,15 @@ class Cart {
     }
     return total;
   }
+}
+
+
+class ShippingLine {
+  final String method_id;
+  final String method_title;
+  final double total;
+
+  ShippingLine({required this.method_id, required this.method_title, required this.total});
 }
 
 class Address {

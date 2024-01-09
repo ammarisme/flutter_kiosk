@@ -51,6 +51,7 @@ class ProductAPIs {
         List<dynamic> data = json.decode(response.body);
         List<Product> products =
             data.map((item) => Product.fromJson(item)).toList();
+        print(products);
         return products;
       } else {
         print('Failed to load products: ${response.statusCode}');

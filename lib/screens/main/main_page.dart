@@ -22,25 +22,9 @@ import 'components/product_list.dart';
 class MainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider<MainPageNotifier>(
-          create: (_) => MainPageNotifier(),
-        ),
-        ChangeNotifierProvider<UserNotifier>(
-          create: (_) => UserNotifier(),
-        ),
-        ChangeNotifierProvider<ProductNotifier>(
-            create: (_) => ProductNotifier(),
-        ),
-        ChangeNotifierProvider<CartNotifier>(
-          create: (_) => CartNotifier(),
-        )
-      ],
-      child: MaterialApp(
+    return  MaterialApp(
         home: MainContent(),
-      ),
-    );
+      );
   }
 }
 
@@ -67,11 +51,6 @@ class _MainContentState extends State<MainContent>
     bottomTabController = TabController(length: 10, vsync: this);
     print('initState');
     if (!isStateUpdated) {
-      MainPageNotifier productNotifier =
-          Provider.of<MainPageNotifier>(context, listen: false);
-      productNotifier.updateProducts();
-      
-
       setState(() {
         isStateUpdated = true;
       });
@@ -81,9 +60,7 @@ class _MainContentState extends State<MainContent>
   @override
   Widget build(BuildContext context) {
     print('building');
-    MainPageNotifier productNotifier = Provider.of<MainPageNotifier>(context);
-    UserNotifier userNotifier = Provider.of<UserNotifier>(context);
-
+    MainPageNotifier mainPageNotifier = Provider.of<MainPageNotifier>(context);
 
     Widget appBar = Container(
       height: kToolbarHeight + MediaQuery.of(context).padding.top,
@@ -112,7 +89,7 @@ class _MainContentState extends State<MainContent>
                 onTap: () {
                   setState(() {
                     selectedTimeline = timelines[0];
-                    products = productNotifier.products;
+                    products = mainPageNotifier.products;
                   });
                 },
                 child: Text(
@@ -129,7 +106,7 @@ class _MainContentState extends State<MainContent>
                 onTap: () {
                   setState(() {
                     selectedTimeline = timelines[1];
-                    products = productNotifier.products;
+                    products = mainPageNotifier.products;
                     ;
                   });
                 },

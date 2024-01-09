@@ -34,7 +34,7 @@ class CartNotifier extends ChangeNotifier {
   late Address? shipping_address = null;
   Map<String, double> shipping_charges_directory = {
     'dd': 200,
-    'sp': 100
+    'sp': 0
   };
   double shipping_charges = 0;
   String shipping_method_id = "";
@@ -46,7 +46,6 @@ class CartNotifier extends ChangeNotifier {
     this.totalBeforeDiscounts = 0;
 
     // Calculate total line discounts and total before discounts
-    print("calculating line items: "+this.cart!.line_items.length.toString());
     for (var item in cart!.line_items) {
       double lineTotal = item.quantity * item.salePrice;
       print(item.quantity);
@@ -56,10 +55,15 @@ class CartNotifier extends ChangeNotifier {
       totalLineDiscounts += discountAmount;
     }
 
+
+    // payment method discounts
     this.discountOnTotal = (totalBeforeDiscounts - totalLineDiscounts) *
         (payment_method_discount_percentage / 100);
 
     this.total = (totalBeforeDiscounts - totalLineDiscounts) - discountOnTotal;
+
+    // shipping charges
+    this.total += this.shipping_charges;
   }
 
   Future<Cart?> getCart() async {
@@ -215,6 +219,7 @@ class CartNotifier extends ChangeNotifier {
 
   void updateShippingMethod(shipping_method) {
     this.shipping_charges = this.shipping_charges_directory[shipping_method]!;
+    this.cart!.shipping_lines = [ShippingLine(method_id: shipping_method, method_title: shipping_method_title, total: this.shipping_charges)];
 
     this.calculateOrderInfo();
 
