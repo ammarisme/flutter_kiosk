@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_wp_woocommerce/models/customer.dart';
 
 part 'user.g.dart';
 
@@ -11,21 +12,22 @@ class User {
   String username;
   BillingInfo billing_info;
   ShippingInfo shipping_info;
-  String avatar_url; //default "https://secure.gravatar.com/avatar/6e03d506a025da41a09b785c3f6fb70c?s=96&d=mm&r=g",
+  String
+      avatar_url; //default "https://secure.gravatar.com/avatar/6e03d506a025da41a09b785c3f6fb70c?s=96&d=mm&r=g",
   String phone_number;
+  String password = "abcd@1234";
 
-  User({
-    required this.id,
-    required this.email,
-    required this.first_name,
-    required this.last_name,
-    required this.role,
-    required this.username,
-    required this.billing_info,
-    required this.shipping_info,
-    required this.avatar_url,
-    required this.phone_number
-  });
+  User(
+      {required this.id,
+      required this.email,
+      required this.first_name,
+      required this.last_name,
+      required this.role,
+      required this.username,
+      required this.billing_info,
+      required this.shipping_info,
+      required this.avatar_url,
+      required this.phone_number});
 
 //   // "meta_data": [
 //   // {
@@ -44,7 +46,7 @@ class BillingInfo extends Info {
   String company;
   String email;
   String phone;
-  String first_name; 
+  String first_name;
   String last_name;
   String address_1;
   String address_2;
@@ -68,19 +70,18 @@ class BillingInfo extends Info {
   });
 }
 
-class ShippingInfo {
-  get address_1 => null;
-
+class ShippingInfo extends Info {
+ 
 }
 
-class Info{
-  late String first_name;
-  late String last_name;
-  late String postcode;
-  late String country;
-  late String state;
+class Info {
+  String first_name = "";
+  String last_name= "";
+  String postcode= "";
+  String country= "";
+  String state= "";
 //below fields get updated through UIs
-  late String address_1;
-  late String address_2;
-  late String city;
+  String address_1= "";
+  String address_2= "";
+  String city= "";
 }

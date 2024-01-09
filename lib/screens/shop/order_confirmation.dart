@@ -43,7 +43,7 @@ class _ConfirmYourOrderPageState extends State<ConfirmYourOrderPage> {
                                     MainAxisAlignment.spaceBetween,
                                 children: <Widget>[
                                   Text(
-                                    'Confirm your order',
+                                    'Confirm your order (3/3)',
                                     style: TextStyle(
                                       color: darkGrey,
                                       fontSize: 22,

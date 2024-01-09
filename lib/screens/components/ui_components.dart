@@ -63,8 +63,9 @@ class SearchableDropDown extends StatelessWidget {
   }
 }
 
-class CustomTextField extends StatelessWidget {
-  final String placeholder_text;
+
+class CustomTextField extends StatefulWidget {
+final String placeholder_text;
   final void Function(String)? onChange;
   final Icon icon;
   final String defaultValue;
@@ -77,9 +78,25 @@ class CustomTextField extends StatelessWidget {
       required this.icon,
       required this.defaultValue})
       : super(key: key);
+  @override
+  _CustomTextFieldState createState() => _CustomTextFieldState();
+}
+
+
+class _CustomTextFieldState extends State<CustomTextField> {
+
+@override
+void initState() {
+  super.initState();
+  // Make API call here
+      widget.textEditingController.text = widget.defaultValue;
+}
+
+
 
   Widget build(BuildContext context) {
-    textEditingController.text = defaultValue;
+    widget.textEditingController.text = widget.defaultValue;
+    widget.textEditingController..selection = TextSelection.fromPosition(TextPosition(offset:  widget.textEditingController.text.length));
     return Container(
       padding: EdgeInsets.only(left: 16.0, top: 4.0, bottom: 4.0),
       decoration: BoxDecoration(
@@ -87,12 +104,16 @@ class CustomTextField extends StatelessWidget {
         color: Colors.white,
       ),
       child: TextField(
-        controller: textEditingController,
+        controller: widget.textEditingController,
         decoration: InputDecoration(
             border: InputBorder.none,
-            hintText: this.placeholder_text,
-            prefixIcon: icon),
-        onChanged: this.onChange, // Icon before the input
+            hintText: widget.placeholder_text,
+            hintStyle: TextStyle(
+              color: Colors.grey,
+              fontSize: 14
+            ),
+            prefixIcon: widget.icon),
+        onChanged: widget.onChange, // Icon before the input
       ),
     );
   }
@@ -139,7 +160,7 @@ class _CustomDropDownFieldState extends State<CustomDropDownField> {
           );
         }).toList(),
         onChanged: widget.onChange,
-        value: widget.input_list[0], // Track the selected area
+        value:  widget.input_list.length > 0 ? widget.input_list[0] : "", // Track the selected area
       );
 
 

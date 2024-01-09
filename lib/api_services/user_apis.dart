@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:ecommerce_int2/api_services/api_service.dart';
+import 'package:ecommerce_int2/models/api_response.dart';
 import 'package:ecommerce_int2/models/user.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
@@ -39,8 +40,9 @@ class UserAPIs {
     }
   }
 
-  static Future<User?> getCurrentlyLoggedInUser() async {
+  static Future<APIResponse> getCurrentlyLoggedInUser() async {
     print('fetching user........');
+    APIResponse api_response = APIResponse();
     try {
       final storage = FlutterSecureStorage();
       final userStr = await storage.read(key: 'user');
@@ -62,15 +64,21 @@ class UserAPIs {
 
         //save the user in the storage
         await storage.write(key: "user", value: response.body);
-
-        return user;
+        api_response.status = true;
+        api_response.result = user;
+        return api_response;
       } else {
         print('Failed to fetch user info: ${response.statusCode}');
-        return null;
+        api_response.status = false;
+        api_response.error_message =
+            'Failed to fetch user info: ${response.statusCode}';
+        return api_response;
       }
     } catch (e) {
       print('Error fetching user: $e');
-      return null;
+      api_response.status = false;
+      api_response.error_message = 'Error fetching user: $e';
+      return api_response;
     }
   }
 
@@ -79,10 +87,9 @@ class UserAPIs {
     try {
       final Uri url = Uri.parse(Variables.base_url + '/customers/${user.id}');
 
-const data = '{first_name: "James"}';
       final response = await http.put(
         url,
-        body: data,
+        body: json.encode(user.toJson()),
         headers: {
           "Content-Type": "application/json",
           "Authorization": "Basic " + Settings.WRITE_TOKEN
@@ -105,6 +112,48 @@ const data = '{first_name: "James"}';
     } catch (e) {
       print('Error fetching user: $e');
       return false;
+    }
+  }
+
+  static Future<APIResponse> createCustomer(User user) async {
+    print('updating user');
+    try {
+      final Uri url = Uri.parse(Variables.base_url + '/customers');
+      //final data = user.toJson().toString();
+      final response = await http.post(
+        url,
+        body: json.encode(user.toJson()),
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Basic " + Settings.WRITE_TOKEN
+        },
+      );
+
+      if (response.statusCode == 201) {
+        dynamic data = json.decode(response.body);
+        User user = User.fromJson(data);
+
+        //save the user in the storage
+        final storage = FlutterSecureStorage();
+        await storage.write(key: "user", value: response.body);
+
+        APIResponse apiResponse = APIResponse();
+        apiResponse.result = user;
+        apiResponse.status = true;
+        return apiResponse;
+      } else {
+        print('Failed to fetch user info: ${response.statusCode}');
+         APIResponse apiResponse = APIResponse();
+        apiResponse.error_message = 'Failed to create user: ${response.statusCode}';
+        apiResponse.status = false;
+        return apiResponse;
+      }
+    } catch (e) {
+      print('Error fetching user: $e');
+      APIResponse apiResponse = APIResponse();
+      apiResponse.error_message = 'Error fetching user: $e';
+        apiResponse.status = false;
+        return apiResponse;
     }
   }
 }

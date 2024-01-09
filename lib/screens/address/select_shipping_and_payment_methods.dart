@@ -4,7 +4,6 @@ import 'package:ecommerce_int2/change_notifiers/cart_notifiers.dart';
 import 'package:ecommerce_int2/screens/components/ui_components.dart';
 import 'package:ecommerce_int2/screens/shop/order_confirmation.dart';
 import 'package:ecommerce_int2/screens/payment/unpaid_page.dart';
-import 'package:ecommerce_int2/screens/shop/select_payment_method.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -85,14 +84,14 @@ class _SelectShippingMethodPageState extends State<SelectShippingMethodPage> {
                 elevation: 0.0,
                 iconTheme: IconThemeData(color: darkGrey),
                 actions: <Widget>[
-                  IconButton(
-                    icon: Image.asset('assets/icons/denied_wallet.png'),
-                    onPressed: () => Navigator.of(context)
-                        .push(MaterialPageRoute(builder: (_) => UnpaidPage())),
-                  )
+                  // IconButton(
+                  //   icon: Image.asset('assets/icons/denied_wallet.png'),
+                  //   onPressed: () => Navigator.of(context)
+                  //       .push(MaterialPageRoute(builder: (_) => UnpaidPage())),
+                  // )
                 ],
                 title: Text(
-                  'Shipping & Payments',
+                  'Shipping & Payments (2/3)',
                   style: TextStyle(
                       color: darkGrey,
                       fontWeight: FontWeight.w500,

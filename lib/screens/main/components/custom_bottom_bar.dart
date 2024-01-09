@@ -18,27 +18,27 @@ class CustomBottomBar extends StatelessWidget {
         children: <Widget>[
           IconButton(
             icon: SvgPicture.asset(
-              'assets/icons/home_icon.svg',
+              'assets/icons/home-icon-silhouette.svg',
               fit: BoxFit.fitWidth,
             ),
             onPressed: () {
               controller.animateTo(0);
             },
           ),
+          // IconButton(
+          //   icon: Image.asset('assets/icons/category_icon.png'),
+          //   onPressed: () {
+          //     controller.animateTo(1);
+          //   },
+          // ),
           IconButton(
-            icon: Image.asset('assets/icons/category_icon.png'),
-            onPressed: () {
-              controller.animateTo(1);
-            },
-          ),
-          IconButton(
-            icon: SvgPicture.asset('assets/icons/cart_icon.svg'),
+            icon: SvgPicture.asset('assets/icons/shopping-cart-outline.svg'),
             onPressed: () {
               controller.animateTo(2);
             },
           ),
           IconButton(
-            icon: Image.asset('assets/icons/profile_icon.png'),
+            icon: Image.asset('assets/icons/user_not_logged_in.png'),
             onPressed: () {
               controller.animateTo(3);
             },
