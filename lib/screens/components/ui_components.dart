@@ -69,6 +69,8 @@ final String placeholder_text;
   final void Function(String)? onChange;
   final Icon icon;
   final String defaultValue;
+  TextFieldType fieldType = TextFieldType.text; 
+
   TextEditingController textEditingController = TextEditingController();
 
   CustomTextField(
@@ -76,7 +78,9 @@ final String placeholder_text;
       required this.placeholder_text,
       required this.onChange,
       required this.icon,
-      required this.defaultValue})
+      required this.defaultValue,
+      required this.fieldType
+      })
       : super(key: key);
   @override
   _CustomTextFieldState createState() => _CustomTextFieldState();
@@ -104,6 +108,7 @@ void initState() {
         color: Colors.white,
       ),
       child: TextField(
+        obscureText: widget.fieldType ==  TextFieldType.password,
         controller: widget.textEditingController,
         decoration: InputDecoration(
             border: InputBorder.none,
@@ -117,6 +122,11 @@ void initState() {
       ),
     );
   }
+}
+
+enum TextFieldType{
+  password,
+  text
 }
 
 class CustomDropDownField extends StatefulWidget {

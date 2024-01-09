@@ -21,7 +21,7 @@ class LoginPage extends StatelessWidget {
       });
  
     Widget subTitle = Padding(
-        padding: const EdgeInsets.only(right: 56.0),
+        padding: const EdgeInsets.only(right: 10.0),
         child: Text(
           'Login with your mobile number/password.', //TODO: change to mobile number
           style: TextStyle(
@@ -152,6 +152,38 @@ class LoginPage extends StatelessWidget {
       ),
     );
 
+ Widget txtRegister = Row(children: [
+Padding(
+        padding: const EdgeInsets.only(right: 10.0),
+        child: Text(
+          'Don\'t have an account.?', //TODO: change to mobile number
+          style: TextStyle(
+            color: CONTENT_TEXT_COLOR_1,
+            fontSize: 16.0,
+          ),
+        )),
+        GestureDetector(
+          onTap: ((){
+            Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (_) =>
+                                        RegisterPage()));
+          }),
+          child: Padding(
+        padding: const EdgeInsets.only(right: 10.0),
+        child: Text(
+          'Register Now.', //TODO: change to mobile number
+          style: TextStyle(
+            color: LINK_TEXT_COLOR_1,
+            fontSize: 16.0,
+            backgroundColor: Colors.grey.shade100,
+            fontWeight: FontWeight.bold
+          ),
+        ))
+        ),
+        
+ ]);
+
+
     return Scaffold(
 
       body: Stack(
@@ -176,12 +208,14 @@ class LoginPage extends StatelessWidget {
               children: <Widget>[
                 Spacer(flex: 3),
                 WelcomeBack(),
-                Spacer(),
+                Spacer(flex:3),
                 subTitle,
-                Spacer(flex: 2),
+                Spacer(flex: 1),
                 loginForm,
+                Spacer(flex: 1),
+                txtRegister,
                 Spacer(flex: 2),
-                forgotPassword
+                forgotPassword,
               ],
             ),
           )

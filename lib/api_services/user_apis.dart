@@ -144,7 +144,7 @@ class UserAPIs {
       } else {
         print('Failed to fetch user info: ${response.statusCode}');
          APIResponse apiResponse = APIResponse();
-        apiResponse.error_message = 'Failed to create user: ${response.statusCode}';
+        apiResponse.error_message = 'Error : ${json.decode(response.body)["message"]}';
         apiResponse.status = false;
         return apiResponse;
       }

@@ -15,7 +15,8 @@ class User {
   String
       avatar_url; //default "https://secure.gravatar.com/avatar/6e03d506a025da41a09b785c3f6fb70c?s=96&d=mm&r=g",
   String phone_number;
-  String password = "abcd@1234";
+  String password = "";
+  String password2 = "";
 
   User(
       {required this.id,

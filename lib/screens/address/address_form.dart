@@ -73,6 +73,7 @@ class _AddAddressFormState extends State<AddAddressForm> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 CustomTextField(
+                  fieldType: TextFieldType.text,
                   placeholder_text: 'First name (eg:- Jhon)',
                   onChange: (value) {
                     setState(() {
@@ -83,6 +84,7 @@ class _AddAddressFormState extends State<AddAddressForm> {
                   defaultValue: user!.first_name,
                 ),
                 CustomTextField(
+                  fieldType: TextFieldType.text,
                   placeholder_text: 'Last name (eg:- Prince Street)',
                   onChange: (value) => {
                     setState(() {
@@ -93,6 +95,7 @@ class _AddAddressFormState extends State<AddAddressForm> {
                   defaultValue: user!.last_name,
                 ),
                 CustomTextField(
+                  fieldType: TextFieldType.text,
                   placeholder_text: 'Phone number (eg:- 07773453434)',
                   onChange: (value) => {
                     setState(() {
@@ -102,6 +105,7 @@ class _AddAddressFormState extends State<AddAddressForm> {
                   defaultValue: user!.phone_number,
                 ),
                 CustomTextField(
+                  fieldType: TextFieldType.text,
                   placeholder_text: 'Email (eg:- yourname@gmail.cm)',
                   onChange: (value) => {
                     setState(() {
@@ -112,6 +116,7 @@ class _AddAddressFormState extends State<AddAddressForm> {
                   defaultValue: user!.email,
                 ),
                 CustomTextField(
+                  fieldType: TextFieldType.text,
                   placeholder_text: 'House/Flat Number (eg:- 34/2 A)',
                   onChange: (value) =>
                       {
@@ -123,6 +128,7 @@ class _AddAddressFormState extends State<AddAddressForm> {
                   defaultValue: user!.shipping_info.address_1,
                 ),
                 CustomTextField(
+                  fieldType: TextFieldType.text,
                     placeholder_text: 'Street name (eg:- Prince Street',
                     onChange: (value) =>
                         {
