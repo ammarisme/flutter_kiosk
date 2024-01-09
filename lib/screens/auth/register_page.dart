@@ -1,3 +1,6 @@
+import 'dart:math';
+
+import 'package:ecommerce_int2/api_services/sms_apis.dart';
 import 'package:ecommerce_int2/api_services/user_apis.dart';
 import 'package:ecommerce_int2/app_properties.dart';
 import 'package:ecommerce_int2/common/utils.dart';
@@ -5,16 +8,16 @@ import 'package:ecommerce_int2/data/data.dart';
 import 'package:ecommerce_int2/models/user.dart';
 import 'package:ecommerce_int2/screens/address/address_form.dart';
 import 'package:ecommerce_int2/screens/address/select_shipping_and_payment_methods.dart';
+import 'package:ecommerce_int2/screens/auth/confirm_otp_page.dart';
 import 'package:ecommerce_int2/screens/components/ui_components.dart';
 import 'package:ecommerce_int2/screens/profile_page.dart';
 import 'package:ecommerce_int2/settings.dart';
 import 'package:flutter/material.dart';
 
 class RegisterPage extends StatelessWidget {
-Widget registrationForm = RegistrationForm(); 
+  Widget registrationForm = RegistrationForm();
   @override
   Widget build(BuildContext context) {
- 
     return Scaffold(
       backgroundColor: Colors.grey[100],
       appBar: AppBar(
@@ -45,9 +48,7 @@ Widget registrationForm = RegistrationForm();
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  registrationForm 
-                ],
+                children: <Widget>[registrationForm],
               ),
             ),
           ),
@@ -56,8 +57,6 @@ Widget registrationForm = RegistrationForm();
     );
   }
 }
-
-
 
 ///Registration form.
 
@@ -74,7 +73,7 @@ class _RegistrationFormState extends State<RegistrationForm> {
   Data_DistrictsCities data_districtsCities = Data_DistrictsCities();
   String? selectedDistrict;
   String? selectedCity;
-  bool shippingAndBillingInfoAreSane= true;
+  bool shippingAndBillingInfoAreSane = true;
 
   @override
   void initState() {
@@ -153,8 +152,9 @@ class _RegistrationFormState extends State<RegistrationForm> {
                   placeholder_text: 'Phone number (eg:- 07773453434)',
                   onChange: (value) => {
                     setState(() {
-                      this.user!.phone_number  = value;
-                    })},
+                      this.user!.phone_number = value;
+                    })
+                  },
                   icon: Icon(Icons.person),
                   defaultValue: user!.phone_number,
                 ),
@@ -165,7 +165,7 @@ class _RegistrationFormState extends State<RegistrationForm> {
                     setState(() {
                       this.user!.email = value;
                     })
-                    },
+                  },
                   icon: Icon(Icons.email),
                   defaultValue: user!.email,
                 ),
@@ -176,7 +176,7 @@ class _RegistrationFormState extends State<RegistrationForm> {
                     setState(() {
                       this.user!.password = value;
                     })
-                    },
+                  },
                   icon: Icon(Icons.lock),
                   defaultValue: user!.password,
                 ),
@@ -187,32 +187,49 @@ class _RegistrationFormState extends State<RegistrationForm> {
                     setState(() {
                       this.user!.password2 = value;
                     })
-                    },
+                  },
                   icon: Icon(Icons.lock),
                   defaultValue: user!.password2,
                 ),
                 Center(
                     child: ActionButton(
+                      buttonType: ButtonType.enabled_default,
                         buttonText: 'Register now!',
                         onTap: () {
-                            this.user!.username = this.user!.phone_number;
-                            //create a customer
-                            UserAPIs.createCustomer(this.user as User)
-                                .then((value) {
-                              if (value.status == true) {
-                                Utils.showToast("Created an account!",
-                                    ToastType.done_success);
-                                setState(() {
-                                  user!.id = value.result.id;
-                                });
-                                Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (_) => 
-                                        ProfilePage(logged_in_user: (this.user as User))));
-                              }else{
-                                 Utils.showToast((value.error_message as String),
-                                    ToastType.done_error);
-                              }
-                            });
+                          this.user!.username = this.user!.phone_number;
+                          //Send SMS.
+                          Random random = Random();
+                          int randomNumber = random.nextInt(9000) + 1000;
+
+                          SMSAPIs.sendSMS(user!.phone_number, "Your OTP is "+ randomNumber.toString())
+                              .then((value) {
+                            if (value.status == true) {
+                              Utils.showToast(
+                                "OTP sent to ${user!.phone_number}. Please check your SMS inbox.", ToastType.done_success);
+                               Navigator.of(context).push(MaterialPageRoute(
+                              builder: (_) =>
+                                  ConfirmOtpPage(user: (this.user as User), otp: randomNumber,)));
+                            } else {}
+                          });
+                          //Verify OTP and then create the customer.
+
+                          //create a customer
+                          // UserAPIs.createCustomer(this.user as User)
+                          //     .then((value) {
+                          //   if (value.status == true) {
+                          //     Utils.showToast("Created an account!",
+                          //         ToastType.done_success);
+                          //     setState(() {
+                          //       user!.id = value.result.id;
+                          //     });
+                          //     Navigator.of(context).push(MaterialPageRoute(
+                          //         builder: (_) =>
+                          //             ProfilePage(logged_in_user: (this.user as User))));
+                          //   }else{
+                          //      Utils.showToast((value.error_message as String),
+                          //         ToastType.done_error);
+                          //   }
+                          // });
                         }))
               ],
             ),

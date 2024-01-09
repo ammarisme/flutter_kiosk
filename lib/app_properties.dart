@@ -33,6 +33,14 @@ const LinearGradient MAIN_BUTTON_GRADIENTS = LinearGradient(colors: [
   BUTTON_COLOR_1,
 ], begin: FractionalOffset.topCenter, end: FractionalOffset.bottomCenter);
 
+
+const LinearGradient DISABLED_BUTTON_GRADIENTS = LinearGradient(colors: [
+   Color.fromARGB(239, 167, 167, 167),
+   Color.fromARGB(239, 167, 167, 167),
+   Color.fromARGB(239, 167, 167, 167),
+], begin: FractionalOffset.topCenter, end: FractionalOffset.bottomCenter);
+
+
 const List<BoxShadow> shadow = [
   BoxShadow(color: Colors.black12, offset: Offset(0, 3), blurRadius: 6)
 ];

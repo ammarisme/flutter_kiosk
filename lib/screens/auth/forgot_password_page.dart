@@ -54,8 +54,8 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
       bottom: 40,
       child: InkWell(
         onTap: () {
-          Navigator.of(context)
-              .push(MaterialPageRoute(builder: (_) => ConfirmOtpPage()));
+          // Navigator.of(context)
+          //     .push(MaterialPageRoute(builder: (_) => ConfirmOtpPage()));
         },
         child: Container(
           width: MediaQuery.of(context).size.width / 2,

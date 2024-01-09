@@ -123,6 +123,7 @@ class CheckOutPage extends StatelessWidget {
                                   ? 20
                                   : MediaQuery.of(context).padding.bottom),
                           child: ActionButton(
+                            buttonType: ButtonType.enabled_default,
                             buttonText: 'Checkout',
                             onTap: () {
                               Navigator.of(context).push(MaterialPageRoute(

@@ -379,6 +379,7 @@ class _ConfirmYourOrderPageState extends State<ConfirmYourOrderPage> {
                             Padding(
                               padding: const EdgeInsets.only(bottom: 20),
                               child: ActionButton(
+                                buttonType: ButtonType.enabled_default,
                                 buttonText: 'Confirm',
                                 onTap: ()  {
                                   Utils.showToast("Placing your order", ToastType.in_progress);

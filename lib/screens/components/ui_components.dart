@@ -3,14 +3,21 @@ import 'package:flutter/material.dart';
 import '../../app_properties.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 
+enum ButtonType{
+  disabled_navigation,
+  enabled_default,
+}
+
 class ActionButton extends StatelessWidget {
   final String buttonText;
   final VoidCallback? onTap;
+  ButtonType buttonType = ButtonType.enabled_default ;
 
-  const ActionButton({
+   ActionButton({
     Key? key,
     required this.buttonText,
     required this.onTap,
+    required this.buttonType
   }) : super(key: key);
 
   Widget build(BuildContext context) {
@@ -20,7 +27,7 @@ class ActionButton extends StatelessWidget {
         height: 40,
         width: MediaQuery.of(context).size.width / 2,
         decoration: BoxDecoration(
-            gradient: MAIN_BUTTON_GRADIENTS,
+            gradient: buttonType == ButtonType.disabled_navigation ? DISABLED_BUTTON_GRADIENTS : MAIN_BUTTON_GRADIENTS,
             boxShadow: [
               BoxShadow(
                 color: Color.fromRGBO(0, 0, 0, 0.16),

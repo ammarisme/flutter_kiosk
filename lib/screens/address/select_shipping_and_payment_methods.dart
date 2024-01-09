@@ -420,6 +420,7 @@ class _SelectShippingMethodPageState extends State<SelectShippingMethodPage> {
                                                 .padding
                                                 .bottom),
                                 child: ActionButton(
+                                  buttonType: ButtonType.enabled_default,
                                   buttonText: 'Next',
                                   onTap: () {
                                     Navigator.of(context).push(

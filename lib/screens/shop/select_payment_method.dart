@@ -269,6 +269,7 @@ class _SelectPaymentMethodPageState extends State<SelectPaymentMethodPage> {
                                 ? 20
                                 : MediaQuery.of(context).padding.bottom),
                         child: ActionButton(
+                          buttonType: ButtonType.enabled_default,
                           buttonText: 'Next',
                           onTap: () {
                             Navigator.of(context).push(MaterialPageRoute(

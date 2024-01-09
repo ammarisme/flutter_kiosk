@@ -45,6 +45,7 @@ dependencies:
   fluttertoast:
   webxpay_flutter_sdk:
     path: ../webxpay_staging_sample/webxpay_flutter_sdk
+  otp_text_field:
 
 dev_dependencies:
   flutter_test:

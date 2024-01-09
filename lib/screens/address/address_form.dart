@@ -195,6 +195,7 @@ class _AddAddressFormState extends State<AddAddressForm> {
                 ),
                 Center(
                     child: ActionButton(
+                      buttonType: ButtonType.enabled_default,
                         buttonText: 'Next',
                         onTap: () {
                           if (user!.id == 0) {
