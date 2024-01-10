@@ -1,5 +1,6 @@
 // Define a ProductNotifier class that extends ChangeNotifier
 import 'package:ecommerce_int2/api_services/cart_apis.dart';
+import 'package:ecommerce_int2/models/user.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
@@ -248,5 +249,9 @@ class CartNotifier extends ChangeNotifier {
   void updateLineItemQuantity(int id,int quantity) {
     int? index = this.cart?.line_items.indexWhere((cart_item) => cart_item.product_id == id);
     this.cart?.line_items[index as int].quantity = quantity;
+  }
+
+  void addCustomer(User? user) {
+    this.cart?.user = user;
   }
 }

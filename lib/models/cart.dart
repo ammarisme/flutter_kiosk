@@ -1,4 +1,5 @@
 import 'package:ecommerce_int2/models/product.dart';
+import 'package:ecommerce_int2/models/user.dart';
 import 'package:flutter_wp_woocommerce/models/order.dart';
 
 class Cart {
@@ -13,6 +14,7 @@ class Cart {
 
   //for internal use
   String nonce;
+  User? user;
 
   Cart(
       {
@@ -89,7 +91,7 @@ class Cart {
       'billing': this.billing.toJson(),
       'shipping': this.shipping.toJson(),
       'line_items': lineItemsJson,
-      'customer_id' : '2300',
+      'customer_id' : this.user!.id,
       'shipping_lines' : "",//this.shipping_lines,
     };
   }

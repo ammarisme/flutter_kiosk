@@ -1,11 +1,13 @@
 import 'package:ecommerce_int2/api_services/user_apis.dart';
 import 'package:ecommerce_int2/app_properties.dart';
+import 'package:ecommerce_int2/change_notifiers/cart_notifiers.dart';
 import 'package:ecommerce_int2/common/utils.dart';
 import 'package:ecommerce_int2/data/data.dart';
 import 'package:ecommerce_int2/models/user.dart';
 import 'package:ecommerce_int2/screens/address/select_shipping_and_payment_methods.dart';
 import 'package:ecommerce_int2/screens/components/ui_components.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class AddAddressForm extends StatefulWidget {
   AddAddressForm();
@@ -198,6 +200,10 @@ class _AddAddressFormState extends State<AddAddressForm> {
                       buttonType: ButtonType.enabled_default,
                         buttonText: 'Next',
                         onTap: () {
+                          CartNotifier cartNotifier =
+                                Provider.of<CartNotifier>(context,
+                                    listen: false);
+                          cartNotifier.addCustomer(this.user);
                           if (user!.id == 0) {
                             //create a customer
                             UserAPIs.createCustomer(this.user as User)

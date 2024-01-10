@@ -34,7 +34,7 @@ class OrderHistory {
     Location processing = Location(
       sequence: 2,
         'Processing your order', processing_date,
-        showHour: false, isHere: this.isProcessing(), passed: true); //this.isProcessing(),
+        showHour: false, isHere: this.isProcessing(), passed: this.isCompleted()); //this.isProcessing(),
 
   DateTime expectedDeliveryDate = ordered_date.add(Duration(days: 2));
   expectedDeliveryDate = DateTime(
@@ -49,6 +49,7 @@ class OrderHistory {
       expectedDeliveryDate,
       showHour: false,
       isHere: this.isCompleted(),
+      passed: this.isCompleted()
     );
 
    
