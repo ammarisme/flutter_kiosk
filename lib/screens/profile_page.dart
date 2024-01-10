@@ -65,7 +65,7 @@ class ProfilePage extends StatelessWidget {
                               onPressed: () =>
                                   Navigator.of(context).push(
                                       MaterialPageRoute(
-                                          builder: (_) => TrackingPage())),
+                                          builder: (_) => TrackingPage(user: logged_in_user))),
                             ),
                             Text(
                               'Tracking',

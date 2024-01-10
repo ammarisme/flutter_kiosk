@@ -314,10 +314,10 @@ class NotificationsPage extends StatelessWidget {
                             ]),
                           ),
                           InkWell(
-                            onTap: () =>
-                                Navigator.of(context).push(
-                                    MaterialPageRoute(
-                                        builder: (_) => TrackingPage())),
+                            onTap: () => {},
+                                // Navigator.of(context).push(
+                                //     MaterialPageRoute(
+                                //         builder: (_) => TrackingPage())),
                             child: Container(
                                 padding: const EdgeInsets.all(14.0),
                                 decoration: BoxDecoration(

@@ -395,8 +395,6 @@ class _ConfirmYourOrderPageState extends State<ConfirmYourOrderPage> {
                                       //     builder: (_) => Checkout(receiptNumber: "")));
                                   }
                                   );
-
-
                                 },
                               ),
                             )

@@ -89,6 +89,7 @@ class Cart {
       'billing': this.billing.toJson(),
       'shipping': this.shipping.toJson(),
       'line_items': lineItemsJson,
+      'customer_id' : '2300',
       'shipping_lines' : "",//this.shipping_lines,
     };
   }
