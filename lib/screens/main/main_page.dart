@@ -1,4 +1,5 @@
 
+import 'package:ecommerce_int2/api_services/product_apis.dart';
 import 'package:ecommerce_int2/app_properties.dart';
 import 'package:ecommerce_int2/change_notifiers/cart_notifiers.dart';
 import 'package:ecommerce_int2/change_notifiers/product_notifier.dart';
@@ -55,22 +56,23 @@ class _MainContentState extends State<MainContent>
         isStateUpdated = true;
       });
     }
+   
   }
 
   @override
   Widget build(BuildContext context) {
     print('building');
-    MainPageNotifier mainPageNotifier = Provider.of<MainPageNotifier>(context);
+    MainPageNotifier mainPageNotifier = Provider.of<MainPageNotifier>(context, listen: true);
 
     Widget appBar = Container(
       height: kToolbarHeight + MediaQuery.of(context).padding.top,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          IconButton(
-              onPressed: () => Navigator.of(context)
-                  .push(MaterialPageRoute(builder: (_) => NotificationsPage())),
-              icon: Icon(Icons.notifications)),
+          // TODO: IconButton(
+          //     onPressed: () => Navigator.of(context)
+          //         .push(MaterialPageRoute(builder: (_) => NotificationsPage())),
+          //     icon: Icon(Icons.notifications)),
           IconButton(
               onPressed: () => Navigator.of(context)
                   .push(MaterialPageRoute(builder: (_) => SearchPage())),
@@ -144,7 +146,7 @@ class _MainContentState extends State<MainContent>
                           builder: (context, productNotifier, _) {
                         return SliverToBoxAdapter(
                           child: ProductList(
-                            products: productNotifier.products,
+                            products: mainPageNotifier.products,
                           ),
                         );
                       }),

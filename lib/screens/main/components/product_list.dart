@@ -131,11 +131,11 @@ class ProductCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.end,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                IconButton(
-                  icon: Icon(Icons.favorite_border),
-                  onPressed: () {},
-                  color: Colors.white,
-                ),
+                // IconButton(
+                //   icon: Icon(Icons.favorite_border),
+                //   onPressed: () {},
+                //   color: Colors.white,
+                // ),
                 
               ],
             ),

@@ -131,17 +131,22 @@ class _ProductOptionState extends State<ProductOption> {
                 children: <Widget>[
                   InkWell(
                     onTap: () async {
-                      Utils.showToast(
-                          "Adding ${1} ${widget.product.name} to your cart.",
-                          ToastType.done_success);
-                      cartNotifier.addItem(widget.product.id, 1).then((value) {
-                        Utils.showToast(
-                            "Successfully added ${1} ${widget.product.name} to your cart.",
+                      if (widget.product.stock_quantity > 0){
+Utils.showToast(
+                            "Adding ${1} ${widget.product.name} to your cart.",
                             ToastType.done_success);
+                        cartNotifier
+                            .addItem(widget.product.id, 1)
+                            .then((value) {
+                          Utils.showToast(
+                              "Successfully added ${1} ${widget.product.name} to your cart.",
+                              ToastType.done_success);
 
-                        Navigator.of(context).push(
-                            MaterialPageRoute(builder: (_) => CheckOutPage()));
-                      });
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (_) => CheckOutPage()));
+                        });
+                      }
+                      
                     },
                     child: Container(
                       width: MediaQuery.of(context).size.width /

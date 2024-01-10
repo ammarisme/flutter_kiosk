@@ -156,7 +156,7 @@ class _RegistrationFormState extends State<RegistrationForm> {
                   placeholder_text: 'Phone number (eg:- 07773453434)',
                   onChange: (value) => {
                     setState(() {
-                      this.user!.phone_number = value;
+                      this.user!.phone_number = Utils.cleanMobileNumber(value);
                     })
                   },
                   icon: Icon(Icons.person),
@@ -237,7 +237,7 @@ class _RegistrationFormState extends State<RegistrationForm> {
                             return;
                           } else {
                             
-                          this.user!.username = this.user!.phone_number;
+                          this.user!.username = Utils.cleanMobileNumber(this.user!.phone_number) ;
                           //Send SMS.
                           Random random = Random();
                           int randomNumber = random.nextInt(9000) + 1000;
@@ -281,12 +281,13 @@ validate(User user) {
     validationResults.status = false;
     validationResults.errors.add("Last name is required.");
   }
-  if (user.phone_number.isEmpty) {
+  String phone_number = Utils.cleanMobileNumber(user.phone_number);
+  if (phone_number.isEmpty) {
     validationResults.status = false;
     validationResults.errors.add("Phone number is required.");
-  } else if(user.phone_number.length != 11) {
+  } else if(phone_number.length != 11) {
     validationResults.status = false;
-    validationResults.errors.add("Phone number has to be 11 digits long.");
+    validationResults.errors.add("Phone number has to be 11 digits long. (eg:- 94777123456)");
   }
   if (user.email.isEmpty) {
     validationResults.status = false;

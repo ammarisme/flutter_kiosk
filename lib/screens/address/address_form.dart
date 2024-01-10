@@ -101,7 +101,7 @@ class _AddAddressFormState extends State<AddAddressForm> {
                   placeholder_text: 'Phone number (eg:- 07773453434)',
                   onChange: (value) => {
                     setState(() {
-                      this.user!.phone_number  = value;
+                      this.user!.phone_number  =Utils.cleanMobileNumber(value) ;
                     })},
                   icon: Icon(Icons.person),
                   defaultValue: user!.phone_number,

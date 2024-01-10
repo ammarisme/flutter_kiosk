@@ -32,7 +32,7 @@ User _$UserFromJson(Map<String, dynamic> json) {
       avatar_url: json["avatar_url"],
       billing_info: billing_info,
       shipping_info: shipping_info,
-      phone_number: "0777123030");
+      phone_number: "");
   user.billing_info = billing_info;
   return user;
 }

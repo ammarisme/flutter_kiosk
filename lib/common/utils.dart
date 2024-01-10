@@ -19,6 +19,18 @@ class Utils {
     }
   }
 
+  static String cleanMobileNumber(String mobileNumber){
+    // Remove '+'
+    mobileNumber = mobileNumber.replaceAll("+", "");
+    
+    // Replace leading '0'
+    if (mobileNumber.startsWith("0")) {
+        mobileNumber = mobileNumber.replaceFirst("0", "94");
+    }
+    
+    return mobileNumber;
+}
+
   static showToast(String msg, ToastType type) {
     Fluttertoast.showToast(
       msg: msg,

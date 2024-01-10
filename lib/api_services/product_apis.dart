@@ -35,7 +35,7 @@ class ProductAPIs {
   }
 
   static Future<List<Product>> getProducts(dynamic categoryId) async {
-    print('fetching products........');
+    print('fetching products from updateProducts');
     try {
       final Uri url = Uri.parse(base_url() + '/products?category=$categoryId');
 
