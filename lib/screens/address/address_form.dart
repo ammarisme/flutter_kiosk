@@ -5,9 +5,13 @@ import 'package:ecommerce_int2/common/utils.dart';
 import 'package:ecommerce_int2/data/data.dart';
 import 'package:ecommerce_int2/models/user.dart';
 import 'package:ecommerce_int2/screens/address/select_shipping_and_payment_methods.dart';
+import 'package:ecommerce_int2/screens/auth/confirm_otp_page.dart';
 import 'package:ecommerce_int2/screens/components/ui_components.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:ecommerce_int2/api_services/sms_apis.dart';
+import 'dart:math';
+
 
 class AddAddressForm extends StatefulWidget {
   AddAddressForm();
@@ -97,17 +101,17 @@ class _AddAddressFormState extends State<AddAddressForm> {
                   defaultValue: user!.last_name,
                 ),
                 CustomTextField(
-                  fieldType: TextFieldType.text,
+                  fieldType: this.user!.id > 0 ? TextFieldType.disabled : TextFieldType.text,
                   placeholder_text: 'Phone number (eg:- 07773453434)',
                   onChange: (value) => {
                     setState(() {
                       this.user!.phone_number  =Utils.cleanMobileNumber(value) ;
                     })},
                   icon: Icon(Icons.person),
-                  defaultValue: user!.phone_number,
+                  defaultValue: this.user!.id > 0 ? user!.username : user!.phone_number,
                 ),
                 CustomTextField(
-                  fieldType: TextFieldType.text,
+                  fieldType: this.user!.id > 0 ? TextFieldType.disabled : TextFieldType.text,
                   placeholder_text: 'Email (eg:- yourname@gmail.cm)',
                   onChange: (value) => {
                     setState(() {
@@ -200,34 +204,76 @@ class _AddAddressFormState extends State<AddAddressForm> {
                       buttonType: ButtonType.enabled_default,
                         buttonText: 'Next',
                         onTap: () {
-                          CartNotifier cartNotifier =
+                          if(user!.id>0){
+                            CartNotifier cartNotifier =
+                                                Provider.of<CartNotifier>(
+                                                    context,
+                                                    listen: false);
+                                            cartNotifier.addCustomer(this.user);
+                                            UserAPIs.updateCustomer(
+                                                    this.user as User)
+                                                .then((value) {
+                                                  Utils.showToast(
+                                                  "Updated customer info!",
+                                                  ToastType.done_success);
+                                                   Navigator.of(context).push(
+                                                MaterialPageRoute(
+                                                    builder: (_) =>
+                                                        SelectShippingMethodPage()));
+                                                        });
+                          }else{
+                            Random random = Random();
+                          int randomNumber = random.nextInt(9000) + 1000;
+SMSAPIs.sendSMS(user!.phone_number,
+                                  "Your OTP is " + randomNumber.toString())
+                              .then((value) {
+                            if (value.status == true) {
+                              Utils.showToast(
+                                  "OTP sent to ${user!.phone_number}. Please check your SMS inbox.",
+                                  ToastType.done_success);
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (_) => ConfirmOtpPage(
+                                        user: (this.user as User),
+                                        otp: randomNumber,
+                                        postConfirmation: () {
+                                           CartNotifier cartNotifier =
                                 Provider.of<CartNotifier>(context,
                                     listen: false);
                           cartNotifier.addCustomer(this.user);
-                          if (user!.id == 0) {
-                            //create a customer
-                            UserAPIs.createCustomer(this.user as User)
-                                .then((value) {
-                              if (value.status == true) {
-                                Utils.showToast("Created an account!",
-                                    ToastType.done_success);
-                                setState(() {
-                                  user!.id = value.result.id;
-                                });
-                                Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (_) =>
-                                        SelectShippingMethodPage()));
-                              }
-                            });
-                          } else {
-                            UserAPIs.updateCustomer(this.user as User)
-                                .then((value) {
-                              Utils.showToast("Updated customer info!",
-                                  ToastType.done_success);
-                              Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (_) => SelectShippingMethodPage()));
-                            });
+                                          Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (_) =>  SelectShippingMethodPage()
+                                            ));
+                                        },
+                                      )));
+                            } else {}
+                          });
+
                           }
+                          
+
+                         
+                          // if (user!.id == 0) {
+                          //   //create a customer
+                          //   UserAPIs.createCustomer(this.user as User)
+                          //       .then((value) {
+                          //     if (value.status == true) {
+                          //       Utils.showToast("Created an account!",
+                          //           ToastType.done_success);
+                          //       setState(() {
+                          //         user!.id = value.result.id;
+                          //       });
+                                
+                          //     }
+                          //   });
+                          // } else {
+                          //   UserAPIs.updateCustomer(this.user as User)
+                          //       .then((value) {
+                          //     Utils.showToast("Updated customer info!",
+                          //         ToastType.done_success);
+                          //     Navigator.of(context).push(MaterialPageRoute(
+                          //         builder: (_) => SelectShippingMethodPage()));
+                          //   });
+                          // }
                         }))
               ],
             ),

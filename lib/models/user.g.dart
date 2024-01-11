@@ -39,12 +39,13 @@ User _$UserFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
       'first_name': instance.first_name,
-      // 'company': instance.company,
+      'phone_number': instance.phone_number,
       'email': instance.email,
       // 'phone': instance.phone,
       'first_name': instance.first_name,
       'last_name': instance.last_name,
-      "username" : instance.username,
+      "username" : instance.phone_number,
+
       // 'address_1': instance.address_1,
       // 'address_2': instance.address_2,
       // 'city': instance.city,

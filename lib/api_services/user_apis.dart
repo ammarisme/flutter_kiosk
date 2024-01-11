@@ -48,32 +48,32 @@ class UserAPIs {
       final userStr = await storage.read(key: 'user');
       User user = User.fromJson(json.decode(userStr!));
 
-      final Uri url = Uri.parse(Variables.base_url + '/customers/${user.id}');
+      // final Uri url = Uri.parse(Variables.base_url + '/customers/${user.id}');
 
-      final response = await http.get(
-        url,
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": "Basic " + Settings.TOKEN
-        },
-      );
+      // final response = await http.get(
+      //   url,
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //     "Authorization": "Basic " + Settings.TOKEN
+      //   },
+      // );
 
-      if (response.statusCode == 200) {
-        dynamic data = json.decode(response.body);
-        User user = User.fromJson(data);
+      // if (response.statusCode == 200) {
+      //   dynamic data = json.decode(response.body);
+      //   User user = User.fromJson(data);
 
-        //save the user in the storage
-        await storage.write(key: "user", value: response.body);
+      //   //save the user in the storage
+      //   await storage.write(key: "user", value: response.body);
         api_response.status = true;
         api_response.result = user;
         return api_response;
-      } else {
-        print('Failed to fetch user info: ${response.statusCode}');
-        api_response.status = false;
-        api_response.error_message =
-            'Failed to fetch user info: ${response.statusCode}';
-        return api_response;
-      }
+      // } else {
+      //   print('Failed to fetch user info: ${response.statusCode}');
+      //   api_response.status = false;
+      //   api_response.error_message =
+      //       'Failed to fetch user info: ${response.statusCode}';
+      //   return api_response;
+      // }
     } catch (e) {
       print('Error fetching user: $e');
       api_response.status = false;

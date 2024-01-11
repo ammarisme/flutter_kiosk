@@ -15,7 +15,9 @@ import 'package:otp_text_field/style.dart';
 class ConfirmOtpPage extends StatefulWidget {
   final User user;
   final int otp;
-  ConfirmOtpPage({required this.user, required this.otp});
+  final Function postConfirmation;
+  ConfirmOtpPage(
+      {required this.user, required this.otp, required this.postConfirmation});
   @override
   _ConfirmOtpPageState createState() => _ConfirmOtpPageState();
 }
@@ -67,30 +69,49 @@ class _ConfirmOtpPageState extends State<ConfirmOtpPage> {
                           verified = (pin == widget.otp.toString());
                           if (verified) {
                             Utils.showToast(
-                                "OTP verified! Please wait while we create an account for you...", ToastType.done_success);
-                            //create a customer
-                            UserAPIs.createCustomer(widget.user as User)
-                                .then((value) {
-                              if (value.status == true) {
-                                Utils.showToast("We created an account for you!",
+                                "OTP verified! Please wait while we create an account for you...",
+                                ToastType.done_success);
+                            if (widget.user.id > 0) {
+                               UserAPIs.updateCustomer(widget.user as User)
+                                  .then((value) {
+                                Utils.showToast("Updated customer info!",
                                     ToastType.done_success);
-                                    Utils.showToast("Logging you in..",
-                                    ToastType.done_success);
-                                    AuthenticationAPIs.getToken(widget.user.username, widget.user.password).then((value) {
-                                      Utils.showToast("You've logged in as "+ widget.user.first_name + " " + widget.user.last_name,
-                                    ToastType.done_success);
-                                    });
                                 setState(() {
-                                  widget.user!.id = value.result.id;
+                                  widget.postConfirmation();
                                 });
-                                Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (_) => MainPage()
-                                            ));
-                              } else {
-                                Utils.showToast((value.error_message as String),
-                                    ToastType.done_error);
-                              }
-                            });
+                              });
+ 
+                            } else {
+                              UserAPIs.createCustomer(widget.user as User)
+                                  .then((value) {
+                                if (value.status == true) {
+                                  Utils.showToast(
+                                      "We created an account for you!",
+                                      ToastType.done_success);
+                                  Utils.showToast("Logging you in..",
+                                      ToastType.done_success);
+                                  AuthenticationAPIs.getToken(
+                                          widget.user.username,
+                                          widget.user.password)
+                                      .then((value) {
+                                    Utils.showToast(
+                                        "You've logged in as " +
+                                            widget.user.first_name +
+                                            " " +
+                                            widget.user.last_name,
+                                        ToastType.done_success);
+                                  });
+                                  setState(() {
+                                    widget.user!.id = value.result.id;
+                                    widget.postConfirmation();
+                                  });
+                                } else {
+                                  Utils.showToast(
+                                      (value.error_message as String),
+                                      ToastType.done_error);
+                                }
+                              });
+                                                        }
                           } else {
                             Utils.showToast("OTP verification failed",
                                 ToastType.done_success);

@@ -11,6 +11,7 @@ import 'package:ecommerce_int2/screens/address/address_form.dart';
 import 'package:ecommerce_int2/screens/address/select_shipping_and_payment_methods.dart';
 import 'package:ecommerce_int2/screens/auth/confirm_otp_page.dart';
 import 'package:ecommerce_int2/screens/components/ui_components.dart';
+import 'package:ecommerce_int2/screens/main/main_page.dart';
 import 'package:ecommerce_int2/screens/profile_page.dart';
 import 'package:ecommerce_int2/settings.dart';
 import 'package:flutter/material.dart';
@@ -253,6 +254,11 @@ class _RegistrationFormState extends State<RegistrationForm> {
                                   builder: (_) => ConfirmOtpPage(
                                         user: (this.user as User),
                                         otp: randomNumber,
+                                        postConfirmation: () {
+                                          Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (_) => MainPage()
+                                            ));
+                                        },
                                       )));
                             } else {}
                           });

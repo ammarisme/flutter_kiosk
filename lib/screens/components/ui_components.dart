@@ -114,6 +114,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
         color: Colors.white,
       ),
       child: TextField(
+        enabled: widget.fieldType != TextFieldType.disabled,
         key: widget.key,
         obscureText: widget.fieldType == TextFieldType.password,
         controller: widget.textEditingController,
@@ -128,7 +129,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
   }
 }
 
-enum TextFieldType { password, text }
+enum TextFieldType { password, text , disabled}
 
 class CustomDropDownField extends StatefulWidget {
   final List<String> input_list;

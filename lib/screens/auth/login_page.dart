@@ -9,8 +9,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 
 class LoginPage extends StatelessWidget {
   TextEditingController username =
-  TextEditingController(text: '94777123030');
-  TextEditingController password = TextEditingController(text: 'Cats@Dogs@123'); //Eha&uDuy*4hoTTCXYwMCfDF(
+  TextEditingController(text: '');
+  TextEditingController password = TextEditingController(text: ''); //Eha&uDuy*4hoTTCXYwMCfDF(
 
   @override
   Widget build(BuildContext context) {
@@ -35,8 +35,9 @@ class LoginPage extends StatelessWidget {
       child: InkWell(
         onTap: () {
           //TODO: login
+          String username = Utils.cleanMobileNumber(this.username.text);
           UserNotifier userNotifier = Provider.of<UserNotifier>(context, listen: false);
-          userNotifier.login(this.username.text, this.password.text).then((response)
+          userNotifier.login(username,this.password.text).then((response)
           {if (response.status == true){
               Utils.showToast("Welcome!", ToastType.done_success);
             print(response.status);

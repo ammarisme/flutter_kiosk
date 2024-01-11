@@ -181,7 +181,7 @@ class _TrackingPageState extends State<TrackingPage> {
                                                   Text(location.getDate()),
                                               content: Align(
                                                 child: Image.asset(
-                                                    'assets/icons/truck.png'),
+                                                    'assets/icons/order_processing.png'),
                                                 alignment: Alignment.centerLeft,
                                               ),
                                               state: location.passed
@@ -205,7 +205,42 @@ class _TrackingPageState extends State<TrackingPage> {
                     )),
               ),
             );
-          }else{
+          } else if(snapshot.data != null && snapshot.data?.result.length == 0){
+ return  Container(
+              decoration: BoxDecoration(
+                  color: Colors.grey[100],
+                  image: DecorationImage(
+                      image: AssetImage('assets/Group 444.png'),
+                      fit: BoxFit.contain)),
+              child: Container(
+                color: Colors.white54,
+                child: Scaffold(
+                    appBar: AppBar(
+                      backgroundColor: Colors.transparent,
+                      elevation: 0.0,
+                      // //brightness: Brightness.light,
+                      //TODO:Bug
+                      iconTheme: IconThemeData(color: Colors.grey),
+                      title: Text(
+                        'Track your orders',
+                        style: TextStyle(
+                          color: darkGrey,
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      leading: SizedBox(),
+                      actions: <Widget>[CloseButton()],
+                    ),
+                    body: SafeArea(
+                      child: LayoutBuilder(
+                        builder: (_, constraints) => Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[ Padding(padding: EdgeInsets.all(20),
+                          child:Center(child:  Text("You haven't made any orders yet. Place your order and come back to track status.")))]))))
+              ));
+          }
+          else{
           return  Container(
               decoration: BoxDecoration(
                   color: Colors.grey[100],
