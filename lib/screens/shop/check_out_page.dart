@@ -17,7 +17,7 @@ class CheckOutPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     CartNotifier cartNotifier =
-        Provider.of<CartNotifier>(context, listen: false);
+        Provider.of<CartNotifier>(context, listen: true);
     return Container(
       child: FutureBuilder<Cart?>(
         future: cartNotifier.getCart(),
@@ -71,7 +71,7 @@ class CheckOutPage extends StatelessWidget {
                             children: <Widget>[
                               Text(
                                 'Subtotal (Before discount): Rs ' +
-                                    Utils.thousandSeperate(cart!
+                                    Utils.thousandSeperate(cartNotifier.cart!
                                         .getTotalBeforeDiscount()
                                         .toString()) +
                                     "/=",
@@ -101,13 +101,13 @@ class CheckOutPage extends StatelessWidget {
                               itemBuilder: (_, index) => cart == null
                                   ? Container()
                                   : ShopItemList(
-                                      cart!.line_items[index],
+                                      cartNotifier.cart!.line_items[index],
                                       onRemove: () {
-                                        cart!.line_items
+                                        cartNotifier.cart!.line_items
                                             .remove(cart!.line_items[index]);
                                       },
                                     ),
-                              itemCount: cart!.line_items.length,
+                              itemCount: cartNotifier.cart!.line_items.length,
                             ),
                           ),
                         ),

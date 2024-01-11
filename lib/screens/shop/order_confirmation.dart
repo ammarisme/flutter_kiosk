@@ -1,3 +1,4 @@
+import 'package:ecommerce_int2/api_services/cart_apis.dart';
 import 'package:ecommerce_int2/app_properties.dart';
 import 'package:ecommerce_int2/common/utils.dart';
 import 'package:ecommerce_int2/screens/components/ui_components.dart';
@@ -384,6 +385,11 @@ class _ConfirmYourOrderPageState extends State<ConfirmYourOrderPage> {
                                 onTap: ()  {
                                   Utils.showToast("Placing your order", ToastType.in_progress);
                                   cartNotifier.createOrder().then((value) {
+                                    CartAPIs.clearTheCart(cartNotifier.cart!.nonce).then((value) {
+                                      if (value.status == true){
+                                        print("cart is cleared");
+                                      }
+                                    });
                                     Utils.showToast("Your order is confirmed.", ToastType.done_success);
                                       // ScaffoldMessenger.of(context).showSnackBar(
                                       //   SnackBar(

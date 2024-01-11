@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'package:ecommerce_int2/api_services/api_service.dart';
+import 'package:ecommerce_int2/models/api_response.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 
@@ -149,4 +151,45 @@ class CartAPIs {
     }
     return false;
   }
+
+
+static Future<APIResponse> clearTheCart(String nonce) async {
+  try{
+    final response = await http.delete(
+      Uri.parse(Variables.store_url +
+          'cart/items'), // Replace with your authentication endpoint
+      headers: {
+        "Content-Type": "application/json",
+          "Authorization":
+              "Basic "+Settings.WRITE_TOKEN,
+          'nonce': nonce, // Add your nonce here
+      },
+    );
+
+    if (response.statusCode == 200) {
+      APIResponse payload = APIResponse();
+      payload.status = true;
+
+      // TODO: If you want to save the data in local storageSaving data
+      // final storage = FlutterSecureStorage();
+      // await storage.write(key: '//change this', value: response.body);
+
+      return payload;
+    } else {
+      // Handle error cases here
+      APIResponse apiResponse = APIResponse();
+      apiResponse.error_message =
+          'Error : ${json.decode(response.body)["message"]}';
+      apiResponse.status = false;
+      return apiResponse;
+    }
+  }
+  catch(ex){
+    APIResponse apiResponse = APIResponse();
+      apiResponse.error_message =
+          'Error : ${ex}';
+      apiResponse.status = false;
+      return apiResponse;
+  }
+}
 }

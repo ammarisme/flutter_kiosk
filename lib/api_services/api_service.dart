@@ -7,6 +7,7 @@ import '../settings.dart';
 
 class Variables {
   static String base_url = 'https://catlitter.lk/wp-json/wc/v3';
+  static String store_url = "https://catlitter.lk/wp-json/wc/store/v1/";
   static String notifylk_url = "https://app.notify.lk/api/v1";
   static String sms_sender_id = "CATLITTER";
   static String sms_api_key = 'b3V5qfsJJ4c4GnQJbGJq';
