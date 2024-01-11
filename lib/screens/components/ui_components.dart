@@ -72,7 +72,7 @@ class SearchableDropDown extends StatelessWidget {
   }
 }
 
-class CustomTextField extends StatefulWidget {
+class CustomTextField extends StatelessWidget {
   final String placeholder_text;
   final void Function(String)? onChange;
   final Icon icon;
@@ -87,25 +87,16 @@ class CustomTextField extends StatefulWidget {
       required this.onChange,
       required this.icon,
       required this.defaultValue,
-      required this.fieldType})
+      required this.fieldType,
+      required this.textEditingController})
       : super(key: key);
   @override
-  _CustomTextFieldState createState() => _CustomTextFieldState();
-}
-
-class _CustomTextFieldState extends State<CustomTextField> {
-  @override
-  void initState() {
-    super.initState();
-    // Make API call here
-    widget.textEditingController.text = widget.defaultValue;
-  }
 
   Widget build(BuildContext context) {
-    widget.textEditingController.text = widget.defaultValue;
-    widget.textEditingController
+    textEditingController.text = defaultValue;
+    textEditingController
       ..selection = TextSelection.fromPosition(
-          TextPosition(offset: widget.textEditingController.text.length));
+          TextPosition(offset: textEditingController.text.length));
 
     return Container(
       padding: EdgeInsets.only(left: 16.0, top: 4.0, bottom: 4.0),
@@ -114,16 +105,16 @@ class _CustomTextFieldState extends State<CustomTextField> {
         color: Colors.white,
       ),
       child: TextField(
-        enabled: widget.fieldType != TextFieldType.disabled,
-        key: widget.key,
-        obscureText: widget.fieldType == TextFieldType.password,
-        controller: widget.textEditingController,
+        enabled: fieldType != TextFieldType.disabled,
+        key: key,
+        obscureText: fieldType == TextFieldType.password,
+        controller: textEditingController,
         decoration: InputDecoration(
             border: InputBorder.none,
-            hintText: widget.placeholder_text,
+            hintText: placeholder_text,
             hintStyle: TextStyle(color: Colors.grey, fontSize: 14),
-            prefixIcon: widget.icon),
-        onChanged: widget.onChange, // Icon before the input
+            prefixIcon: icon),
+        onChanged: onChange, // Icon before the input
       ),
     );
   }

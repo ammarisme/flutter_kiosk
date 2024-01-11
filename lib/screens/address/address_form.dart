@@ -28,6 +28,14 @@ class _AddAddressFormState extends State<AddAddressForm> {
   String? selectedCity;
   bool shippingAndBillingInfoAreSane= true;
 
+  TextEditingController txtControllerfirstName = TextEditingController();
+  TextEditingController txtControllerLastName = TextEditingController();
+  TextEditingController txtControllerPhoneNumber = TextEditingController();
+  TextEditingController txtControllerEmail = TextEditingController();
+  TextEditingController txtControllerAddress1 = TextEditingController();
+  TextEditingController txtControllerAddress2 = TextEditingController();
+
+
   @override
   void initState() {
     super.initState();
@@ -57,7 +65,11 @@ class _AddAddressFormState extends State<AddAddressForm> {
                   postcode: '',
                   country: '',
                   state: ''),
-              shipping_info: ShippingInfo(),
+              shipping_info: ShippingInfo(
+
+                  address_1: '',
+                  address_2: '',
+           ),
               avatar_url: '',
               phone_number: '');
         }
@@ -79,68 +91,65 @@ class _AddAddressFormState extends State<AddAddressForm> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 CustomTextField(
+                  textEditingController : txtControllerfirstName,
                   fieldType: TextFieldType.text,
                   placeholder_text: 'First name (eg:- Jhon)',
                   onChange: (value) {
-                    setState(() {
-                      this.user!.first_name = value;
-                    });
+                   
                   },
                   icon: Icon(Icons.person),
                   defaultValue: user!.first_name,
                 ),
                 CustomTextField(
+                                    textEditingController : txtControllerLastName,
                   fieldType: TextFieldType.text,
                   placeholder_text: 'Last name (eg:- Prince Street)',
                   onChange: (value) => {
-                    setState(() {
-                      this.user!.last_name = value;
-                    })
+                   
                   },
                   icon: Icon(Icons.person),
                   defaultValue: user!.last_name,
                 ),
                 CustomTextField(
+                                    textEditingController : txtControllerPhoneNumber,
+
                   fieldType: this.user!.id > 0 ? TextFieldType.disabled : TextFieldType.text,
                   placeholder_text: 'Phone number (eg:- 07773453434)',
                   onChange: (value) => {
-                    setState(() {
-                      this.user!.phone_number  =Utils.cleanMobileNumber(value) ;
-                    })},
+                    },
                   icon: Icon(Icons.person),
                   defaultValue: this.user!.id > 0 ? user!.username : user!.phone_number,
                 ),
                 CustomTextField(
+                                    textEditingController : txtControllerEmail,
+
                   fieldType: this.user!.id > 0 ? TextFieldType.disabled : TextFieldType.text,
-                  placeholder_text: 'Email (eg:- yourname@gmail.cm)',
+                  placeholder_text: 'Email (eg:- yourname@gmail.com)',
                   onChange: (value) => {
-                    setState(() {
-                      this.user!.email = value;
-                    })
+                  
                     },
                   icon: Icon(Icons.email),
                   defaultValue: user!.email,
                 ),
                 CustomTextField(
+                                    textEditingController : txtControllerAddress1,
+
                   fieldType: TextFieldType.text,
                   placeholder_text: 'House/Flat Number (eg:- 34/2 A)',
                   onChange: (value) =>
                       {
-                        setState(() {
-                      this.user!.shipping_info.address_1 = value;
-                    })
                         },
                   icon: Icon(Icons.house),
                   defaultValue: user!.shipping_info.address_1,
                 ),
                 CustomTextField(
+                                    textEditingController : txtControllerAddress2,
+
                   fieldType: TextFieldType.text,
                     placeholder_text: 'Street name (eg:- Prince Street',
                     onChange: (value) =>
                         {
-                           setState(() {
-                      user!.shipping_info.address_2 = value;
-                    })
+                          
                           },
                     icon: Icon(Icons.add_road),
                     defaultValue: user!.shipping_info.address_2),
@@ -180,6 +189,7 @@ class _AddAddressFormState extends State<AddAddressForm> {
                       onChanged: (value) {
                         shippingAndBillingInfoAreSane = value as bool;
                         if (value == true) {
+                          
                           user!.shipping_info.address_1 = user!.billing_info.address_1;
                           user!.shipping_info.address_2 = user!.billing_info.address_2;
                           user!.shipping_info.city = user!.billing_info.city;
@@ -204,6 +214,13 @@ class _AddAddressFormState extends State<AddAddressForm> {
                       buttonType: ButtonType.enabled_default,
                         buttonText: 'Next',
                         onTap: () {
+                          this.user!.first_name = txtControllerfirstName.text;
+                          this.user!.last_name = txtControllerLastName.text;
+                          this.user!.phone_number = txtControllerPhoneNumber.text;
+                          this.user!.email = txtControllerEmail.text;
+                          this.user!.shipping_info.address_1 = txtControllerAddress1.text;
+                          this.user!.shipping_info.address_2 = txtControllerAddress2.text;
+
                           if(user!.id>0){
                             CartNotifier cartNotifier =
                                                 Provider.of<CartNotifier>(

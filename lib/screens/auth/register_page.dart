@@ -10,6 +10,7 @@ import 'package:ecommerce_int2/models/user.dart';
 import 'package:ecommerce_int2/screens/address/address_form.dart';
 import 'package:ecommerce_int2/screens/address/select_shipping_and_payment_methods.dart';
 import 'package:ecommerce_int2/screens/auth/confirm_otp_page.dart';
+import 'package:ecommerce_int2/screens/auth/login_page.dart';
 import 'package:ecommerce_int2/screens/components/ui_components.dart';
 import 'package:ecommerce_int2/screens/main/main_page.dart';
 import 'package:ecommerce_int2/screens/profile_page.dart';
@@ -76,6 +77,17 @@ class _RegistrationFormState extends State<RegistrationForm> {
   String? selectedDistrict;
   String? selectedCity;
   bool shippingAndBillingInfoAreSane = true;
+  
+  TextEditingController txtControllerfirstName = TextEditingController();
+  TextEditingController txtControllerLastName = TextEditingController();
+  TextEditingController txtControllerPhoneNumber = TextEditingController();
+  TextEditingController txtControllerEmail = TextEditingController();
+  TextEditingController txtControllerAddress1 = TextEditingController();
+  TextEditingController txtControllerAddress2 = TextEditingController();
+    TextEditingController password1Controller = TextEditingController();
+  TextEditingController password2Controller = TextEditingController();
+
+
 
   @override
   void initState() {
@@ -106,7 +118,11 @@ class _RegistrationFormState extends State<RegistrationForm> {
                   postcode: '',
                   country: '',
                   state: ''),
-              shipping_info: ShippingInfo(),
+              shipping_info: ShippingInfo(
+          
+                  address_1: '',
+                  address_2: '',
+                 ),
               avatar_url: '',
               phone_number: '');
         }
@@ -130,77 +146,62 @@ class _RegistrationFormState extends State<RegistrationForm> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 CustomTextField(
+                                                      textEditingController : txtControllerfirstName,
                   key: _formKey,
                   fieldType: TextFieldType.text,
                   placeholder_text: 'First name (eg:- Jhon)',
                   onChange: (value) {
-                    setState(() {
-                      this.user!.first_name = value;
-                    });
+             
                   },
                   icon: Icon(Icons.person),
                   defaultValue: user!.first_name,
                 ),
                 CustomTextField(
+                  textEditingController : txtControllerLastName,
                   fieldType: TextFieldType.text,
                   placeholder_text: 'Last name (eg:- Prince Street)',
                   onChange: (value) => {
-                    setState(() {
-                      this.user!.last_name = value;
-                    })
+                 
                   },
                   icon: Icon(Icons.person),
                   defaultValue: user!.last_name,
                 ),
                 CustomTextField(
+                  textEditingController : txtControllerPhoneNumber,
                   fieldType: TextFieldType.text,
                   placeholder_text: 'Phone number (eg:- 07773453434)',
                   onChange: (value) => {
-                    setState(() {
-                      this.user!.phone_number = Utils.cleanMobileNumber(value);
-                    })
+                
                   },
                   icon: Icon(Icons.person),
                   defaultValue: user!.phone_number,
                 ),
                 CustomTextField(
+                  textEditingController : txtControllerEmail,
                   fieldType: TextFieldType.text,
                   placeholder_text: 'Email (eg:- yourname@gmail.cm)',
                   onChange: (value) => {
-                    setState(() {
-                      this.user!.email = value;
-                    })
+                   
                   },
                   icon: Icon(Icons.email),
                   defaultValue: user!.email,
                 ),
-                CustomTextField(
-                  fieldType: TextFieldType.password,
-                  placeholder_text: 'Password',
-                  onChange: (value) => {
-                    setState(() {
-                      this.user!.password = value;
-                    })
-                  },
-                  icon: Icon(Icons.lock),
-                  defaultValue: user!.password,
-                ),
-                CustomTextField(
-                  fieldType: TextFieldType.password,
-                  placeholder_text: 'Confirm your password',
-                  onChange: (value) => {
-                    setState(() {
-                      this.user!.password2 = value;
-                    })
-                  },
-                  icon: Icon(Icons.lock),
-                  defaultValue: user!.password2,
-                ),
+                PasswordTextField(passwordController: password1Controller, placeholder_text: "Password",),
+                PasswordTextField(passwordController: password2Controller, placeholder_text: "Confirm the password",),
                 Center(
                     child: ActionButton(
                         buttonType: ButtonType.enabled_default,
                         buttonText: 'Register now!',
                         onTap: () {
+                           this.user!.first_name = txtControllerfirstName.text;
+                          this.user!.last_name = txtControllerLastName.text;
+                          this.user!.phone_number = Utils.cleanMobileNumber(txtControllerPhoneNumber.text);
+                          this.user!.email = txtControllerEmail.text;
+                          this.user!.shipping_info.address_1 = txtControllerAddress1.text;
+                          this.user!.shipping_info.address_2 = txtControllerAddress2.text;
+                          this.user!.password = password1Controller.text;
+                          this.user!.password2 = password2Controller.text;
+
                           ValidationResult valResult =
                               validate(this.user as User);
                           if (valResult.status == false) {

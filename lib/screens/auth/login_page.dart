@@ -8,18 +8,17 @@ import 'package:provider/provider.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class LoginPage extends StatelessWidget {
-  TextEditingController username =
-  TextEditingController(text: '');
-  TextEditingController password = TextEditingController(text: ''); //Eha&uDuy*4hoTTCXYwMCfDF(
+  TextEditingController username = TextEditingController(text: '');
+  TextEditingController password =
+      TextEditingController(text: ''); //Eha&uDuy*4hoTTCXYwMCfDF(
 
   @override
   Widget build(BuildContext context) {
     UserNotifier userNotifier =
-          Provider.of<UserNotifier>(context, listen: false);
-    userNotifier.checkIfLogged().then((logged_in) => {
-        print("user is logged in : "+ logged_in.toString())
-      });
- 
+        Provider.of<UserNotifier>(context, listen: false);
+    userNotifier.checkIfLogged().then(
+        (logged_in) => {print("user is logged in : " + logged_in.toString())});
+
     Widget subTitle = Padding(
         padding: const EdgeInsets.only(right: 10.0),
         child: Text(
@@ -31,20 +30,23 @@ class LoginPage extends StatelessWidget {
         ));
 
     Widget loginButton = Padding(
-                  padding: const EdgeInsets.only(top: 8.0),
+      padding: const EdgeInsets.only(top: 8.0),
       child: InkWell(
         onTap: () {
           //TODO: login
           String username = Utils.cleanMobileNumber(this.username.text);
-          UserNotifier userNotifier = Provider.of<UserNotifier>(context, listen: false);
-          userNotifier.login(username,this.password.text).then((response)
-          {if (response.status == true){
+          UserNotifier userNotifier =
+              Provider.of<UserNotifier>(context, listen: false);
+          userNotifier.login(username, this.password.text).then((response) {
+            if (response.status == true) {
               Utils.showToast("Welcome!", ToastType.done_success);
-            print(response.status);
-          } else {
-            Utils.showToast("Login failed : "+ (response.error_message as String), ToastType.done_error);
-            print(response.status);
-          }
+              print(response.status);
+            } else {
+              Utils.showToast(
+                  "Login failed : " + (response.error_message as String),
+                  ToastType.done_error);
+              print(response.status);
+            }
           });
         },
         child: Container(
@@ -58,7 +60,7 @@ class LoginPage extends StatelessWidget {
                       fontStyle: FontStyle.normal,
                       fontSize: 20.0))),
           decoration: BoxDecoration(
-            color: BUTTON_COLOR_1,
+              color: BUTTON_COLOR_1,
               boxShadow: [
                 BoxShadow(
                   color: Color.fromRGBO(0, 0, 0, 0.16),
@@ -88,27 +90,25 @@ class LoginPage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
                 Padding(
-                  padding: const EdgeInsets.only(top: 8.0),
-                  child: 
-                    Row(children: 
-                    [
-                      Expanded(child:TextField(
-                    controller: username,
-                    style: TextStyle(fontSize: 16.0),
-                    decoration: InputDecoration(
-                hintText: 'Username',
-                prefixIcon: Icon(Icons.person), // Icon before the input
-              )
-                  ) )
-                      ]),
+                  padding: EdgeInsets.only(right:16,left: 16.0, top: 4.0, bottom: 4.0),
+                  child: Row(children: [
+                    Expanded(
+                        child: TextField(
+                            controller: username,
+                            style: TextStyle(fontSize: 16.0),
+                            decoration: InputDecoration(
+                              hintText: 'Mobile number',
+                              prefixIcon:
+                                  Icon(Icons.person), // Icon before the input
+                            )))
+                  ]),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 8.0),
-                  child:   Row(children: 
-                    [
-                      Expanded(child:PasswordTextField(passwordController: password))]))
-              ,
-              loginButton
+                Row(children: [
+                      Expanded(
+                          child:
+                              PasswordTextField(passwordController: password, placeholder_text: "Password",))
+                    ]),
+                loginButton
               ],
             ),
           ),
@@ -144,53 +144,45 @@ class LoginPage extends StatelessWidget {
       ),
     );
 
- Widget txtRegister = Row(children: [
-Padding(
-        padding: const EdgeInsets.only(right: 10.0),
-        child: Text(
-          'Don\'t have an account.?', //TODO: change to mobile number
-          style: TextStyle(
-            color: CONTENT_TEXT_COLOR_1,
-            fontSize: 16.0,
-          ),
-        )),
-        GestureDetector(
-          onTap: ((){
-            Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (_) =>
-                                        RegisterPage()));
+    Widget txtRegister = Row(children: [
+      Padding(
+          padding: const EdgeInsets.only(right: 10.0),
+          child: Text(
+            'Don\'t have an account.?', //TODO: change to mobile number
+            style: TextStyle(
+              color: CONTENT_TEXT_COLOR_1,
+              fontSize: 16.0,
+            ),
+          )),
+      GestureDetector(
+          onTap: (() {
+            Navigator.of(context)
+                .push(MaterialPageRoute(builder: (_) => RegisterPage()));
           }),
           child: Padding(
-        padding: const EdgeInsets.only(right: 10.0),
-        child: Text(
-          'Register Now.', //TODO: change to mobile number
-          style: TextStyle(
-            color: LINK_TEXT_COLOR_1,
-            fontSize: 16.0,
-            backgroundColor: Colors.grey.shade100,
-            fontWeight: FontWeight.bold
-          ),
-        ))
-        ),
-        
- ]);
-
+              padding: const EdgeInsets.only(right: 10.0),
+              child: Text(
+                'Register Now.', //TODO: change to mobile number
+                style: TextStyle(
+                    color: LINK_TEXT_COLOR_1,
+                    fontSize: 16.0,
+                    backgroundColor: Colors.grey.shade100,
+                    fontWeight: FontWeight.bold),
+              ))),
+    ]);
 
     return Scaffold(
-
       body: Stack(
         children: <Widget>[
-
           Container(
             decoration: BoxDecoration(
-                image: DecorationImage(image: AssetImage('assets/background.jpg'),
-                    fit: BoxFit.cover)
-            ),
+                image: DecorationImage(
+                    image: AssetImage('assets/background.jpg'),
+                    fit: BoxFit.cover)),
           ),
           Container(
             decoration: BoxDecoration(
               color: PAGE_BACKGROUND_COLOR,
-
             ),
           ),
           Padding(
@@ -200,7 +192,7 @@ Padding(
               children: <Widget>[
                 Spacer(flex: 3),
                 WelcomeBack(),
-                Spacer(flex:3),
+                Spacer(flex: 3),
                 subTitle,
                 Spacer(flex: 1),
                 loginForm,
@@ -217,10 +209,11 @@ Padding(
   }
 }
 
-
 class PasswordTextField extends StatefulWidget {
   TextEditingController passwordController;
-  PasswordTextField({required this.passwordController});
+  final String placeholder_text;
+  PasswordTextField({required this.passwordController,
+  required this.placeholder_text});
 
   @override
   _PasswordTextFieldState createState() => _PasswordTextFieldState();
@@ -231,32 +224,38 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
-      controller: widget.passwordController,
-      style: TextStyle(fontSize: 16.0),
-      obscureText: !isPasswordVisible,
-      decoration: InputDecoration(
-        hintText: 'Password',
-        prefixIcon: Icon(Icons.security_rounded), // Icon before the input
-        suffixIcon: GestureDetector(
-          onTap: () {
-            setState(() {
-              isPasswordVisible = !isPasswordVisible;
-            });
-          },
-          child: Icon(
-            isPasswordVisible ? Icons.visibility_off : Icons.visibility,
-            color: Colors.grey,
-          ),
+    return Container(
+        padding: EdgeInsets.only(right:16,left: 16.0, top: 4.0, bottom: 4.0),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(5)),
+          color: Colors.white,
         ),
-      ),
-    );
+        child: TextField(
+          controller: widget.passwordController,
+          style: TextStyle(fontSize: 16.0),
+          obscureText: !isPasswordVisible,
+          decoration: InputDecoration(
+            hintText: widget.placeholder_text,
+                        hintStyle: TextStyle(color: Colors.grey, fontSize: 14),
+
+            prefixIcon: Icon(Icons.security_rounded), // Icon before the input
+            suffixIcon: GestureDetector(
+              onTap: () {
+                setState(() {
+                  isPasswordVisible = !isPasswordVisible;
+                });
+              },
+              child: Icon(
+                isPasswordVisible ? Icons.visibility_off : Icons.visibility,
+                color: Colors.grey,
+              ),
+            ),
+          ),
+        ));
   }
 }
 
-
 class WelcomeBack extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     UserNotifier userNotifier = Provider.of<UserNotifier>(context);
@@ -266,37 +265,36 @@ class WelcomeBack extends StatelessWidget {
         future: userNotifier.getLastLoggedInUser(),
         builder: (context, snapshot) {
           if (snapshot.data != "") {
-            return    Text(
-      'Welcome Back ${snapshot.data},',
-      style: TextStyle(
-          color:CONTENT_TEXT_COLOR_1,
-          fontSize: 34.0,
-          fontWeight: FontWeight.bold,
-          shadows: [
-            BoxShadow(
-              color: Color.fromRGBO(0, 0, 0, 0.15),
-              offset: Offset(0, 5),
-              blurRadius: 10.0,
-            )
-          ]),
-    );
-
+            return Text(
+              'Welcome Back ${snapshot.data},',
+              style: TextStyle(
+                  color: CONTENT_TEXT_COLOR_1,
+                  fontSize: 34.0,
+                  fontWeight: FontWeight.bold,
+                  shadows: [
+                    BoxShadow(
+                      color: Color.fromRGBO(0, 0, 0, 0.15),
+                      offset: Offset(0, 5),
+                      blurRadius: 10.0,
+                    )
+                  ]),
+            );
           } else {
             // After reading from storage, use the data to build your widget
             return Text(
-      'Welcome',
-      style: TextStyle(
-          color: CONTENT_TEXT_COLOR_1,
-          fontSize: 34.0,
-          fontWeight: FontWeight.bold,
-          shadows: [
-            BoxShadow(
-              color: Color.fromRGBO(0, 0, 0, 0.15),
-              offset: Offset(0, 5),
-              blurRadius: 10.0,
-            )
-          ]),
-    );
+              'Welcome',
+              style: TextStyle(
+                  color: CONTENT_TEXT_COLOR_1,
+                  fontSize: 34.0,
+                  fontWeight: FontWeight.bold,
+                  shadows: [
+                    BoxShadow(
+                      color: Color.fromRGBO(0, 0, 0, 0.15),
+                      offset: Offset(0, 5),
+                      blurRadius: 10.0,
+                    )
+                  ]),
+            );
           }
         },
       ),

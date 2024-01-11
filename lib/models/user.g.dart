@@ -20,7 +20,13 @@ User _$UserFromJson(Map<String, dynamic> json) {
       postcode: json["billing"]["postcode"],
       country: json["billing"]["country"]);
 
-  final shipping_info = ShippingInfo();
+       final shipping_info = ShippingInfo(
+      address_1: json["shipping"]["address_1"],
+      address_2: json["shipping"]["address_2"],
+   );
+
+
+ 
 
   User user = User(
       id: json["id"],
@@ -45,6 +51,13 @@ Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
       'first_name': instance.first_name,
       'last_name': instance.last_name,
       "username" : instance.phone_number,
+      'shipping' : instance.shipping_info!= null ? {
+        'address_1' : instance.shipping_info.address_1,
+        'address_2' : instance.shipping_info.address_2
+      }: {
+        'address_1' : "",
+        'address_2' : ""
+      },
 
       // 'address_1': instance.address_1,
       // 'address_2': instance.address_2,

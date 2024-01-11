@@ -72,7 +72,14 @@ class BillingInfo extends Info {
 }
 
 class ShippingInfo extends Info {
- 
+
+  String address_1;
+  String address_2;
+
+ ShippingInfo({
+  required this.address_1,
+    required this.address_2,
+  });
 }
 
 class Info {
