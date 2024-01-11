@@ -106,16 +106,7 @@ class LoginPage extends StatelessWidget {
                   padding: const EdgeInsets.only(top: 8.0),
                   child:   Row(children: 
                     [
-                      Expanded(child:TextField(
-                    controller: password,
-                    style: TextStyle(fontSize: 16.0),
-                    obscureText: true,
-                    decoration: InputDecoration(
-                hintText: 'Password',
-                prefixIcon: Icon(Icons.security_rounded), // Icon before the input
-              )
-                  ),
-                )]))
+                      Expanded(child:PasswordTextField(passwordController: password))]))
               ,
               loginButton
               ],
@@ -221,6 +212,43 @@ Padding(
             ),
           )
         ],
+      ),
+    );
+  }
+}
+
+
+class PasswordTextField extends StatefulWidget {
+  TextEditingController passwordController;
+  PasswordTextField({required this.passwordController});
+
+  @override
+  _PasswordTextFieldState createState() => _PasswordTextFieldState();
+}
+
+class _PasswordTextFieldState extends State<PasswordTextField> {
+  bool isPasswordVisible = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return TextField(
+      controller: widget.passwordController,
+      style: TextStyle(fontSize: 16.0),
+      obscureText: !isPasswordVisible,
+      decoration: InputDecoration(
+        hintText: 'Password',
+        prefixIcon: Icon(Icons.security_rounded), // Icon before the input
+        suffixIcon: GestureDetector(
+          onTap: () {
+            setState(() {
+              isPasswordVisible = !isPasswordVisible;
+            });
+          },
+          child: Icon(
+            isPasswordVisible ? Icons.visibility_off : Icons.visibility,
+            color: Colors.grey,
+          ),
+        ),
       ),
     );
   }
