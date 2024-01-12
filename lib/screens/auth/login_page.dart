@@ -1,9 +1,11 @@
 import 'package:ecommerce_int2/api_services/authentication_apis.dart';
+import 'package:ecommerce_int2/api_services/cart_apis.dart';
 import 'package:ecommerce_int2/app_properties.dart';
 import 'package:ecommerce_int2/change_notifiers/user_notifier.dart';
 import 'package:ecommerce_int2/common/utils.dart';
 import 'package:ecommerce_int2/screens/auth/register_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:provider/provider.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -39,6 +41,10 @@ class LoginPage extends StatelessWidget {
               Provider.of<UserNotifier>(context, listen: false);
           userNotifier.login(username, this.password.text).then((response) {
             if (response.status == true) {
+              CartAPIs.getCartNonce(username, this.password.text).then((value) {
+                final storage = FlutterSecureStorage();
+                storage.write(key: "nonce", value: value);
+              });
               Utils.showToast("Welcome!", ToastType.done_success);
               print(response.status);
             } else {
@@ -90,7 +96,8 @@ class LoginPage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
                 Padding(
-                  padding: EdgeInsets.only(right:16,left: 16.0, top: 4.0, bottom: 4.0),
+                  padding: EdgeInsets.only(
+                      right: 16, left: 16.0, top: 4.0, bottom: 4.0),
                   child: Row(children: [
                     Expanded(
                         child: TextField(
@@ -104,10 +111,12 @@ class LoginPage extends StatelessWidget {
                   ]),
                 ),
                 Row(children: [
-                      Expanded(
-                          child:
-                              PasswordTextField(passwordController: password, placeholder_text: "Password",))
-                    ]),
+                  Expanded(
+                      child: PasswordTextField(
+                    passwordController: password,
+                    placeholder_text: "Password",
+                  ))
+                ]),
                 loginButton
               ],
             ),
@@ -212,8 +221,8 @@ class LoginPage extends StatelessWidget {
 class PasswordTextField extends StatefulWidget {
   TextEditingController passwordController;
   final String placeholder_text;
-  PasswordTextField({required this.passwordController,
-  required this.placeholder_text});
+  PasswordTextField(
+      {required this.passwordController, required this.placeholder_text});
 
   @override
   _PasswordTextFieldState createState() => _PasswordTextFieldState();
@@ -225,7 +234,7 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
   @override
   Widget build(BuildContext context) {
     return Container(
-        padding: EdgeInsets.only(right:16,left: 16.0, top: 4.0, bottom: 4.0),
+        padding: EdgeInsets.only(right: 16, left: 16.0, top: 4.0, bottom: 4.0),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(5)),
           color: Colors.white,
@@ -236,7 +245,7 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
           obscureText: !isPasswordVisible,
           decoration: InputDecoration(
             hintText: widget.placeholder_text,
-                        hintStyle: TextStyle(color: Colors.grey, fontSize: 14),
+            hintStyle: TextStyle(color: Colors.grey, fontSize: 14),
 
             prefixIcon: Icon(Icons.security_rounded), // Icon before the input
             suffixIcon: GestureDetector(

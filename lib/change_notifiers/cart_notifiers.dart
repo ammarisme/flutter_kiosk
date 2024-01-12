@@ -76,7 +76,7 @@ class CartNotifier extends ChangeNotifier {
   Future<void> addItem(product_id, quantity) async {
     CartAPIs cartAPIs = CartAPIs();
     readCartNonce().then((nonce) {
-        cartAPIs.addItem(product_id, quantity, nonce);
+        cartAPIs.addItem(product_id, quantity);
         notifyListeners();
     });
   }

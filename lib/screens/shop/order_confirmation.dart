@@ -385,7 +385,7 @@ class _ConfirmYourOrderPageState extends State<ConfirmYourOrderPage> {
                                 onTap: ()  {
                                   Utils.showToast("Placing your order", ToastType.in_progress);
                                   cartNotifier.createOrder().then((value) {
-                                    CartAPIs.clearTheCart(cartNotifier.cart!.nonce).then((value) {
+                                    CartAPIs.clearTheCart().then((value) {
                                       if (value.status == true){
                                         print("cart is cleared");
                                       }

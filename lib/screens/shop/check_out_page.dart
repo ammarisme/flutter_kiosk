@@ -6,6 +6,7 @@ import 'package:ecommerce_int2/common/utils.dart';
 import 'package:ecommerce_int2/models/cart.dart';
 import 'package:ecommerce_int2/screens/address/add_address_page.dart';
 import 'package:ecommerce_int2/screens/components/ui_components.dart';
+import 'package:ecommerce_int2/screens/main/main_page.dart';
 import 'package:ecommerce_int2/screens/payment/unpaid_page.dart';
 import 'package:ecommerce_int2/screens/shop/components/shop_item_list.dart';
 import 'package:flutter/material.dart';
@@ -30,7 +31,7 @@ class CheckOutPage extends StatelessWidget {
           }
 
           final cart = snapshot.data;
-          if (cart != null) {
+          if (cart != null && cart.line_items.length > 0) {
             cartNotifier.loadProduct(cart);
             return Scaffold(
               backgroundColor: Colors.white,
@@ -39,11 +40,11 @@ class CheckOutPage extends StatelessWidget {
                 elevation: 0.0,
                 iconTheme: IconThemeData(color: THEME_COLOR_1),
                 actions: <Widget>[
-                  IconButton(
-                    icon: Image.asset('assets/icons/denied_wallet.png'),
-                    onPressed: () => Navigator.of(context)
-                        .push(MaterialPageRoute(builder: (_) => UnpaidPage())),
-                  )
+                  // TODO:  IconButton(
+                  //   icon: Image.asset('assets/icons/denied_wallet.png'),
+                  //   onPressed: () => Navigator.of(context)
+                  //       .push(MaterialPageRoute(builder: (_) => UnpaidPage())),
+                  // )
                 ],
                 title: Text(
                   'My Cart',
@@ -139,7 +140,50 @@ class CheckOutPage extends StatelessWidget {
             );
           } else {
             // After reading from storage, use the data to build your widget
-            return Container();
+             return Scaffold(
+              backgroundColor: Colors.white,
+              appBar: AppBar(
+                backgroundColor: Colors.transparent,
+                elevation: 0.0,
+                iconTheme: IconThemeData(color: THEME_COLOR_1),
+                actions: <Widget>[
+                  IconButton(
+                    icon: Image.asset('assets/icons/denied_wallet.png'),
+                    onPressed: () => Navigator.of(context)
+                        .push(MaterialPageRoute(builder: (_) => UnpaidPage())),
+                  )
+                ],
+                title: Text(
+                  'My Cart',
+                  style: TextStyle(
+                      color: darkGrey,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 18.0),
+                ),
+              ),
+              body: LayoutBuilder(
+                builder: (_, constraints) => SingleChildScrollView(
+                  physics: ClampingScrollPhysics(),
+                  child: ConstrainedBox(
+                    constraints:
+                        BoxConstraints(minHeight: constraints.maxHeight),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Center(child:
+                         Padding(padding: EdgeInsets.only(top: 20),child:Text("You cart is empty!"),)),
+                        Center(
+                          child: Padding(padding: EdgeInsets.only(top: 20), child: ActionButton(buttonText: "Continue Shopping", onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => MainPage()));
+                        }, buttonType: ButtonType.enabled_default)) 
+                        )
+                       
+                                               ],
+                    ),
+                  ),
+                ),
+              ),
+            );
           }
         },
       ),

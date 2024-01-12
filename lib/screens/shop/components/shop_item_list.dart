@@ -1,6 +1,7 @@
 import 'package:ecommerce_int2/api_services/cart_apis.dart';
 import 'package:ecommerce_int2/app_properties.dart';
 import 'package:ecommerce_int2/change_notifiers/cart_notifiers.dart';
+import 'package:ecommerce_int2/common/utils.dart';
 import 'package:ecommerce_int2/models/cart.dart';
 import 'package:ecommerce_int2/models/product.dart';
 import 'package:ecommerce_int2/screens/product/components/shop_product.dart';
@@ -10,18 +11,17 @@ import 'package:provider/provider.dart';
 import '../../../change_notifiers/product_notifier.dart';
 
 //
-// class ShopItemList extends StatefulWidget {
-//
-//   @override
-//   _ShopItemListState createState() => _ShopItemListState();
-// }
-
-class ShopItemList extends StatelessWidget {
+class ShopItemList extends StatefulWidget {
   final CartItem cart_item;
   final VoidCallback onRemove;
-  TextEditingController textEditingController = TextEditingController();
-
   ShopItemList(this.cart_item, {required this.onRemove});
+
+  @override
+  _ShopItemListState createState() => _ShopItemListState();
+}
+
+class _ShopItemListState extends State<ShopItemList> {
+  TextEditingController textEditingController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -30,12 +30,12 @@ class ShopItemList extends StatelessWidget {
     CartNotifier cartNotifier =
         Provider.of<CartNotifier>(context, listen: true);
 
-    textEditingController.text = cart_item.quantity.toString();
+    textEditingController.text = widget.cart_item.quantity.toString();
 
     return FutureBuilder<Product?>(
-        future: productNotifier.getProduct(this.cart_item.product_id),
+        future: productNotifier.getProduct(widget.cart_item.product_id),
         builder: (context, snapshot) {
-          cart_item.product = snapshot.data;
+          widget.cart_item.product = snapshot.data;
           //textEditingController.text =  cartNotifier.cart!.line_items.where((cart_item) => cart_item.product_id == cart_item.product_id).first.quantity.toString();
           return Container(
             margin: EdgeInsets.only(top: 20),
@@ -56,7 +56,7 @@ class ShopItemList extends StatelessWidget {
                         children: <Widget>[
                           ShopProductDisplay(
                             onPressed: () => {},
-                            car_item: this.cart_item,
+                            car_item: widget.cart_item,
                           ),
                           Container(
                             padding: EdgeInsets.only(top: 12.0, right: 0.0),
@@ -65,7 +65,7 @@ class ShopItemList extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.end,
                               children: <Widget>[
                                 Text(
-                                  this.cart_item.name,
+                                  widget.cart_item.name,
                                   textAlign: TextAlign.right,
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
@@ -84,7 +84,7 @@ class ShopItemList extends StatelessWidget {
                                           MainAxisAlignment.spaceBetween,
                                       children: <Widget>[
                                         Text(
-                                          '\Rs. ${this.cart_item.salePrice}',
+                                          '\Rs. ${widget.cart_item.salePrice}',
                                           textAlign: TextAlign.center,
                                           style: TextStyle(
                                               color: darkGrey,
@@ -98,136 +98,195 @@ class ShopItemList extends StatelessWidget {
                               ],
                             ),
                           ),
-                          Container(
-                              padding: EdgeInsets.only(
-                                  top: 10.0), // Add padding to the top
+                         GestureDetector(
+                                      onTap: () {
+                                        print("test");
+                                        if (widget.cart_item.product!
+                                                .stock_quantity >
+                                            0) {
+                                          showDialog(
+                                            context: context,
+                                            builder: (BuildContext context) {
+                                              int quantity = widget.cart_item.quantity;
+                                              TextEditingController
+                                                  quantityController =
+                                                  TextEditingController(
+                                                      text:quantity.toString() );
 
-                              width: screenAwareWidth(10, context),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
+                                              void incrementQuantity() {
+                                                setState(() {
+                                                  if (quantity + 1 >
+                                                      widget.cart_item.product!
+                                                          .stock_quantity) {
+                                                    quantity = widget
+                                                        .cart_item
+                                                        .product!
+                                                        .stock_quantity;
+                                                  } else {
+                                                    quantity++;
+                                                    quantityController.text =
+                                                        quantity.toString();
+                                                  }
+                                                });
+                                              }
+
+                                              void decrementQuantity() {
+                                                if (quantity > 1) {
+                                                  setState(() {
+                                                    quantity--;
+                                                    quantityController.text =
+                                                        quantity.toString();
+                                                  });
+                                                }
+                                              }
+
+                                              return AlertDialog(
+                                                title: Text('Update quantity'),
+                                                content: Column(
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
+                                                  children: <Widget>[
+                                                    Text(
+                                                        '(Max : ${widget.cart_item.product!.stock_quantity})'),
+                                                    Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      children: <Widget>[
+                                                        IconButton(
+                                                          icon: Icon(
+                                                              Icons.remove),
+                                                          onPressed:
+                                                              decrementQuantity,
+                                                        ),
+                                                        SizedBox(width: 20),
+                                                        Expanded(
+                                                          child: TextField(
+                                                            controller:
+                                                                quantityController,
+                                                            textAlign: TextAlign
+                                                                .center,
+                                                            keyboardType:
+                                                                TextInputType
+                                                                    .number,
+                                                            onChanged: (value) {
+                                                              quantity =
+                                                                  int.tryParse(
+                                                                          value) ??
+                                                                      1;
+                                                            },
+                                                          ),
+                                                        ),
+                                                        SizedBox(width: 20),
+                                                        IconButton(
+                                                          icon: Icon(Icons.add),
+                                                          onPressed:
+                                                              incrementQuantity,
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ],
+                                                ),
+                                                actions: <Widget>[
+                                                  TextButton(
+                                                    onPressed: () {
+                                                      // Add item to cart with the selected quantity
+                                                      Utils.showToast(
+                                                          "Adding ${quantity} ${widget.cart_item.product!.name} to your cart.",
+                                                          ToastType
+                                                              .done_success);
+
+                                                          if (widget.cart_item.product!.stock_quantity ==
+                                                              widget.cart_item.quantity) {
+                                                            print("not enough stocks");
+                                                            return;
+                                                          }
+                                                          CartAPIs.updateMyCartItemByKey(
+                                                                  key: widget.cart_item.key,
+                                                                  id: widget.cart_item.product_id,
+                                                                  quantity: quantity)
+                                                              .then((updated) {
+                                                            if (updated) {
+                                                              widget.cart_item.quantity = quantity;
+                                                              textEditingController.text = (quantity).toString();
+                                                              setState(() {
+                                                                widget.cart_item.quantity = quantity;
+                                                              });
+                                                            }
+                                                          });
+                                                      Navigator.of(context)
+                                                          .pop(); // Close the dialog
+                                                    },
+                                                    child: Text('Update'),
+                                                  ),
+                                                  TextButton(
+                                                    onPressed: () {
+                                                      Navigator.of(context)
+                                                          .pop(); // Close the dialog
+                                                    },
+                                                    child: Text('Cancel'),
+                                                  ),
+                                                ],
+                                              );
+                                            },
+                                          );
+                                        }
+                                      },
+                                      child: Container(
+                              width: screenAwareWidth(15, context),
+                              child: 
+                              Container(
+                                 decoration: BoxDecoration(
+    color: Colors.grey.shade100,
+  ),
+                                child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                 children: <Widget>[
-                                  GestureDetector(
-                                      onTap: () {
-                                        // Your tap event handling logic goes here
-                                        if (cart_item.product!.stock_quantity ==
-                                            cart_item.quantity) {
-                                          print("not enough stocks");
-                                          return;
-                                        }
-                                        CartAPIs.updateMyCartItemByKey(
-                                                key: cart_item.key,
-                                                id: cart_item.product_id,
-                                                quantity:
-                                                    cart_item.quantity + 1,
-                                                nonce: cartNotifier.cart!.nonce)
-                                            .then((updated) {
-                                          if (updated) {
-                                            cart_item.quantity += 1;
-                                            textEditingController.text =
-                                                (cart_item.quantity).toString();
-                                          }
-                                        });
-                                        // Add any other actions you want to perform on tap
-                                      },
-                                      child: Container(
-                                        width: 20,
-                                        height: 20,
-                                        decoration: BoxDecoration(
-                                          color: Colors
-                                              .grey, // Set the background color here
-                                          shape: BoxShape
-                                              .rectangle, // Adjust the shape as needed (circle, square, etc.)
-                                        ),
-                                        padding: EdgeInsets.all(
-                                            0.0), // Adjust padding as needed
-                                        margin: EdgeInsets.all(
-                                            8.0), // Add margin here
-                                        child: Icon(
-                                          Icons.add,
-                                          size: 14.0,
-                                          color: const Color.fromRGBO(
-                                              0, 0, 0, 1), // Icon color
-                                        ),
-                                      )),
-                                  TextField(
-                                    readOnly: true,
-                                    controller: textEditingController,
-                                    maxLength: 2,
-                                    style: TextStyle(
-                                        fontSize:
-                                            14.0), // Change the font size here
+                                  Padding(padding: EdgeInsets.all(5), child: Text("X "+ widget.cart_item.quantity.toString())),
+                                  Padding(padding: EdgeInsets.only(left: 5, right: 5, top: 7, bottom:5), child: Icon(Icons.edit, size: 16,))
+                                  
+                                  //  TextField(
+                                  //       readOnly: true,
+                                  //       controller: textEditingController,
+                                  //       maxLength: 2,
+                                  //       style: TextStyle(
+                                  //           fontSize:
+                                  //               14.0), // Change the font size here
+                                  //       textAlign: TextAlign.center,
+                                  //       decoration: InputDecoration(
+                                  //           isDense:
+                                  //               true, // Reduces the height of the TextField
 
-                                    textAlign: TextAlign.center,
-                                    decoration: InputDecoration(
-                                      isDense:
-                                          true, // Reduces the height of the TextField
-
-                                      counterText:
-                                          '', // Remove default character counter
-                                      contentPadding: EdgeInsets.symmetric(
-                                          vertical:
-                                              0.0), // Adjust vertical padding
-                                      focusedBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                            width: 1.0,
-                                            color: Colors
-                                                .grey), // Border when focused
-                                      ),
-                                      enabledBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                            width: 1.0,
-                                            color:
-                                                Colors.grey), // Default border
-                                      ),
-                                    ),
-                                    keyboardType: TextInputType.number,
-                                    onChanged: (value) {
-                                      // Handle onChanged event if needed
-                                    },
-                                  ),
-                                  GestureDetector(
-                                      onTap: () {
-                                         // Your tap event handling logic goes here
-                                        if (cart_item.quantity == 1) {
-                                          print("only 1 quantity");
-                                          return;
-                                        }
-                                        CartAPIs.updateMyCartItemByKey(
-                                                key: cart_item.key,
-                                                id: cart_item.product_id,
-                                                quantity:
-                                                    cart_item.quantity -1 ,
-                                                nonce: cartNotifier.cart!.nonce)
-                                            .then((updated) {
-                                          if (updated) {
-                                            cart_item.quantity -= 1;
-                                            textEditingController.text =
-                                                (cart_item.quantity).toString();
-                                          }
-                                        });
-                                      },
-                                      child: Container(
-                                        width: 20,
-                                        height: 20,
-                                        decoration: BoxDecoration(
-                                          color: Colors
-                                              .grey, // Set the background color here
-                                          shape: BoxShape
-                                              .rectangle, // Adjust the shape as needed (circle, square, etc.)
-                                        ),
-                                        padding: EdgeInsets.all(
-                                            0.0), // Adjust padding as needed
-                                        margin: EdgeInsets.all(
-                                            8.0), // Add margin here
-                                        child: Icon(
-                                          Icons.remove,
-                                          size: 14.0,
-                                          color: const Color.fromRGBO(
-                                              0, 0, 0, 1), // Icon color
-                                        ),
-                                      )),
+                                  //           counterText:
+                                  //               '', // Remove default character counter
+                                  //           contentPadding: EdgeInsets.symmetric(
+                                  //               vertical: 0.0,
+                                  //               horizontal:
+                                  //                   2), // Adjust vertical padding
+                                  //           focusedBorder: OutlineInputBorder(
+                                  //             borderSide: BorderSide(
+                                  //                 width: 1.0,
+                                  //                 color: Colors
+                                  //                     .grey), // Border when focused
+                                  //           ),
+                                  //           enabledBorder: OutlineInputBorder(
+                                  //             borderSide: BorderSide(
+                                  //                 width: 1.0,
+                                  //                 color: Colors
+                                  //                     .grey), // Default border
+                                  //           ),
+                                  //           suffixIcon: Icon(Icons.edit)),
+                                  //       keyboardType: TextInputType.number,
+                                  //       onChanged: (value) {
+                                  //         // Handle onChanged event if needed
+                                  //       },
+                                  //     )
                                 ],
-                              ))
+                              )
+)
+                                )
+                              )
                         ])),
                 // TODO:
               ],
