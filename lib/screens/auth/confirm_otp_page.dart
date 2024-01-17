@@ -3,6 +3,7 @@ import 'package:ecommerce_int2/api_services/user_apis.dart';
 import 'package:ecommerce_int2/app_properties.dart';
 import 'package:ecommerce_int2/common/utils.dart';
 import 'package:ecommerce_int2/models/user.dart';
+import 'package:ecommerce_int2/screens/auth/login_page.dart';
 import 'package:ecommerce_int2/screens/components/ui_components.dart';
 import 'package:ecommerce_int2/screens/main/main_page.dart';
 import 'package:ecommerce_int2/screens/profile_page.dart';
@@ -105,6 +106,32 @@ class _ConfirmOtpPageState extends State<ConfirmOtpPage> {
                                     widget.user!.id = value.result.id;
                                     widget.postConfirmation();
                                   });
+                                } else if(value.error_code == "registration-error-username-exists"){
+                                    showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    content: Container(
+                                      width: double.maxFinite,
+                                      height: screenAwareSize(20,
+                                          context), // Set a fixed height (you can adjust this)
+                                      child: Text("An account already exists under the mobile number you provided. Do you want to login first to coninue.?"),
+                                    ),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () {
+                                                Navigator.of(context).push(
+                                                    MaterialPageRoute(
+                                                        builder: (_) =>
+                                                            LoginPage()));
+                                              },
+                                        child: Text('Yes'),
+                                      ),
+                                    ],
+                                  );
+                                });
+  
+
                                 } else {
                                   Utils.showToast(
                                       (value.error_message as String),

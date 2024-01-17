@@ -343,7 +343,7 @@ Utils.showToast(
                                     product: widget.product);
                               },
                               //elevation: 0,
-                              //backgroundColor: Colors.transparent
+                              //backgroundColor: Colors.transparentb
                             );
                           },
                           child: Container(
@@ -366,7 +366,7 @@ Utils.showToast(
                                   style: TextStyle(
                                     color: BUTTON_TEXT_COLOR1,
                                     fontWeight: FontWeight.bold,
-                                    fontSize: 14,
+                                    fontSize: BUTTON_FONT_SIZE,
                                   ),
                                 ),
                                 SizedBox(width: 3),

@@ -56,29 +56,29 @@ class SettingsPage extends StatelessWidget {
                                     fontSize: 18.0),
                               ),
                             ),
-                            ListTile(
-                              title: Text('Language A / का'),
-                              leading: Image.asset('assets/icons/language.png'),
-                              onTap: () => Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                      builder: (_) => ChangeLanguagePage())),
-                            ),
-                            ListTile(
-                              title: Text('Change Country'),
-                              leading: Image.asset('assets/icons/country.png'),
-                              onTap: () => Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                      builder: (_) => ChangeCountryPage())),
-                            ),
-                            ListTile(
-                              title: Text('Notifications'),
-                              leading:
-                                  Image.asset('assets/icons/notifications.png'),
-                              onTap: () => Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                      builder: (_) =>
-                                          NotificationSettingsPage())),
-                            ),
+                            //TODO:  ListTile(
+                            //   title: Text('Language A / का'),
+                            //   leading: Image.asset('assets/icons/language.png'),
+                            //   onTap: () => Navigator.of(context).push(
+                            //       MaterialPageRoute(
+                            //           builder: (_) => ChangeLanguagePage())),
+                            // ),
+                            // ListTile(
+                            //   title: Text('Change Country'),
+                            //   leading: Image.asset('assets/icons/country.png'),
+                            //   onTap: () => Navigator.of(context).push(
+                            //       MaterialPageRoute(
+                            //           builder: (_) => ChangeCountryPage())),
+                            // ),
+                            // ListTile(
+                            //   title: Text('Notifications'),
+                            //   leading:
+                            //       Image.asset('assets/icons/notifications.png'),
+                            //   onTap: () => Navigator.of(context).push(
+                            //       MaterialPageRoute(
+                            //           builder: (_) =>
+                            //               NotificationSettingsPage())),
+                            // ),
                             ListTile(
                               title: Text('Legal & About'),
                               leading: Image.asset('assets/icons/legal.png'),
@@ -102,14 +102,14 @@ class SettingsPage extends StatelessWidget {
                                     fontSize: 18.0),
                               ),
                             ),
-                            ListTile(
-                              title: Text('Change Password'),
-                              leading:
-                                  Image.asset('assets/icons/change_pass.png'),
-                              onTap: () => Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                      builder: (_) => ChangePasswordPage())),
-                            ),
+                            // TODO: ListTile(
+                            //   title: Text('Change Password'),
+                            //   leading:
+                            //       Image.asset('assets/icons/change_pass.png'),
+                            //   onTap: () => Navigator.of(context).push(
+                            //       MaterialPageRoute(
+                            //           builder: (_) => ChangePasswordPage())),
+                            // ),
                             Consumer(
                               builder: (context, userNotifier, _) {
                                 return ListTile(

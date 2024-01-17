@@ -21,7 +21,10 @@ class ActionButton extends StatelessWidget {
       : super(key: key);
 
   Widget build(BuildContext context) {
-    return InkWell(
+    return 
+    Padding(
+      padding: EdgeInsets.only(bottom: 10),
+    child :  InkWell(
       onTap: this.onTap,
       child: Container(
         height: 40,
@@ -47,7 +50,9 @@ class ActionButton extends StatelessWidget {
                   fontSize: 20.0)),
         ),
       ),
+    )
     );
+   
   }
 }
 

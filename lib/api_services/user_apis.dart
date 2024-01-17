@@ -145,6 +145,7 @@ class UserAPIs {
         print('Failed to fetch user info: ${response.statusCode}');
          APIResponse apiResponse = APIResponse();
         apiResponse.error_message = 'Error : ${json.decode(response.body)["message"]}';
+        apiResponse.error_code = json.decode(response.body)["code"];
         apiResponse.status = false;
         return apiResponse;
       }

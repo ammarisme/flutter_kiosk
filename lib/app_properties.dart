@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 
-const Color PAGE_BACKGROUND_COLOR = Color.fromARGB(255, 255, 255, 255);
+const Color PAGE_BACKGROUND_COLOR =Color.fromRGBO(255, 255, 255, 1);
+const Color PAGE_BACKGROUND_COLOR_2 =Color.fromRGBO(255, 255, 255, 0.8);
+const Color TEXT_BOX_COLOR = Color.fromARGB(255, 255, 255, 255);
 const Color THEME_COLOR_1 = Color.fromARGB(150, 0, 0, 0);
 const Color THEME_COLOR_2 = Color.fromARGB(150, 0, 0, 0);
 const Color THEME_COLOR_3 = Color.fromRGBO(0, 0, 0, 0.694);
 const Color darkGrey = Color(0xff202020);
 const Color CONTENT_TEXT_COLOR_1 = Color.fromRGBO(0, 0, 0, 0.588);
 const Color LINK_TEXT_COLOR_1 = Color.fromARGB( 131, 0, 0, 131);
+const Color LINK_TEXT_COLOR_2 = Color.fromARGB(167, 0, 0, 92);
+
 
 
 

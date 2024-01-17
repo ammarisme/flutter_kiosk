@@ -9,6 +9,7 @@ import 'package:ecommerce_int2/data/data.dart';
 import 'package:ecommerce_int2/models/user.dart';
 import 'package:ecommerce_int2/screens/address/address_form.dart';
 import 'package:ecommerce_int2/screens/address/select_shipping_and_payment_methods.dart';
+import 'package:ecommerce_int2/screens/auth/confirm_otp1_page.dart';
 import 'package:ecommerce_int2/screens/auth/confirm_otp_page.dart';
 import 'package:ecommerce_int2/screens/auth/login_page.dart';
 import 'package:ecommerce_int2/screens/components/ui_components.dart';
@@ -170,7 +171,7 @@ class _RegistrationFormState extends State<RegistrationForm> {
                 CustomTextField(
                   textEditingController : txtControllerPhoneNumber,
                   fieldType: TextFieldType.text,
-                  placeholder_text: 'Phone number (eg:- 07773453434)',
+                  placeholder_text: 'Phone number (eg:- 94777123456)',
                   onChange: (value) => {
                 
                   },
@@ -324,8 +325,8 @@ validate(User user) {
 
 validateShippingInfo(User user) {
   ValidationResult validationResults = ValidationResult();
-  
-   if (user.shipping_info.address_1.isEmpty) {
+
+  if (user.shipping_info.address_1.isEmpty) {
     validationResults.status = false;
     validationResults.errors.add("Address line 1 is required.");
   }
@@ -335,7 +336,7 @@ validateShippingInfo(User user) {
     validationResults.errors.add("Address line 2 is required.");
   }
 
-     if (user.shipping_info.city.isEmpty) {
+  if (user.shipping_info.city.isEmpty) {
     validationResults.status = false;
     validationResults.errors.add("Please select your city.");
   }
@@ -344,7 +345,6 @@ validateShippingInfo(User user) {
     validationResults.status = false;
     validationResults.errors.add("Please select your state/province.");
   }
-
 
   return validationResults;
 }

@@ -42,7 +42,7 @@ class _MainContentState extends State<MainContent>
 
   List<Product> products = [];
 
-  List<String> timelines = ['Featured products', 'Trending'];
+  List<String> timelines = ['Featured products', ''];
   String selectedTimeline = 'Featured products';
 
   @override

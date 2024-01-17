@@ -5,6 +5,7 @@ import 'package:ecommerce_int2/common/utils.dart';
 import 'package:ecommerce_int2/data/data.dart';
 import 'package:ecommerce_int2/models/user.dart';
 import 'package:ecommerce_int2/screens/address/select_shipping_and_payment_methods.dart';
+import 'package:ecommerce_int2/screens/auth/confirm_otp1_page.dart';
 import 'package:ecommerce_int2/screens/auth/confirm_otp_page.dart';
 import 'package:ecommerce_int2/screens/auth/register_page.dart';
 import 'package:ecommerce_int2/screens/components/ui_components.dart';
@@ -44,8 +45,7 @@ class _AddAddressFormState extends State<AddAddressForm> {
       setState(() {
         if (value.status == true) {
           user = value.result;
-          selectedDistrict = user!.shipping_info.state;
-          selectedCity = user!.shipping_info.city;
+         
         } else {
           user = User(
               id: 0,
@@ -67,14 +67,16 @@ class _AddAddressFormState extends State<AddAddressForm> {
                   country: '',
                   state: ''),
               shipping_info: ShippingInfo(
-                city: "",
-                state: "",
+                city: "Select City",
+                state: "Select District",
                 address_1: '',
                 address_2: '',
               ),
               avatar_url: '',
               phone_number: '');
         }
+         selectedDistrict = user!.shipping_info.state;
+          selectedCity = user!.shipping_info.city;
         isLoading = false;
       });
     });
@@ -219,6 +221,19 @@ class _AddAddressFormState extends State<AddAddressForm> {
                               txtControllerAddress1.text;
                           this.user!.shipping_info.address_2 =
                               txtControllerAddress2.text;
+
+                          if(this.user!.shipping_info.city == "Select City"){
+                            this.user!.shipping_info.city  == "";
+                          }
+                          if(this.user!.shipping_info.state == "Select District"){
+                            this.user!.shipping_info.state  == "";
+                          }
+                           if(this.user!.billing_info.city == "Select City"){
+                            this.user!.billing_info.city  == "";
+                          }
+                          if(this.user!.billing_info.state == "Select District"){
+                            this.user!.billing_info.state  == "";
+                          }
 
                           ValidationResult valResult =
                               validate(this.user as User);

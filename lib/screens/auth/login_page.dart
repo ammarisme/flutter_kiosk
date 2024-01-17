@@ -4,6 +4,7 @@ import 'package:ecommerce_int2/app_properties.dart';
 import 'package:ecommerce_int2/change_notifiers/user_notifier.dart';
 import 'package:ecommerce_int2/common/utils.dart';
 import 'package:ecommerce_int2/screens/auth/register_page.dart';
+import 'package:ecommerce_int2/screens/main/main_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:provider/provider.dart';
@@ -46,7 +47,10 @@ class LoginPage extends StatelessWidget {
                 storage.write(key: "nonce", value: value);
               });
               Utils.showToast("Welcome!", ToastType.done_success);
-              print(response.status);
+               Navigator.of(context).push(
+                                                    MaterialPageRoute(
+                                                        builder: (_) =>
+                                                            MainPage()));
             } else {
               Utils.showToast(
                   "Login failed : " + (response.error_message as String),
@@ -80,34 +84,34 @@ class LoginPage extends StatelessWidget {
     );
 
     Widget loginForm = Container(
-      height: 240,
-      child: Stack(
-        children: <Widget>[
-          Container(
-            height: 240,
-            width: MediaQuery.of(context).size.width,
-            padding: const EdgeInsets.only(left: 12.0, right: 12.0),
-            decoration: BoxDecoration(
-                color: Color.fromRGBO(255, 255, 255, 0.8),
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(10),
-                    bottomLeft: Radius.circular(10))),
+
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
                 Padding(
-                  padding: EdgeInsets.only(
-                      right: 16, left: 16.0, top: 4.0, bottom: 4.0),
+                  padding: EdgeInsets.only( bottom: 4.0),
                   child: Row(children: [
                     Expanded(
-                        child: TextField(
+                        child:
+                        Container(
+        padding: EdgeInsets.only(right: 16, left: 16.0, top: 4.0, bottom: 4.0),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(5)),
+          color: TEXT_BOX_COLOR,
+        ),
+        child:
+                         TextField(
                             controller: username,
                             style: TextStyle(fontSize: 16.0),
                             decoration: InputDecoration(
+                              filled: true,
+                              border: InputBorder.none,
+                              fillColor: TEXT_BOX_COLOR, 
                               hintText: 'Mobile number',
                               prefixIcon:
                                   Icon(Icons.person), // Icon before the input
                             )))
+                    )
                   ]),
                 ),
                 Row(children: [
@@ -120,10 +124,7 @@ class LoginPage extends StatelessWidget {
                 loginButton
               ],
             ),
-          ),
-        ],
-      ),
-    );
+          );      
 
     Widget forgotPassword = Padding(
       padding: const EdgeInsets.only(bottom: 20),
@@ -180,35 +181,63 @@ class LoginPage extends StatelessWidget {
               ))),
     ]);
 
+     Widget txtForgotPassword = Row(children: [
+      Padding(
+          padding: const EdgeInsets.only(right: 10.0),
+          child: Text(
+            'Forgot your password.?', //TODO: change to mobile number
+            style: TextStyle(
+              color: CONTENT_TEXT_COLOR_1,
+              fontSize: 16.0,
+            ),
+          )),
+      GestureDetector(
+          onTap: (() {
+            Navigator.of(context)
+                .push(MaterialPageRoute(builder: (_) => RegisterPage()));
+          }),
+          child: Padding(
+              padding: const EdgeInsets.only(right: 10.0),
+              child: Text(
+                'Reset Password.', //TODO: change to mobile number
+                style: TextStyle(
+                    color: LINK_TEXT_COLOR_1,
+                    fontSize: 16.0,
+                    backgroundColor: Colors.grey.shade100,
+                    fontWeight: FontWeight.bold),
+              ))),
+    ]);
+
+
     return Scaffold(
       body: Stack(
         children: <Widget>[
-          Container(
-            decoration: BoxDecoration(
-                image: DecorationImage(
-                    image: AssetImage('assets/background.jpg'),
-                    fit: BoxFit.cover)),
-          ),
-          Container(
-            decoration: BoxDecoration(
-              color: PAGE_BACKGROUND_COLOR,
-            ),
-          ),
+          // Container(
+          //   decoration: BoxDecoration(
+          //       image: DecorationImage(
+          //           image: AssetImage('assets/background.jpg'),
+          //           fit: BoxFit.cover)),
+          // ),
+          // Container(
+          //   decoration: BoxDecoration(
+          //     color: PAGE_BACKGROUND_COLOR,
+          //   ),
+          // ),
           Padding(
             padding: const EdgeInsets.only(left: 28.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Spacer(flex: 3),
+                Spacer(flex: 2),
                 WelcomeBack(),
-                Spacer(flex: 3),
-                subTitle,
-                Spacer(flex: 1),
+                                Spacer(flex: 1),
                 loginForm,
                 Spacer(flex: 1),
                 txtRegister,
-                Spacer(flex: 2),
-                forgotPassword,
+                                Spacer(flex: 2),
+
+                // Spacer(flex: 2),
+                // forgotPassword,
               ],
             ),
           )
@@ -237,13 +266,15 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
         padding: EdgeInsets.only(right: 16, left: 16.0, top: 4.0, bottom: 4.0),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(5)),
-          color: Colors.white,
+          color: TEXT_BOX_COLOR,
         ),
         child: TextField(
           controller: widget.passwordController,
           style: TextStyle(fontSize: 16.0),
           obscureText: !isPasswordVisible,
+          
           decoration: InputDecoration(
+              border: InputBorder.none, // Remove the underline
             hintText: widget.placeholder_text,
             hintStyle: TextStyle(color: Colors.grey, fontSize: 14),
 

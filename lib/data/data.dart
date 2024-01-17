@@ -1884,6 +1884,10 @@ class Data_DistrictsCities {
   }
 
   List<String> getCities(String district) {
-    return districtCityMap[district]['cities'].cast<String>();
+    if (district != "" && district != 'Select District') {
+      return districtCityMap[district]['cities'].cast<String>();
+    } else {
+      return [];
+    }
   }
 }
