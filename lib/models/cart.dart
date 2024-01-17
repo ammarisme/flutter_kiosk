@@ -96,13 +96,7 @@ class Cart {
     };
   }
 
-  double getTotalBeforeDiscount() {
-    double total = 0;
-    for (var item in line_items) {
-      total += item.quantity*item.salePrice; // Assuming 'price' is the property representing item price
-    }
-    return total;
-  }
+
 }
 
 

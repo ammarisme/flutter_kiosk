@@ -1,4 +1,5 @@
 import 'package:card_swiper/card_swiper.dart';
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:ecommerce_int2/api_services/woocommerce_api.dart';
 import 'package:ecommerce_int2/app_properties.dart';
 import 'package:ecommerce_int2/change_notifiers/cart_notifiers.dart';
@@ -12,8 +13,24 @@ import 'package:ecommerce_int2/screens/shop/components/shop_item_list.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class CheckOutPage extends StatelessWidget {
+
+class CheckOutPage extends StatefulWidget {
+  CheckOutPage();
+
+  @override
+  _CheckOutPageState createState() => _CheckOutPageState();
+}
+
+
+class _CheckOutPageState extends State<CheckOutPage> {
   SwiperController swiperController = SwiperController();
+  int cartTotal = 0;
+
+  updateCartTotal(){
+    CartNotifier cartNotifier =
+        Provider.of<CartNotifier>(context, listen: false);
+    print(cartNotifier.getTotalBeforeDiscount());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -71,9 +88,8 @@ class CheckOutPage extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
                               Text(
-                                'Subtotal (Before discount): Rs ' +
-                                    Utils.thousandSeperate(cartNotifier.cart!
-                                        .getTotalBeforeDiscount()
+                                'Amount (Before discount): Rs ' +
+                                    Utils.thousandSeperate(cartNotifier.getTotalBeforeDiscount()
                                         .toString()) +
                                     "/=",
                                 style: TextStyle(
@@ -107,6 +123,7 @@ class CheckOutPage extends StatelessWidget {
                                         cartNotifier.cart!.line_items
                                             .remove(cart!.line_items[index]);
                                       },
+                                      onAdded:updateCartTotal
                                     ),
                               itemCount: cartNotifier.cart!.line_items.length,
                             ),

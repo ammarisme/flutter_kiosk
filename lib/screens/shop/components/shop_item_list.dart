@@ -14,7 +14,10 @@ import '../../../change_notifiers/product_notifier.dart';
 class ShopItemList extends StatefulWidget {
   final CartItem cart_item;
   final VoidCallback onRemove;
-  ShopItemList(this.cart_item, {required this.onRemove});
+    final VoidCallback onAdded;
+
+
+  ShopItemList(this.cart_item, {required this.onRemove, required this.onAdded});
 
   @override
   _ShopItemListState createState() => _ShopItemListState();
@@ -52,8 +55,73 @@ class _ShopItemListState extends State<ShopItemList> {
                             bottomLeft: Radius.circular(10),
                             bottomRight: Radius.circular(10))),
                     child: Row(
+                    
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: <Widget>[
+                          GestureDetector(
+                            onTap: () {
+                                 showDialog(
+                                            context: context,
+                                            builder: (BuildContext context) {
+                                              return AlertDialog(
+                                                content: Column(
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
+                                                  children: <Widget>[
+                                                    Text(
+                                                        'Are you sure you want to remove ${widget.cart_item.product!.name} from your shopping cart.?'),
+                                                     ],
+                                                ),
+                                                actions: <Widget>[
+                                                  TextButton(
+                                                    onPressed: () {
+                                                      if (widget.cart_item.product == null){
+                                                        Utils.showToast(
+                                                          "Try again.",
+                                                          ToastType
+                                                              .done_success);
+                                                        return;
+                                                      }
+                                                      // Add item to cart with the selected quantity
+                                                      Utils.showToast(
+                                                          "Removing ${widget.cart_item.product!.name} from your cart.",
+                                                          ToastType
+                                                              .done_success);
+                                                          CartAPIs.deleteCartItemByKey(
+                                                                  key: widget.cart_item.key)
+                                                              .then((updated) {
+                                                            if (updated) {
+                                                                Utils.showToast(
+                                                          "${widget.cart_item.product!.name} removed from your cart.",
+                                                          ToastType
+                                                              .done_success);
+                                                              widget.onAdded();
+                                                            }
+                                                          });
+                                                      Navigator.of(context)
+                                                          .pop(); // Close the dialog
+                                                    },
+                                                    child: Text('Remove'),
+                                                  ),
+                                                  TextButton(
+                                                    onPressed: () {
+                                                      Navigator.of(context)
+                                                          .pop(); // Close the dialog
+                                                    },
+                                                    child: Text('Cancel'),
+                                                  ),
+                                                ],
+                                              );
+                                            },
+                                          );
+
+                            },
+                            child: Padding(
+                                padding: EdgeInsets.only(left: 5),
+                                child: Icon(Icons.delete_sharp,
+                                    size: 16, color: Colors.black)),
+                          ),
+                          
                           ShopProductDisplay(
                             onPressed: () => {},
                             car_item: widget.cart_item,
@@ -62,45 +130,51 @@ class _ShopItemListState extends State<ShopItemList> {
                             padding: EdgeInsets.only(top: 12.0, right: 0.0),
                             width: 150,
                             child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.end,
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 Text(
                                   widget.cart_item.name,
-                                  textAlign: TextAlign.right,
+                                  textAlign: TextAlign.left,
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 12,
                                     color: darkGrey,
                                   ),
-                                ), // Product name
-                                Align(
-                                  alignment: Alignment.centerRight,
-                                  child: Container(
-                                    width: 160,
-                                    padding: const EdgeInsets.only(
-                                        left: 32.0, top: 8.0, bottom: 8.0),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: <Widget>[
-                                        Text(
-                                          '\Rs. ${widget.cart_item.salePrice}',
-                                          textAlign: TextAlign.center,
+                                ), 
+                                Text(
+                                          'Price : \Rs. ${Utils.thousandSeperate(widget.cart_item.salePrice.toString())}',
+                                          textAlign: TextAlign.left,
                                           style: TextStyle(
                                               color: darkGrey,
-                                              fontWeight: FontWeight.bold,
                                               fontSize: 12.0),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                ) // Option & Price
+                                        ),
+                                         Text(
+                                          'Line total : \Rs. ${Utils.thousandSeperate((widget.cart_item.salePrice*widget.cart_item.quantity).toString())}',
+                                          textAlign: TextAlign.left,
+                                          style: TextStyle(
+                                              color: darkGrey,
+                                              fontSize: 12.0),
+                                        ),// Product name
+                                // Align(
+                                //   alignment: Alignment.centerRight,
+                                //   child: Container(
+                                //     width: 160,
+                                //     padding: const EdgeInsets.only(
+                                //         left: 32.0, top: 8.0, bottom: 8.0),
+                                //     child: Row(
+                                //       mainAxisAlignment:
+                                //           MainAxisAlignment.spaceBetween,
+                                //       children: <Widget>[
+                                        
+                                //       ],
+                                //     ),
+                                //   ),
+                                // ) // Option & Price
                               ],
                             ),
                           ),
                          GestureDetector(
                                       onTap: () {
-                                        print("test");
                                         if (widget.cart_item.product!
                                                 .stock_quantity >
                                             0) {
@@ -119,6 +193,8 @@ class _ShopItemListState extends State<ShopItemList> {
                                                       widget.cart_item.product!
                                                           .stock_quantity) {
                                                     quantity = widget
+
+
                                                         .cart_item
                                                         .product!
                                                         .stock_quantity;
@@ -128,6 +204,7 @@ class _ShopItemListState extends State<ShopItemList> {
                                                         quantity.toString();
                                                   }
                                                 });
+
                                               }
 
                                               void decrementQuantity() {
@@ -192,7 +269,7 @@ class _ShopItemListState extends State<ShopItemList> {
                                                     onPressed: () {
                                                       // Add item to cart with the selected quantity
                                                       Utils.showToast(
-                                                          "Adding ${quantity} ${widget.cart_item.product!.name} to your cart.",
+                                                          "Updating  quantity to ${quantity} units of ${widget.cart_item.product!.name}.",
                                                           ToastType
                                                               .done_success);
 
@@ -209,6 +286,7 @@ class _ShopItemListState extends State<ShopItemList> {
                                                             if (updated) {
                                                               widget.cart_item.quantity = quantity;
                                                               textEditingController.text = (quantity).toString();
+                                                              widget.onAdded();
                                                               setState(() {
                                                                 widget.cart_item.quantity = quantity;
                                                               });

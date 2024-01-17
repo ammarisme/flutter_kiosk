@@ -155,6 +155,36 @@ class CartAPIs {
     }
   }
 
+  static Future<bool> deleteCartItemByKey({
+    required String key
+  }) async {
+    final storage = FlutterSecureStorage();
+
+  String? basicAuth = await storage.read(key: 'auth_header');
+        String? nonce =  await storage.read(key: 'nonce');
+
+  
+    try {
+      final Uri url = Uri.parse(
+          'https://catlitter.lk/wp-json/wc/store' + '/cart/items/' + key);
+
+      final response = await http.delete(url,
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": basicAuth as String,
+            'nonce': nonce as String, // Add your nonce here
+          },);
+
+      if (response.statusCode == 204) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (ex) {
+      return false;
+    }
+  }
+
   Future<bool> createOrder(Cart? cart) async {
     try {
       final Uri url =

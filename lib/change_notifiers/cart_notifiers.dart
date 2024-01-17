@@ -67,6 +67,19 @@ class CartNotifier extends ChangeNotifier {
     this.total += this.shipping_charges;
   }
 
+ 
+                                                              
+  double getTotalBeforeDiscount() {
+    double total = 0;
+    if(this.cart==null){
+      return 0;
+    }
+    for (var item in this.cart!.line_items) {
+      total += item.quantity*item.salePrice; // Assuming 'price' is the property representing item price
+    }
+    notifyListeners();
+    return total;
+  }
   Future<Cart?> getCart() async {
     print("cart fetched");
     CartAPIs cartAPIs = CartAPIs();

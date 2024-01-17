@@ -103,7 +103,7 @@ class _AddAddressFormState extends State<AddAddressForm> {
                 CustomTextField(
                                     textEditingController : txtControllerLastName,
                   fieldType: TextFieldType.text,
-                  placeholder_text: 'Last name (eg:- Prince Street)',
+                  placeholder_text: 'Last name (eg:- Doe)',
                   onChange: (value) => {
                    
                   },
@@ -114,7 +114,7 @@ class _AddAddressFormState extends State<AddAddressForm> {
                                     textEditingController : txtControllerPhoneNumber,
 
                   fieldType: this.user!.id > 0 ? TextFieldType.disabled : TextFieldType.text,
-                  placeholder_text: 'Phone number (eg:- 07773453434)',
+                  placeholder_text: 'Mobile number (eg:- 94777123456)',
                   onChange: (value) => {
                     },
                   icon: Icon(Icons.person),
@@ -146,7 +146,7 @@ class _AddAddressFormState extends State<AddAddressForm> {
                                     textEditingController : txtControllerAddress2,
 
                   fieldType: TextFieldType.text,
-                    placeholder_text: 'Street name (eg:- Prince Street',
+                    placeholder_text: 'Street name (eg:- Ward Place)',
                     onChange: (value) =>
                         {
                           
