@@ -75,10 +75,14 @@ class ShippingInfo extends Info {
 
   String address_1;
   String address_2;
+  String city;
+  String state;
 
  ShippingInfo({
   required this.address_1,
     required this.address_2,
+    required this.city,
+    required this.state
   });
 }
 
@@ -87,9 +91,5 @@ class Info {
   String last_name= "";
   String postcode= "";
   String country= "";
-  String state= "";
 //below fields get updated through UIs
-  String address_1= "";
-  String address_2= "";
-  String city= "";
 }

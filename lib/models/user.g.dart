@@ -23,6 +23,8 @@ User _$UserFromJson(Map<String, dynamic> json) {
        final shipping_info = ShippingInfo(
       address_1: json["shipping"]["address_1"],
       address_2: json["shipping"]["address_2"],
+      city: json["shipping"]["city"],
+      state: json["shipping"]["state"],
    );
 
 

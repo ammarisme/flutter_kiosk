@@ -149,10 +149,10 @@ class _CustomDropDownFieldState extends State<CustomDropDownField> {
   @override
   void initState() {
     super.initState();
-    widget.input_list.insert(0,widget.placeholder_text);
   }
 
   Widget build(BuildContext context) {
+    widget.input_list.insert(0,widget.placeholder_text);
     dropdownBtn = DropdownButtonFormField<String>(
       decoration: InputDecoration(
           border: InputBorder.none,
@@ -165,11 +165,12 @@ class _CustomDropDownFieldState extends State<CustomDropDownField> {
         );
       }).toList(),
       onChanged: widget.onChange,
-      value:(widget.input_list.length > 0
-          ? widget.input_list[0]
-          : ""), // Track the selected area
+      value: widget.defaultValue, // Track the selected area
     );
 
+// (widget.input_list.length > 0
+//           ? widget.input_list[0]
+//           : "")
     this.renderCount = 1;
 
     return Container(

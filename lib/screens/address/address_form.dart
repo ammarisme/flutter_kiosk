@@ -6,12 +6,12 @@ import 'package:ecommerce_int2/data/data.dart';
 import 'package:ecommerce_int2/models/user.dart';
 import 'package:ecommerce_int2/screens/address/select_shipping_and_payment_methods.dart';
 import 'package:ecommerce_int2/screens/auth/confirm_otp_page.dart';
+import 'package:ecommerce_int2/screens/auth/register_page.dart';
 import 'package:ecommerce_int2/screens/components/ui_components.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:ecommerce_int2/api_services/sms_apis.dart';
 import 'dart:math';
-
 
 class AddAddressForm extends StatefulWidget {
   AddAddressForm();
@@ -26,7 +26,7 @@ class _AddAddressFormState extends State<AddAddressForm> {
   Data_DistrictsCities data_districtsCities = Data_DistrictsCities();
   String? selectedDistrict;
   String? selectedCity;
-  bool shippingAndBillingInfoAreSane= true;
+  bool shippingAndBillingInfoAreSane = true;
 
   TextEditingController txtControllerfirstName = TextEditingController();
   TextEditingController txtControllerLastName = TextEditingController();
@@ -34,7 +34,6 @@ class _AddAddressFormState extends State<AddAddressForm> {
   TextEditingController txtControllerEmail = TextEditingController();
   TextEditingController txtControllerAddress1 = TextEditingController();
   TextEditingController txtControllerAddress2 = TextEditingController();
-
 
   @override
   void initState() {
@@ -45,6 +44,8 @@ class _AddAddressFormState extends State<AddAddressForm> {
       setState(() {
         if (value.status == true) {
           user = value.result;
+          selectedDistrict = user!.shipping_info.state;
+          selectedCity = user!.shipping_info.city;
         } else {
           user = User(
               id: 0,
@@ -66,10 +67,11 @@ class _AddAddressFormState extends State<AddAddressForm> {
                   country: '',
                   state: ''),
               shipping_info: ShippingInfo(
-
-                  address_1: '',
-                  address_2: '',
-           ),
+                city: "",
+                state: "",
+                address_1: '',
+                address_2: '',
+              ),
               avatar_url: '',
               phone_number: '');
         }
@@ -91,66 +93,55 @@ class _AddAddressFormState extends State<AddAddressForm> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 CustomTextField(
-                  textEditingController : txtControllerfirstName,
+                  textEditingController: txtControllerfirstName,
                   fieldType: TextFieldType.text,
                   placeholder_text: 'First name (eg:- Jhon)',
-                  onChange: (value) {
-                   
-                  },
+                  onChange: (value) {},
                   icon: Icon(Icons.person),
                   defaultValue: user!.first_name,
                 ),
                 CustomTextField(
-                                    textEditingController : txtControllerLastName,
+                  textEditingController: txtControllerLastName,
                   fieldType: TextFieldType.text,
                   placeholder_text: 'Last name (eg:- Doe)',
-                  onChange: (value) => {
-                   
-                  },
+                  onChange: (value) => {},
                   icon: Icon(Icons.person),
                   defaultValue: user!.last_name,
                 ),
                 CustomTextField(
-                                    textEditingController : txtControllerPhoneNumber,
-
-                  fieldType: this.user!.id > 0 ? TextFieldType.disabled : TextFieldType.text,
+                  textEditingController: txtControllerPhoneNumber,
+                  fieldType: this.user!.id > 0
+                      ? TextFieldType.disabled
+                      : TextFieldType.text,
                   placeholder_text: 'Mobile number (eg:- 94777123456)',
-                  onChange: (value) => {
-                    },
+                  onChange: (value) => {},
                   icon: Icon(Icons.person),
-                  defaultValue: this.user!.id > 0 ? user!.username : user!.phone_number,
+                  defaultValue:
+                      this.user!.id > 0 ? user!.username : user!.phone_number,
                 ),
                 CustomTextField(
-                                    textEditingController : txtControllerEmail,
-
-                  fieldType: this.user!.id > 0 ? TextFieldType.disabled : TextFieldType.text,
+                  textEditingController: txtControllerEmail,
+                  fieldType: this.user!.id > 0
+                      ? TextFieldType.disabled
+                      : TextFieldType.text,
                   placeholder_text: 'Email (eg:- yourname@gmail.com)',
-                  onChange: (value) => {
-                  
-                    },
+                  onChange: (value) => {},
                   icon: Icon(Icons.email),
                   defaultValue: user!.email,
                 ),
                 CustomTextField(
-                                    textEditingController : txtControllerAddress1,
-
+                  textEditingController: txtControllerAddress1,
                   fieldType: TextFieldType.text,
                   placeholder_text: 'House/Flat Number (eg:- 34/2 A)',
-                  onChange: (value) =>
-                      {
-                        },
+                  onChange: (value) => {},
                   icon: Icon(Icons.house),
                   defaultValue: user!.shipping_info.address_1,
                 ),
                 CustomTextField(
-                                    textEditingController : txtControllerAddress2,
-
-                  fieldType: TextFieldType.text,
+                    textEditingController: txtControllerAddress2,
+                    fieldType: TextFieldType.text,
                     placeholder_text: 'Street name (eg:- Ward Place)',
-                    onChange: (value) =>
-                        {
-                          
-                          },
+                    onChange: (value) => {},
                     icon: Icon(Icons.add_road),
                     defaultValue: user!.shipping_info.address_2),
 
@@ -160,7 +151,7 @@ class _AddAddressFormState extends State<AddAddressForm> {
                     onChange: (value) {
                       setState(() {
                         selectedDistrict = value;
-                        selectedCity = "";
+                        selectedCity = "Select City";
                         user!.shipping_info.state = value as String;
                       });
                     },
@@ -179,7 +170,7 @@ class _AddAddressFormState extends State<AddAddressForm> {
                         user!.shipping_info.city = value as String;
                       });
                     },
-                    defaultValue: user!.shipping_info.city,
+                    defaultValue: selectedCity as String,
                     icon: Icon(Icons.place)),
 
                 Row(
@@ -189,14 +180,19 @@ class _AddAddressFormState extends State<AddAddressForm> {
                       onChanged: (value) {
                         shippingAndBillingInfoAreSane = value as bool;
                         if (value == true) {
-                          
-                          user!.shipping_info.address_1 = user!.billing_info.address_1;
-                          user!.shipping_info.address_2 = user!.billing_info.address_2;
+                          user!.shipping_info.address_1 =
+                              user!.billing_info.address_1;
+                          user!.shipping_info.address_2 =
+                              user!.billing_info.address_2;
                           user!.shipping_info.city = user!.billing_info.city;
-                          user!.shipping_info.country = user!.billing_info.country;
-                          user!.shipping_info.first_name = user!.billing_info.first_name;
-                          user!.shipping_info.last_name = user!.billing_info.last_name;
-                          user!.shipping_info.postcode = user!.billing_info.postcode;
+                          user!.shipping_info.country =
+                              user!.billing_info.country;
+                          user!.shipping_info.first_name =
+                              user!.billing_info.first_name;
+                          user!.shipping_info.last_name =
+                              user!.billing_info.last_name;
+                          user!.shipping_info.postcode =
+                              user!.billing_info.postcode;
                           user!.shipping_info.state = user!.billing_info.state;
                         }
                       },
@@ -211,87 +207,101 @@ class _AddAddressFormState extends State<AddAddressForm> {
                 ),
                 Center(
                     child: ActionButton(
-                      buttonType: ButtonType.enabled_default,
+                        buttonType: ButtonType.enabled_default,
                         buttonText: 'Next',
                         onTap: () {
                           this.user!.first_name = txtControllerfirstName.text;
                           this.user!.last_name = txtControllerLastName.text;
-                          this.user!.phone_number = txtControllerPhoneNumber.text;
+                          this.user!.phone_number =
+                              txtControllerPhoneNumber.text;
                           this.user!.email = txtControllerEmail.text;
-                          this.user!.shipping_info.address_1 = txtControllerAddress1.text;
-                          this.user!.shipping_info.address_2 = txtControllerAddress2.text;
+                          this.user!.shipping_info.address_1 =
+                              txtControllerAddress1.text;
+                          this.user!.shipping_info.address_2 =
+                              txtControllerAddress2.text;
 
+                          ValidationResult valResult =
+                              validate(this.user as User);
+                              ValidationResult valShippingInfo =
+                              validateShippingInfo(this.user as User);
+                              
+                          if (valResult.status && valShippingInfo.status== false) {
+                            valResult.errors.addAll(valShippingInfo.errors);
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: Text('Invalid inputs found'),
+                                    content: Container(
+                                      width: double.maxFinite,
+                                      height: screenAwareSize(60,
+                                          context), // Set a fixed height (you can adjust this)
+                                      child: ListView.builder(
+                                        itemCount: valResult.errors.length,
+                                        itemBuilder:
+                                            (BuildContext context, int index) {
+                                          return ListTile(
+                                            textColor: Colors.red,
+                                            title:
+                                                Text(valResult.errors[index]),
+                                          );
+                                        },
+                                      ),
+                                    ),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                        child: Text('OK'),
+                                      ),
+                                    ],
+                                  );
+                                });
+                            return;
+                          }
 
-                          if(user!.id>0){
+                          if (user!.id > 0) {
                             CartNotifier cartNotifier =
+                                Provider.of<CartNotifier>(context,
+                                    listen: false);
+                            cartNotifier.addCustomer(this.user);
+                            UserAPIs.updateCustomer(this.user as User)
+                                .then((value) {
+                              Utils.showToast("Updated customer info!",
+                                  ToastType.done_success);
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (_) => SelectShippingMethodPage()));
+                            });
+                          } else {
+                            Random random = Random();
+                            int randomNumber = random.nextInt(9000) + 1000;
+                            SMSAPIs.sendSMS(user!.phone_number,
+                                    "Your OTP is " + randomNumber.toString())
+                                .then((value) {
+                              if (value.status == true) {
+                                Utils.showToast(
+                                    "OTP sent to ${user!.phone_number}. Please check your SMS inbox.",
+                                    ToastType.done_success);
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (_) => ConfirmOtpPage(
+                                          user: (this.user as User),
+                                          otp: randomNumber,
+                                          postConfirmation: () {
+                                            CartNotifier cartNotifier =
                                                 Provider.of<CartNotifier>(
                                                     context,
                                                     listen: false);
                                             cartNotifier.addCustomer(this.user);
-                                            UserAPIs.updateCustomer(
-                                                    this.user as User)
-                                                .then((value) {
-                                                  Utils.showToast(
-                                                  "Updated customer info!",
-                                                  ToastType.done_success);
-                                                   Navigator.of(context).push(
+                                            Navigator.of(context).push(
                                                 MaterialPageRoute(
                                                     builder: (_) =>
                                                         SelectShippingMethodPage()));
-                                                        });
-                          }else{
-                            Random random = Random();
-                          int randomNumber = random.nextInt(9000) + 1000;
-SMSAPIs.sendSMS(user!.phone_number,
-                                  "Your OTP is " + randomNumber.toString())
-                              .then((value) {
-                            if (value.status == true) {
-                              Utils.showToast(
-                                  "OTP sent to ${user!.phone_number}. Please check your SMS inbox.",
-                                  ToastType.done_success);
-                              Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (_) => ConfirmOtpPage(
-                                        user: (this.user as User),
-                                        otp: randomNumber,
-                                        postConfirmation: () {
-                                           CartNotifier cartNotifier =
-                                Provider.of<CartNotifier>(context,
-                                    listen: false);
-                          cartNotifier.addCustomer(this.user);
-                                          Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (_) =>  SelectShippingMethodPage()
-                                            ));
-                                        },
-                                      )));
-                            } else {}
-                          });
-
+                                          },
+                                        )));
+                              } else {}
+                            });
                           }
-                          
-
-                         
-                          // if (user!.id == 0) {
-                          //   //create a customer
-                          //   UserAPIs.createCustomer(this.user as User)
-                          //       .then((value) {
-                          //     if (value.status == true) {
-                          //       Utils.showToast("Created an account!",
-                          //           ToastType.done_success);
-                          //       setState(() {
-                          //         user!.id = value.result.id;
-                          //       });
-                                
-                          //     }
-                          //   });
-                          // } else {
-                          //   UserAPIs.updateCustomer(this.user as User)
-                          //       .then((value) {
-                          //     Utils.showToast("Updated customer info!",
-                          //         ToastType.done_success);
-                          //     Navigator.of(context).push(MaterialPageRoute(
-                          //         builder: (_) => SelectShippingMethodPage()));
-                          //   });
-                          // }
                         }))
               ],
             ),

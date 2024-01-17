@@ -119,7 +119,8 @@ class _RegistrationFormState extends State<RegistrationForm> {
                   country: '',
                   state: ''),
               shipping_info: ShippingInfo(
-          
+           city: "",
+                state: "",
                   address_1: '',
                   address_2: '',
                  ),
@@ -316,6 +317,34 @@ validate(User user) {
     validationResults.status = false;
     validationResults.errors.add("Passwords aren't matching.");
   }
+
+  return validationResults;
+}
+
+
+validateShippingInfo(User user) {
+  ValidationResult validationResults = ValidationResult();
+  
+   if (user.shipping_info.address_1.isEmpty) {
+    validationResults.status = false;
+    validationResults.errors.add("Address line 1 is required.");
+  }
+
+  if (user.shipping_info.address_2.isEmpty) {
+    validationResults.status = false;
+    validationResults.errors.add("Address line 2 is required.");
+  }
+
+     if (user.shipping_info.city.isEmpty) {
+    validationResults.status = false;
+    validationResults.errors.add("Please select your city.");
+  }
+
+  if (user.shipping_info.state.isEmpty) {
+    validationResults.status = false;
+    validationResults.errors.add("Please select your state/province.");
+  }
+
 
   return validationResults;
 }
