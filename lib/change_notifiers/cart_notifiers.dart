@@ -82,8 +82,7 @@ class CartNotifier extends ChangeNotifier {
   }
   Future<Cart?> getCart() async {
     print("cart fetched");
-    CartAPIs cartAPIs = CartAPIs();
-    return cartAPIs.getCart();
+    return CartAPIs.getCart();
   }
 
   Future<void> addItem(product_id, quantity) async {

@@ -144,10 +144,12 @@ class CustomDropDownField extends StatefulWidget {
 
 class _CustomDropDownFieldState extends State<CustomDropDownField> {
   DropdownButtonFormField<String>? dropdownBtn;
+  int renderCount = 0;
+
   @override
   void initState() {
     super.initState();
-    // Make API call here
+    widget.input_list.insert(0,widget.placeholder_text);
   }
 
   Widget build(BuildContext context) {
@@ -163,10 +165,12 @@ class _CustomDropDownFieldState extends State<CustomDropDownField> {
         );
       }).toList(),
       onChanged: widget.onChange,
-      value: widget.input_list.length > 0
+      value:(widget.input_list.length > 0
           ? widget.input_list[0]
-          : "", // Track the selected area
+          : ""), // Track the selected area
     );
+
+    this.renderCount = 1;
 
     return Container(
         padding: EdgeInsets.only(left: 16.0, top: 4.0, bottom: 4.0),

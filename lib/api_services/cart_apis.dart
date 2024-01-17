@@ -8,13 +8,20 @@ import '../models/cart.dart';
 import '../settings.dart';
 
 class CartAPIs {
-  final base_url = 'https://catlitter.lk/wp-json/wc/store';
+  static final base_url = 'https://catlitter.lk/wp-json/wc/store';
 
-  Future<Cart?> getCart() async {
+  static Future<Cart?> getCart() async {
     try {
-      final Uri url = Uri.parse(this.base_url + '/cart');
+      final Uri url = Uri.parse(base_url + '/cart');
       final storage = FlutterSecureStorage();
-      String? basicAuth = await storage.read(key: 'auth_header');
+      String? basicAuth = "Basic "+ Settings.WRITE_TOKEN; 
+      
+      try{
+      var value = await storage.read(key: 'auth_header');
+      basicAuth = value as String ?? '';
+      }catch(e){
+
+      }
 
           
       final response = await http.get(
@@ -77,11 +84,15 @@ class CartAPIs {
     try {
 
        final storage = FlutterSecureStorage();
-      String? nonce =  await storage.read(key: 'nonce');
+      String? nonce =  await storage.read(key: 'cart_nonce');
       String? basicAuth = await storage.read(key: 'auth_header');
-          
+
+      if(basicAuth == null){
+        basicAuth = "Basic " + Settings.WRITE_TOKEN;
+      }
+
       
-      final Uri url = Uri.parse(this.base_url + '/cart/add-item');
+      final Uri url = Uri.parse(base_url + '/cart/add-item');
 
       Map<String, dynamic> postData = {
         'id': product_id, //16652, // Replace with your actual ID

@@ -1,4 +1,5 @@
 // Define a ProductNotifier class that extends ChangeNotifier
+import 'package:ecommerce_int2/api_services/cart_apis.dart';
 import 'package:ecommerce_int2/api_services/product_apis.dart';
 import 'package:ecommerce_int2/models/product_review.dart';
 import 'package:flutter/cupertino.dart';
@@ -45,6 +46,9 @@ class MainPageNotifier extends ChangeNotifier {
     });;
     ProductAPIs.getProducts("609").then((value) {
       _recommended_products = value;
+      notifyListeners();
+    });;
+    CartAPIs.getCart().then((value) {
       notifyListeners();
     });;
     ;

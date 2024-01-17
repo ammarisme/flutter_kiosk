@@ -221,6 +221,7 @@ class _AddAddressFormState extends State<AddAddressForm> {
                           this.user!.shipping_info.address_1 = txtControllerAddress1.text;
                           this.user!.shipping_info.address_2 = txtControllerAddress2.text;
 
+
                           if(user!.id>0){
                             CartNotifier cartNotifier =
                                                 Provider.of<CartNotifier>(
