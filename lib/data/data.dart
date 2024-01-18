@@ -1868,14 +1868,16 @@ class Data {
 class Data_DistrictsCities {
   late Map<String, dynamic> districtCityMap;
 
-  Future<void> loadJson() async {
+  Future<Map<String, dynamic>?> loadJson() async {
     // String jsonString = await rootBundle.loadString('cities-by-district.json');
     // districtCityMap = json.decode(jsonString);
     try {
       String jsonString = await rootBundle.loadString('assets/cities-by-district.json');
       districtCityMap = json.decode(jsonString);
+      return districtCityMap;
     } catch (e) {
       print('Error loading JSON: $e');
+      return null;
     }
   }
 

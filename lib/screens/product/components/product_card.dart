@@ -1,6 +1,7 @@
 import 'dart:ffi';
 
 import 'package:ecommerce_int2/api_services/product_apis.dart';
+import 'package:ecommerce_int2/app_properties.dart';
 import 'package:ecommerce_int2/common/utils.dart';
 import 'package:ecommerce_int2/models/product.dart';
 import 'package:ecommerce_int2/screens/product/view_product_page.dart';
@@ -99,7 +100,7 @@ void initState() {
             width: MediaQuery.of(context).size.width / 2 - 29,
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(10)),
-                color: Color(0xfffbd085).withOpacity(0.46)),
+                color:PAGE_BACKGROUND_COLOR,),
             child: Stack(
               fit: StackFit.expand,
               children: <Widget>[
@@ -132,7 +133,7 @@ void initState() {
                   ),
   Positioned(
                   bottom:50,
-                  left:0,
+                  right:0,
                     child: Container(
                       width: MediaQuery.of(context).size.width/4,
                         padding: const EdgeInsets.all(8.0),
@@ -144,7 +145,7 @@ void initState() {
                         child: Text(
                           'Rs '+ Utils.thousandSeperate(product?.price as String) + '/=',
                           maxLines: 3,
-                          textAlign: TextAlign.left,
+                          textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 12.0,
                             color: const Color.fromARGB(255, 0, 0, 0),
@@ -157,7 +158,7 @@ void initState() {
   !product?.isOnSale() || product?.regular_price == "" ? Container() :  
   Positioned(
                   bottom:20,
-                  left:0,
+                  right:0,
                     child: Container(
                       width: MediaQuery.of(context).size.width/4,
                         padding: const EdgeInsets.all(8.0),

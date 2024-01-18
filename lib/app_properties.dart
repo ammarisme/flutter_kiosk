@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-const Color PAGE_BACKGROUND_COLOR =Color.fromRGBO(255, 255, 255, 1);
-const Color PAGE_BACKGROUND_COLOR_2 =Color.fromRGBO(255, 255, 255, 0.8);
+const Color PAGE_BACKGROUND_COLOR =Color.fromRGBO(230, 230, 230, 1);
+const Color PAGE_BACKGROUND_COLOR_2 =Color.fromRGBO(255, 255, 255, 1);
 const Color TEXT_BOX_COLOR = Color.fromARGB(255, 255, 255, 255);
 const Color THEME_COLOR_1 = Color.fromARGB(150, 0, 0, 0);
 const Color THEME_COLOR_2 = Color.fromARGB(150, 0, 0, 0);

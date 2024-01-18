@@ -5,7 +5,6 @@ import 'package:ecommerce_int2/common/utils.dart';
 import 'package:ecommerce_int2/data/data.dart';
 import 'package:ecommerce_int2/models/user.dart';
 import 'package:ecommerce_int2/screens/address/select_shipping_and_payment_methods.dart';
-import 'package:ecommerce_int2/screens/auth/confirm_otp1_page.dart';
 import 'package:ecommerce_int2/screens/auth/confirm_otp_page.dart';
 import 'package:ecommerce_int2/screens/auth/register_page.dart';
 import 'package:ecommerce_int2/screens/components/ui_components.dart';
@@ -155,6 +154,28 @@ class _AddAddressFormState extends State<AddAddressForm> {
                         selectedDistrict = value;
                         selectedCity = "Select City";
                         user!.shipping_info.state = value as String;
+                        this.user!.first_name = txtControllerfirstName.text;
+                          this.user!.last_name = txtControllerLastName.text;
+                          this.user!.phone_number =
+                              txtControllerPhoneNumber.text;
+                          this.user!.email = txtControllerEmail.text;
+                          this.user!.shipping_info.address_1 =
+                              txtControllerAddress1.text;
+                          this.user!.shipping_info.address_2 =
+                              txtControllerAddress2.text;
+
+                          if(this.user!.shipping_info.city == "Select City"){
+                            this.user!.shipping_info.city  == "";
+                          }
+                          if(this.user!.shipping_info.state == "Select District"){
+                            this.user!.shipping_info.state  == "";
+                          }
+                           if(this.user!.billing_info.city == "Select City"){
+                            this.user!.billing_info.city  == "";
+                          }
+                          if(this.user!.billing_info.state == "Select District"){
+                            this.user!.billing_info.state  == "";
+                          }
                       });
                     },
                     defaultValue: user!.shipping_info.state,
@@ -170,6 +191,28 @@ class _AddAddressFormState extends State<AddAddressForm> {
                       setState(() {
                         selectedCity = value;
                         user!.shipping_info.city = value as String;
+                        this.user!.first_name = txtControllerfirstName.text;
+                          this.user!.last_name = txtControllerLastName.text;
+                          this.user!.phone_number =
+                              txtControllerPhoneNumber.text;
+                          this.user!.email = txtControllerEmail.text;
+                          this.user!.shipping_info.address_1 =
+                              txtControllerAddress1.text;
+                          this.user!.shipping_info.address_2 =
+                              txtControllerAddress2.text;
+
+                          if(this.user!.shipping_info.city == "Select City"){
+                            this.user!.shipping_info.city  == "";
+                          }
+                          if(this.user!.shipping_info.state == "Select District"){
+                            this.user!.shipping_info.state  == "";
+                          }
+                           if(this.user!.billing_info.city == "Select City"){
+                            this.user!.billing_info.city  == "";
+                          }
+                          if(this.user!.billing_info.state == "Select District"){
+                            this.user!.billing_info.state  == "";
+                          }
                       });
                     },
                     defaultValue: selectedCity as String,

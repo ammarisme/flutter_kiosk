@@ -5,6 +5,7 @@ import 'package:ecommerce_int2/change_notifiers/user_notifier.dart';
 import 'package:ecommerce_int2/common/utils.dart';
 import 'package:ecommerce_int2/screens/auth/register_page.dart';
 import 'package:ecommerce_int2/screens/main/main_page.dart';
+import 'package:ecommerce_int2/screens/profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:provider/provider.dart';
@@ -17,10 +18,6 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    UserNotifier userNotifier =
-        Provider.of<UserNotifier>(context, listen: false);
-    userNotifier.checkIfLogged().then(
-        (logged_in) => {print("user is logged in : " + logged_in.toString())});
 
     Widget subTitle = Padding(
         padding: const EdgeInsets.only(right: 10.0),
@@ -210,6 +207,7 @@ class LoginPage extends StatelessWidget {
 
 
     return Scaffold(
+      backgroundColor: PAGE_BACKGROUND_COLOR,
       body: Stack(
         children: <Widget>[
           // Container(
@@ -224,7 +222,7 @@ class LoginPage extends StatelessWidget {
           //   ),
           // ),
           Padding(
-            padding: const EdgeInsets.only(left: 28.0),
+            padding: const EdgeInsets.only(left: 30.0, right:30),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[

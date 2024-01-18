@@ -149,7 +149,7 @@ void initState() {
 
     return Scaffold(
             key: _scaffoldKey,
-            backgroundColor: PAGE_BACKGROUND_COLOR,
+            backgroundColor: PAGE_BACKGROUND_COLOR_2,
             appBar: AppBar(
               backgroundColor: Colors.transparent,
               elevation: 0.0,
