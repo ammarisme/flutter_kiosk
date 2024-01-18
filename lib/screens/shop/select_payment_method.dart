@@ -32,7 +32,6 @@ class _SelectPaymentMethodPageState extends State<SelectPaymentMethodPage> {
       SwiperCard(icon: Icons.account_balance,
           label: "Bank Transfer", color: Colors.blue)
     ];
-    cartNotifier.calculateOrderInfo();
 
     return Consumer<CartNotifier>(builder: (context, productNotifier, _) {
 
@@ -91,8 +90,8 @@ class _SelectPaymentMethodPageState extends State<SelectPaymentMethodPage> {
                       loop: false,
                       fade: 0.7,
                       onIndexChanged: (index) => {
-                        cartNotifier.updatePayentMethod(payment_methods[index].payment_method,
-                            payment_methods[index].payment_method_title)
+                        // cartNotifier.updatePayentMethod(payment_methods[index].payment_method,
+                            // payment_methods[index].payment_method_title)
                       },
                     ),
                   ),
@@ -272,8 +271,8 @@ class _SelectPaymentMethodPageState extends State<SelectPaymentMethodPage> {
                           buttonType: ButtonType.enabled_default,
                           buttonText: 'Next',
                           onTap: () {
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (_) => ConfirmYourOrderPage()));
+                            // Navigator.of(context).push(MaterialPageRoute(
+                            //     builder: (_) => ConfirmYourOrderPage()));
                           },
                         ),
                       ))

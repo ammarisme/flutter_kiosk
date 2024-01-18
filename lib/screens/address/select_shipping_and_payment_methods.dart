@@ -1,6 +1,7 @@
 import 'package:card_swiper/card_swiper.dart';
 import 'package:ecommerce_int2/app_properties.dart';
 import 'package:ecommerce_int2/change_notifiers/cart_notifiers.dart';
+import 'package:ecommerce_int2/models/user.dart';
 import 'package:ecommerce_int2/screens/components/ui_components.dart';
 import 'package:ecommerce_int2/screens/shop/order_confirmation.dart';
 import 'package:ecommerce_int2/screens/payment/unpaid_page.dart';
@@ -11,6 +12,8 @@ import 'package:provider/provider.dart';
 import '../shop/components/credit_card.dart';
 
 class SelectShippingMethodPage extends StatefulWidget {
+  User? user;
+  SelectShippingMethodPage({required this.user});
   @override
   _SelectShippingMethodPageState createState() =>
       _SelectShippingMethodPageState();
@@ -81,11 +84,10 @@ class _SelectShippingMethodPageState extends State<SelectShippingMethodPage> {
 
   @override
   Widget build(BuildContext context) {
-    CartNotifier cartNotifier =
-        Provider.of<CartNotifier>(context, listen: false);
-    cartNotifier.calculateOrderInfo();
 
-    return Consumer<CartNotifier>(builder: (context, productNotifier, _) {
+    return Consumer<CartNotifier>(builder: (context, cartNotifier, _) {
+          cartNotifier.calculateOrderInfo(widget.user);
+
       return cartNotifier.cart == null
           ? Container()
           : Scaffold(
@@ -141,7 +143,7 @@ class _SelectShippingMethodPageState extends State<SelectShippingMethodPage> {
                                   loop: false,
                                   fade: 0.7,
                                   onIndexChanged: (index) {
-                                    cartNotifier.updatePayentMethod(
+                                    cartNotifier.updatePayentMethod(widget.user,
                                         payment_methods[index].tag,
                                         payment_methods[index].title);
                                   },
@@ -170,8 +172,7 @@ class _SelectShippingMethodPageState extends State<SelectShippingMethodPage> {
                                   loop: false,
                                   fade: 0.7,
                                   onIndexChanged: (index) {
-                                    cartNotifier.updateShippingMethod(
-                                        shipping_methods[index].tag);
+                                    cartNotifier.updateShippingMethod(widget.user,shipping_methods[index].tag);
                                   },
                                 ),
                               ),
@@ -426,7 +427,7 @@ class _SelectShippingMethodPageState extends State<SelectShippingMethodPage> {
                                     Navigator.of(context).push(
                                         MaterialPageRoute(
                                             builder: (_) =>
-                                                ConfirmYourOrderPage()));
+                                                ConfirmYourOrderPage(user: widget.user)));
                                   },
                                 ),
                               ))

@@ -1,6 +1,7 @@
 import 'package:ecommerce_int2/api_services/cart_apis.dart';
 import 'package:ecommerce_int2/app_properties.dart';
 import 'package:ecommerce_int2/common/utils.dart';
+import 'package:ecommerce_int2/models/user.dart';
 import 'package:ecommerce_int2/screens/components/ui_components.dart';
 import 'package:ecommerce_int2/screens/shop/order_success.dart';
 import 'package:ecommerce_int2/screens/shop/webxpay_payment_page.dart';
@@ -14,6 +15,8 @@ import '../../change_notifiers/cart_notifiers.dart';
 import '../../models/cart.dart';
 
 class ConfirmYourOrderPage extends StatefulWidget {
+  User? user;
+  ConfirmYourOrderPage({required this.user});
   @override
   _ConfirmYourOrderPageState createState() => _ConfirmYourOrderPageState();
 }
@@ -24,7 +27,7 @@ class _ConfirmYourOrderPageState extends State<ConfirmYourOrderPage> {
   Widget build(BuildContext context) {
     CartNotifier cartNotifier =
         Provider.of<CartNotifier>(context, listen: false);
-    cartNotifier.calculateOrderInfo();
+    cartNotifier.calculateOrderInfo(widget.user);
 
     return Material(
         color: Colors.white,

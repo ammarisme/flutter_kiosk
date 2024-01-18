@@ -329,7 +329,7 @@ class _AddAddressFormState extends State<AddAddressForm> {
                               Utils.showToast("Updated customer info!",
                                   ToastType.done_success);
                               Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (_) => SelectShippingMethodPage()));
+                                  builder: (_) => SelectShippingMethodPage(user:user)));
                             });
                           } else {
                             Random random = Random();
@@ -354,7 +354,7 @@ class _AddAddressFormState extends State<AddAddressForm> {
                                             Navigator.of(context).push(
                                                 MaterialPageRoute(
                                                     builder: (_) =>
-                                                        SelectShippingMethodPage()));
+                                                        SelectShippingMethodPage(user:user)));
                                           },
                                         )));
                               } else {}

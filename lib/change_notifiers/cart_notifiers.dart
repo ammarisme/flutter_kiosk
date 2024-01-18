@@ -1,5 +1,6 @@
 // Define a ProductNotifier class that extends ChangeNotifier
 import 'package:ecommerce_int2/api_services/cart_apis.dart';
+import 'package:ecommerce_int2/api_services/shipping.dart';
 import 'package:ecommerce_int2/models/user.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -9,6 +10,7 @@ import '../models/cart.dart';
 //This class acts as the notifier to all api calls we do for the main page.
 class CartNotifier extends ChangeNotifier {
   late Cart? cart = null;
+  Shipping shipping_cal = Shipping();
 
   //line items and discounts
   double totalLineDiscounts = 0;
@@ -33,16 +35,13 @@ class CartNotifier extends ChangeNotifier {
   //shipping related
   late Address? billing_address = null;
   late Address? shipping_address = null;
-  Map<String, double> shipping_charges_directory = {
-    'dd': 200,
-    'sp': 0
-  };
+ 
   double shipping_charges = 0;
   String shipping_method_id = "";
   String shipping_method_title = "";
 
   //Calculates all order related numbers
-  void calculateOrderInfo() {
+  void calculateOrderInfo(user) {
     this.totalLineDiscounts = 0;
     this.totalBeforeDiscounts = 0;
 
@@ -61,10 +60,28 @@ class CartNotifier extends ChangeNotifier {
     this.discountOnTotal = (totalBeforeDiscounts - totalLineDiscounts) *
         (payment_method_discount_percentage / 100);
 
-    this.total = (totalBeforeDiscounts - totalLineDiscounts) - discountOnTotal;
+    if(this.shipping_method_id!="sp"){
+    double totalWeight = this.cart!.line_items.fold(
+        0.0,
+        (sum, lineItem) =>
+            sum + (double.parse(lineItem.product!.weight) * lineItem.quantity));
+    totalWeight = double.parse(totalWeight.toStringAsFixed(0));
+      this.shipping_charges = shipping_cal.getShippingCost(user!.shipping_info.city,
+          user!.shipping_info.state, totalWeight);
+      this.total =
+          (totalBeforeDiscounts - totalLineDiscounts) - discountOnTotal;
+      this.total += this.shipping_charges;
+    }else{
+       this.shipping_charges = 0;
+      this.total =
+          (totalBeforeDiscounts - totalLineDiscounts) - discountOnTotal;
+      this.total += this.shipping_charges;
 
-    // shipping charges
-    this.total += this.shipping_charges;
+    }
+    
+      notifyListeners();
+
+    
   }
 
  
@@ -75,13 +92,14 @@ class CartNotifier extends ChangeNotifier {
       return 0;
     }
     for (var item in this.cart!.line_items) {
-      total += item.quantity*item.salePrice; // Assuming 'price' is the property representing item price
+      total += item.quantity*item.salePrice; 
     }
     notifyListeners();
     return total;
   }
   Future<Cart?> getCart() async {
     print("cart fetched");
+    this.shipping_cal.loadJson();
     return CartAPIs.getCart();
   }
 
@@ -220,23 +238,26 @@ class CartNotifier extends ChangeNotifier {
     return created;
   }
 
-  void updatePayentMethod(payment_method, payment_method_title) {
+  void updatePayentMethod(user,payment_method, payment_method_title) {
     this.payment_method = payment_method;
     this.payment_method_title = payment_method_title;
     this.payment_method_discount_percentage =
         this.payment_method_discounts[payment_method]!;
 
-    this.calculateOrderInfo();
+    this.calculateOrderInfo(user);
     notifyListeners();
   }
 
-  void updateShippingMethod(shipping_method) {
-    this.shipping_charges = this.shipping_charges_directory[shipping_method]!;
-    this.cart!.shipping_lines = [ShippingLine(method_id: shipping_method, method_title: shipping_method_title, total: this.shipping_charges)];
-
-    this.calculateOrderInfo();
-
-    notifyListeners();
+  void updateShippingMethod(user, shipping_method) {
+    this.cart!.user = user;
+    this.shipping_method_id = shipping_method;
+    if(shipping_method == "sp"){
+      this.shipping_charges = 0;
+      calculateOrderInfo(user);
+      return;
+    }
+    this.calculateOrderInfo(user);
+    return;
   }
 
   void copyShippingInfoToBilling() {
