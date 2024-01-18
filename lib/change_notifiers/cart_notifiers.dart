@@ -40,6 +40,14 @@ class CartNotifier extends ChangeNotifier {
   String shipping_method_id = "";
   String shipping_method_title = "";
 
+  double calculateTotalWeight() {
+    double totalWeight = this.cart!.line_items.fold(
+        0.0,
+        (sum, lineItem) =>
+            sum + (double.parse(lineItem.product!.weight) * lineItem.quantity));
+    totalWeight = double.parse(totalWeight.toStringAsFixed(0));
+    return totalWeight;
+  }
   //Calculates all order related numbers
   void calculateOrderInfo(user) {
     this.totalLineDiscounts = 0;

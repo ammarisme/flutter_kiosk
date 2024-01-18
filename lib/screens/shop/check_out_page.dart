@@ -81,10 +81,12 @@ class _CheckOutPageState extends State<CheckOutPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Container(
-                          padding: EdgeInsets.symmetric(horizontal: 32.0),
-                          height: screenAwareSize(24, context),
+                          padding: EdgeInsets.symmetric(horizontal: 32.0, vertical: 20),
+                          height: screenAwareSize(12, context),
                           color: PAGE_BACKGROUND_COLOR,
-                          child: Row(
+                          child:
+                          Column(children: [
+   Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
                               Text(
@@ -107,10 +109,12 @@ class _CheckOutPageState extends State<CheckOutPage> {
                                     fontSize: 12),
                               )
                             ],
-                          ),
-                        ),
+                          ),  
+  
+                          ],)
+                                             ),
                         SizedBox(
-                          height: screenAwareSize(80, context),
+                          height: screenAwareSize(90, context),
                           width: screenAwareWidth(72, context),
                           child: Scrollbar(
                             thumbVisibility: true,

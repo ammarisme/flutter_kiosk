@@ -22,7 +22,7 @@ class Product {
   List<ProductAttribute> attributes;
   String brand_name = "";
   List<dynamic> related_ids;
-  List<ProductVariation> variations = [];
+  List<ProductVariation> variations;
 
 
   Product(
@@ -36,7 +36,8 @@ class Product {
       required this.stock_quantity,
       required this.attributes,
       required this.weight,
-      required this.related_ids
+      required this.related_ids,
+      required this.variations,
       });
 
   factory Product.fromJson(Map<String, dynamic> json) =>

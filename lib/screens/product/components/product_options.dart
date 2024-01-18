@@ -33,6 +33,8 @@ class _ProductOptionState extends State<ProductOption> {
     super.initState();
 
     selectedVariation = ProductVariation(
+      stock_quantity: widget.product.stock_quantity,
+      id: widget.product.id,
         weight: widget.product.weight,
         sale_price: widget.product.price,
         regular_price: widget.product.regular_price);
@@ -48,6 +50,8 @@ class _ProductOptionState extends State<ProductOption> {
         ProductVariation first_variation = widget.product.variations.first;
         selectedValue = first_variation.weight;
         selectedVariation = ProductVariation(
+          stock_quantity: first_variation.stock_quantity,
+          id:first_variation.id,
             weight: first_variation.weight,
             sale_price: first_variation.sale_price,
             regular_price: first_variation.regular_price);
@@ -131,7 +135,7 @@ class _ProductOptionState extends State<ProductOption> {
                 children: <Widget>[
                   InkWell(
                     onTap: () async {
-                      if (widget.product.stock_quantity > 0){
+                      if (getStockQuantity() > 0){
 Utils.showToast(
                             "Adding ${1} ${widget.product.name} to your cart.",
                             ToastType.done_success);
@@ -152,7 +156,7 @@ Utils.showToast(
                       width: MediaQuery.of(context).size.width /
                           MAIN_BUTTON_FACTOR,
                       decoration: BoxDecoration(
-                          color: widget.product.stock_quantity > 0
+                          color: getStockQuantity() > 0
                               ? BUTTON_COLOR_1
                               : BUTTON_COLOR_1_INACTIVE,
                           gradient: MAIN_BUTTON_GRADIENTS,
@@ -184,7 +188,7 @@ Utils.showToast(
                   ),
                   InkWell(
                     onTap: () {
-                      if (widget.product.stock_quantity > 0) {
+                      if (getStockQuantity() > 0) {
                         showDialog(
                           context: context,
                           builder: (BuildContext context) {
@@ -194,8 +198,8 @@ Utils.showToast(
 
                             void incrementQuantity() {
                               setState(() {
-                                if (quantity+1 > widget.product.stock_quantity) {
-                                  quantity = widget.product.stock_quantity;
+                                if (quantity+1 > getStockQuantity()) {
+                                  quantity = getStockQuantity();
                                 } else {
                                   quantity++;
                                   quantityController.text = quantity.toString();
@@ -218,7 +222,7 @@ Utils.showToast(
                                 mainAxisSize: MainAxisSize.min,
                                 children: <Widget>[
                                   Text(
-                                      'Enter Quantity: (Max : ${widget.product.stock_quantity})'),
+                                      'Enter Quantity: (Max : ${getStockQuantity()})'),
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: <Widget>[
@@ -251,7 +255,7 @@ Utils.showToast(
                                   onPressed: () {
                                     // Add item to cart with the selected quantity
                                     Utils.showToast("Adding ${quantity} ${widget.product.name} to your cart.", ToastType.done_success);
-                                    cartNotifier.addItem(widget.product.id,quantity).then((value) {
+                                    cartNotifier.addItem(getSelectedProductId(), quantity).then((value) {
                                       Utils.showToast("Successfully added ${quantity} ${widget.product.name} to your cart.", ToastType.done_success);
                                   });
                                     Navigator.of(context)
@@ -276,7 +280,7 @@ Utils.showToast(
                       width: MediaQuery.of(context).size.width /
                           MAIN_BUTTON_FACTOR,
                       decoration: BoxDecoration(
-                          color: widget.product.stock_quantity > 0
+                          color: getStockQuantity() > 0
                               ? BUTTON_COLOR_1
                               : BUTTON_COLOR_1_INACTIVE,
                           gradient: MAIN_BUTTON_GRADIENTS,
@@ -293,7 +297,7 @@ Utils.showToast(
                               size: BUTTON_ICON_SIZE),
                           SizedBox(width: 3),
                           Text(
-                            widget.product.stock_quantity > 0
+                           getStockQuantity() > 0
                                 ? 'Add to cart'
                                 : 'Out of stock',
                             style: TextStyle(
@@ -350,7 +354,7 @@ Utils.showToast(
                             width: MediaQuery.of(context).size.width /
                                 MAIN_BUTTON_FACTOR,
                             decoration: BoxDecoration(
-                                color: widget.product.stock_quantity > 0
+                                color: getStockQuantity() > 0
                                     ? BUTTON_COLOR_1
                                     : BUTTON_COLOR_1_INACTIVE,
                                 gradient: MAIN_BUTTON_GRADIENTS,
@@ -610,5 +614,18 @@ Utils.showToast(
         ],
       ),
     );
+  }
+  int getStockQuantity(){
+    if (selectedVariation!=null){
+      return selectedVariation!.stock_quantity;
+    }
+    return  widget.product.stock_quantity;
+  }
+
+  int getSelectedProductId(){
+     if (selectedVariation!=null){
+      return selectedVariation!.id;
+    }
+    return  widget.product.id;
   }
 }

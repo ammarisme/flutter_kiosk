@@ -223,7 +223,6 @@ class _AddAddressFormState extends State<AddAddressForm> {
                     Checkbox(
                       value: true,
                       onChanged: (value) {
-                        shippingAndBillingInfoAreSane = value as bool;
                         if (value == true) {
                           user!.shipping_info.address_1 =
                               user!.billing_info.address_1;
@@ -240,6 +239,8 @@ class _AddAddressFormState extends State<AddAddressForm> {
                               user!.billing_info.postcode;
                           user!.shipping_info.state = user!.billing_info.state;
                         }
+                       
+       //                   this.shippingAndBillingInfoAreSane = !(value as bool);
                       },
                     ),
                     Text('Use the same info for Billing.')

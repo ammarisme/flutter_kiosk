@@ -30,14 +30,13 @@ class _ShopItemListState extends State<ShopItemList> {
   Widget build(BuildContext context) {
     ProductNotifier productNotifier =
         Provider.of<ProductNotifier>(context, listen: false);
-    CartNotifier cartNotifier =
-        Provider.of<CartNotifier>(context, listen: true);
 
     textEditingController.text = widget.cart_item.quantity.toString();
 
     return FutureBuilder<Product?>(
         future: productNotifier.getProduct(widget.cart_item.product_id),
         builder: (context, snapshot) {
+          if(snapshot.data != null){
           widget.cart_item.product = snapshot.data;
           //textEditingController.text =  cartNotifier.cart!.line_items.where((cart_item) => cart_item.product_id == cart_item.product_id).first.quantity.toString();
           return Container(
@@ -370,6 +369,8 @@ class _ShopItemListState extends State<ShopItemList> {
               ],
             ),
           );
+          }
+          return Container();
         });
   }
 }

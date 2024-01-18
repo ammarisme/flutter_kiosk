@@ -36,7 +36,8 @@ List<ProductAttribute> getProductAttributes(attributes){
       //json['regular_price'] as String
       stock_quantity: json['stock_quantity'] ?? 0,
       attributes: getProductAttributes(json["attributes"]),
-      related_ids : json['related_ids']
+      related_ids : json['related_ids'],
+      variations: json["variation"]?? []
       );
 
       
@@ -55,8 +56,8 @@ ProductAttribute _$ProductAttributeFromJson(Map<String, dynamic> json) {
   return ProductAttribute(
     id: json["id"],
     name: json["name"],
-    position: json["position"],
-    visible: json["visible"],
-    variation: json["variation"],
-    options: json["options"]);
+    position: json["position"]?? 0,
+    visible: json["visible"]?? false,
+    variation: json["variation"]??false,
+    options: json["options"]?? []);
 }
