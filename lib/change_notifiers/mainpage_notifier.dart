@@ -25,8 +25,6 @@ class MainPageNotifier extends ChangeNotifier {
   List<ProductReview> _product_reviews = [];
   List<ProductReview> get product_reviews => _product_reviews;
 
-  late Product _selected_product;
-
 
 
   dynamic selectedCategoryId = -1;

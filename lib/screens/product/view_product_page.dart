@@ -1,17 +1,14 @@
 
 
-import 'dart:convert';
 
 import 'package:ecommerce_int2/api_services/product_apis.dart';
 import 'package:ecommerce_int2/models/product.dart';
-import 'package:ecommerce_int2/screens/product/components/rating_bottomSheet.dart';
 import 'package:ecommerce_int2/screens/search_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../app_properties.dart';
-import 'components/color_list.dart';
 import 'components/more_products.dart';
 import 'components/product_options.dart';
 import 'package:html/parser.dart';

@@ -1,7 +1,6 @@
 import 'package:ecommerce_int2/app_properties.dart';
 import 'package:ecommerce_int2/screens/auth/login_page.dart';
 import 'package:ecommerce_int2/screens/components/ui_components.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ChangePasswordPage extends StatefulWidget {
@@ -16,8 +15,6 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
-    double bottomPadding = MediaQuery.of(context).padding.bottom;
 
 
     return Scaffold(

@@ -1,7 +1,5 @@
 import 'package:ecommerce_int2/app_properties.dart';
-import 'package:ecommerce_int2/screens/address/address_form.dart';
 import 'package:ecommerce_int2/screens/main/main_page.dart';
-import 'package:ecommerce_int2/screens/shop/select_payment_method.dart';
 import 'package:flutter/material.dart';
 
 class OrderSuccessPage extends StatelessWidget {

@@ -1,6 +1,5 @@
 import 'package:ecommerce_int2/models/product.dart';
 import 'package:ecommerce_int2/models/user.dart';
-import 'package:flutter_wp_woocommerce/models/order.dart';
 
 class Cart {
  //for json output

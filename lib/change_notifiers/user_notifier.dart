@@ -6,7 +6,6 @@ import 'package:ecommerce_int2/api_services/authentication_apis.dart';
 import 'package:ecommerce_int2/api_services/user_apis.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import '../api_services/api_service.dart';
 import '../models/user.dart';
 
 class UserNotifier extends ChangeNotifier {
@@ -28,28 +27,23 @@ class UserNotifier extends ChangeNotifier {
   }
 
   Future<void> get_user_info() async {
-    ApiService apiService = ApiService();
     notifyListeners();
   }
 
   Future<void> change_password() async {
-    ApiService apiService = ApiService();
     notifyListeners();
   }
 
   Future<void> send_otp() async {
-    ApiService apiService = ApiService();
     notifyListeners();
   }
 
   Future<void> verify_otp() async {
-    ApiService apiService = ApiService();
     notifyListeners();
   }
 
   Future<void> reset_password() async {
     //password change when its forgot
-    ApiService apiService = ApiService();
     notifyListeners();
   }
 

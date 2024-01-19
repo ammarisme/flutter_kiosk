@@ -1,16 +1,13 @@
 import 'package:card_swiper/card_swiper.dart';
 import 'package:ecommerce_int2/app_properties.dart';
 import 'package:ecommerce_int2/change_notifiers/cart_notifiers.dart';
-import 'package:ecommerce_int2/screens/address/add_address_page.dart';
 import 'package:ecommerce_int2/screens/components/ui_components.dart';
-import 'package:ecommerce_int2/screens/shop/order_confirmation.dart';
 import 'package:ecommerce_int2/screens/payment/unpaid_page.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 import 'components/credit_card.dart';
-import 'components/shop_item_list.dart';
 
 class SelectPaymentMethodPage extends StatefulWidget {
   @override

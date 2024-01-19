@@ -1,4 +1,3 @@
-import 'package:ecommerce_int2/models/product.dart';
 
 class ProductVariation{
   int id;
@@ -6,6 +5,7 @@ class ProductVariation{
   String regular_price;
   String weight;
   int stock_quantity;
+  List<dynamic> attributes;
 
 
   ProductVariation({
@@ -13,7 +13,8 @@ class ProductVariation{
     required this.weight,
     required this.sale_price,
     required this.regular_price,
-    required this.stock_quantity
+    required this.stock_quantity,
+    required this.attributes
     });
 
 factory ProductVariation.fromJson(Map<String, dynamic> json) =>
@@ -22,5 +23,5 @@ factory ProductVariation.fromJson(Map<String, dynamic> json) =>
 }
 
 ProductVariation _$ProductVariationFromJson(Map<String, dynamic> json) {
-  return ProductVariation(id : json["id"],weight: json["weight"], sale_price: json["price"], regular_price: json["regular_price"], stock_quantity: json["stock_quantity"]);
+  return ProductVariation(id : json["id"],weight: json["weight"], sale_price: json["price"], regular_price: json["regular_price"], stock_quantity: json["stock_quantity"], attributes: json["attributes"]);
 }

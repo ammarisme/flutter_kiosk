@@ -1,6 +1,4 @@
 import 'package:card_swiper/card_swiper.dart';
-import 'package:dropdown_search/dropdown_search.dart';
-import 'package:ecommerce_int2/api_services/woocommerce_api.dart';
 import 'package:ecommerce_int2/app_properties.dart';
 import 'package:ecommerce_int2/change_notifiers/cart_notifiers.dart';
 import 'package:ecommerce_int2/common/utils.dart';
@@ -101,7 +99,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
                               ),
                               Text(
                                 "(" +
-                                    cart!.line_items.length.toString() +
+                                    cart.line_items.length.toString() +
                                     ' items)',
                                 style: TextStyle(
                                     color: CONTENT_TEXT_COLOR_1,

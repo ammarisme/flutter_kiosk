@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_wp_woocommerce/models/customer.dart';
 
 part 'user.g.dart';
 

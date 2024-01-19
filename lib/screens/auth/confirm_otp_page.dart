@@ -4,14 +4,9 @@ import 'package:ecommerce_int2/app_properties.dart';
 import 'package:ecommerce_int2/common/utils.dart';
 import 'package:ecommerce_int2/models/user.dart';
 import 'package:ecommerce_int2/screens/auth/login_page.dart';
-import 'package:ecommerce_int2/screens/components/ui_components.dart';
-import 'package:ecommerce_int2/screens/main/main_page.dart';
-import 'package:ecommerce_int2/screens/profile_page.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:otp_text_field/otp_field.dart';
 import 'package:otp_text_field/otp_field_style.dart';
-import 'package:otp_text_field/style.dart';
 
 class ConfirmOtpPage extends StatefulWidget {
   final User user;
@@ -73,7 +68,7 @@ class _ConfirmOtpPageState extends State<ConfirmOtpPage> {
                                 "OTP verified! Please wait while we create an account for you...",
                                 ToastType.done_success);
                             if (widget.user.id > 0) {
-                               UserAPIs.updateCustomer(widget.user as User)
+                               UserAPIs.updateCustomer(widget.user)
                                   .then((value) {
                                 Utils.showToast("Updated customer info!",
                                     ToastType.done_success);
@@ -83,7 +78,7 @@ class _ConfirmOtpPageState extends State<ConfirmOtpPage> {
                               });
  
                             } else {
-                              UserAPIs.createCustomer(widget.user as User)
+                              UserAPIs.createCustomer(widget.user)
                                   .then((value) {
                                 if (value.status == true) {
                                   Utils.showToast(

@@ -155,8 +155,6 @@ class CartAPIs {
           body: encoded_body);
 
       if (response.statusCode >= 200 && response.statusCode < 300) {
-        final jsonStr = json.decode(response.body);
-
         return true;
       } else {
         return false;

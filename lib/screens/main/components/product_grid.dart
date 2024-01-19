@@ -1,15 +1,12 @@
 import 'package:ecommerce_int2/api_services/product_apis.dart';
 import 'package:ecommerce_int2/app_properties.dart';
-import 'package:ecommerce_int2/change_notifiers/mainpage_notifier.dart';
 import 'package:ecommerce_int2/common/utils.dart';
 import 'package:ecommerce_int2/models/category.dart';
 import 'package:ecommerce_int2/models/product.dart';
 import 'package:ecommerce_int2/screens/main/components/category_card.dart';
-import 'package:ecommerce_int2/screens/product/product_page.dart';
 import 'package:ecommerce_int2/screens/product/view_product_page.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 
 class ProductGrid extends StatefulWidget {

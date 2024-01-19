@@ -1,5 +1,4 @@
 import 'package:ecommerce_int2/app_properties.dart';
-import 'package:ecommerce_int2/models/product.dart';
 import 'package:ecommerce_int2/screens/shop/check_out_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

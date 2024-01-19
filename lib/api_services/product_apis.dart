@@ -5,7 +5,6 @@ import 'package:http/http.dart' as http;
 import '../models/category.dart';
 import '../models/product.dart';
 import '../models/product_review.dart';
-import '../models/user.dart';
 import '../settings.dart';
 
 class Variables {

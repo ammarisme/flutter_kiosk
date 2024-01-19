@@ -2,7 +2,6 @@ import 'package:card_swiper/card_swiper.dart';
 import 'package:ecommerce_int2/app_properties.dart';
 import 'package:ecommerce_int2/common/utils.dart';
 import 'package:ecommerce_int2/models/product.dart';
-import 'package:ecommerce_int2/screens/product/product_page.dart';
 import 'package:ecommerce_int2/screens/product/view_product_page.dart';
 import 'package:flutter/material.dart';
 

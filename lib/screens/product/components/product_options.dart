@@ -8,8 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../change_notifiers/cart_notifiers.dart';
-import 'shop_bottomSheet.dart';
-import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class ProductOption extends StatefulWidget {
   final GlobalKey<ScaffoldState> scaffoldKey;
@@ -33,31 +31,31 @@ class _ProductOptionState extends State<ProductOption> {
     super.initState();
 
     selectedVariation = ProductVariation(
-      stock_quantity: widget.product.stock_quantity,
-      id: widget.product.id,
+        attributes: widget.product.attributes,
+        stock_quantity: widget.product.stock_quantity,
+        id: widget.product.id,
         weight: widget.product.weight,
         sale_price: widget.product.price,
         regular_price: widget.product.regular_price);
 
     try {
       if (widget.product.variations.length > 0) {
-        dropdownItems = widget.product.variations.map((item) {
-          return DropdownMenuItem<String>(
-            value: item.weight,
-            child: Text(item.weight + " kg"),
-          );
-        }).toList();
         ProductVariation first_variation = widget.product.variations.first;
-        selectedValue = first_variation.weight;
+        setState(() {
+        selectedValue = first_variation.attributes[0]["option"];
         selectedVariation = ProductVariation(
-          stock_quantity: first_variation.stock_quantity,
-          id:first_variation.id,
+            attributes: first_variation.attributes,
+            stock_quantity: first_variation.stock_quantity,
+            id: first_variation.id,
             weight: first_variation.weight,
             sale_price: first_variation.sale_price,
-            regular_price: first_variation.regular_price);
+            regular_price: first_variation.regular_price);  
+        });
+        
       }
-    } catch (ex) {
+    } catch (ex, stackTrace) {
       print(ex);
+      print(stackTrace);
     }
   }
 
@@ -135,12 +133,12 @@ class _ProductOptionState extends State<ProductOption> {
                 children: <Widget>[
                   InkWell(
                     onTap: () async {
-                      if (getStockQuantity() > 0){
-Utils.showToast(
+                      if (getStockQuantity() > 0) {
+                        Utils.showToast(
                             "Adding ${1} ${widget.product.name} to your cart.",
                             ToastType.done_success);
                         cartNotifier
-                            .addItem(widget.product.id, 1)
+                            .addItem(getSelectedProductId(), 1)
                             .then((value) {
                           Utils.showToast(
                               "Successfully added ${1} ${widget.product.name} to your cart.",
@@ -150,7 +148,6 @@ Utils.showToast(
                               builder: (_) => CheckOutPage()));
                         });
                       }
-                      
                     },
                     child: Container(
                       width: MediaQuery.of(context).size.width /
@@ -189,86 +186,27 @@ Utils.showToast(
                   InkWell(
                     onTap: () {
                       if (getStockQuantity() > 0) {
+                        showAddToCartDialog(cartNotifier);
+                                          } else if (getStockQuantityOfAllVariations() > 0){
                         showDialog(
                           context: context,
                           builder: (BuildContext context) {
-                            int quantity = 1;
-                            TextEditingController quantityController =
-                                TextEditingController(text: '1');
-
-                            void incrementQuantity() {
-                              setState(() {
-                                if (quantity+1 > getStockQuantity()) {
-                                  quantity = getStockQuantity();
-                                } else {
-                                  quantity++;
-                                  quantityController.text = quantity.toString();
-                                }
-                              });
-                            }
-
-                            void decrementQuantity() {
-                              if (quantity > 1) {
-                                setState(() {
-                                  quantity--;
-                                  quantityController.text = quantity.toString();
-                                });
-                              }
-                            }
-
                             return AlertDialog(
-                              title: Text('Add to Cart'),
                               content: Column(
                                 mainAxisSize: MainAxisSize.min,
-                                children: <Widget>[
+                                children: [
                                   Text(
-                                      'Enter Quantity: (Max : ${getStockQuantity()})'),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: <Widget>[
-                                      IconButton(
-                                        icon: Icon(Icons.remove),
-                                        onPressed: decrementQuantity,
-                                      ),
-                                      SizedBox(width: 20),
-                                      Expanded(
-                                        child: TextField(
-                                          controller: quantityController,
-                                          textAlign: TextAlign.center,
-                                          keyboardType: TextInputType.number,
-                                          onChanged: (value) {
-                                            quantity = int.tryParse(value) ?? 1;
-                                          },
-                                        ),
-                                      ),
-                                      SizedBox(width: 20),
-                                      IconButton(
-                                        icon: Icon(Icons.add),
-                                        onPressed: incrementQuantity,
-                                      ),
-                                    ],
-                                  ),
+                                      'Please pick a product option before adding to cart!'),
                                 ],
                               ),
                               actions: <Widget>[
                                 TextButton(
-                                  onPressed: () {
-                                    // Add item to cart with the selected quantity
-                                    Utils.showToast("Adding ${quantity} ${widget.product.name} to your cart.", ToastType.done_success);
-                                    cartNotifier.addItem(getSelectedProductId(), quantity).then((value) {
-                                      Utils.showToast("Successfully added ${quantity} ${widget.product.name} to your cart.", ToastType.done_success);
-                                  });
-                                    Navigator.of(context)
-                                        .pop(); // Close the dialog
-                                  },
-                                  child: Text('Add'),
-                                ),
-                                TextButton(
+                                  child: Text('Ok'),
                                   onPressed: () {
                                     Navigator.of(context)
                                         .pop(); // Close the dialog
+                                        showVariantPickerDialog(cartNotifier);
                                   },
-                                  child: Text('Cancel'),
                                 ),
                               ],
                             );
@@ -280,7 +218,7 @@ Utils.showToast(
                       width: MediaQuery.of(context).size.width /
                           MAIN_BUTTON_FACTOR,
                       decoration: BoxDecoration(
-                          color: getStockQuantity() > 0
+                          color: getStockQuantityOfAllVariations() > 0
                               ? BUTTON_COLOR_1
                               : BUTTON_COLOR_1_INACTIVE,
                           gradient: MAIN_BUTTON_GRADIENTS,
@@ -297,7 +235,7 @@ Utils.showToast(
                               size: BUTTON_ICON_SIZE),
                           SizedBox(width: 3),
                           Text(
-                           getStockQuantity() > 0
+                            getStockQuantityOfAllVariations() > 0
                                 ? 'Add to cart'
                                 : 'Out of stock',
                             style: TextStyle(
@@ -311,31 +249,8 @@ Utils.showToast(
                       ),
                     ),
                   ),
-                  // InkWell(
-                  //   onTap: () {},
-                  //   child: Container(
-                  //     width: MediaQuery.of(context).size.width /
-                  //         MAIN_BUTTON_FACTOR,
-                  //     decoration: BoxDecoration(
-                  //         color: Color.fromARGB(32, 32, 0, 0),
-                  //         borderRadius: BorderRadius.only(
-                  //             topLeft: Radius.circular(10.0),
-                  //             bottomLeft: Radius.circular(10.0))),
-                  //     padding: EdgeInsets.symmetric(vertical: 16.0),
-                  //     child: Row(
-                  //       mainAxisAlignment: MainAxisAlignment.center,
-                  //       children: [
-                  //         Icon(Icons.favorite_rounded,
-                  //             color: Colors.red, // Set icon color as needed
-                  //             size: BUTTON_ICON_SIZE),
-                  //         SizedBox(width: 3),
+          
 
-                  //         // Adjust the space between text and icon
-                  //       ],
-                  //     ),
-                  //   ),
-                  // ),
- 
                   widget.product.rating == 0
                       ? Container()
                       : InkWell(
@@ -530,102 +445,352 @@ Utils.showToast(
                     // if there are weight attributes, load a dropdown.
                     //else if  there is a weight value, show the weight.
                     // else show none.
-                    dropdownItems.length > 0
-                        ? Container(
-                            width: MediaQuery.of(context).size.width / 2.7,
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                border: Border.all(
-                                  color:
-                                      Colors.black, // Set border color to black
-                                  width: 1.0, // Set border width
-                                ),
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(10.0))),
-                            padding: EdgeInsets.symmetric(vertical: 0.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  "Options: ",
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: BUTTON_FONT_SIZE,
-                                  ),
-                                ),
-                                DropdownButton<String>(
-                                  value: selectedValue,
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: BUTTON_FONT_SIZE,
-                                  ),
-                                  onChanged: (newValue) {
-                                    setState(() {
-                                      selectedValue = newValue;
-                                      selectedVariation = widget
-                                          .product.variations
-                                          .where((product_variation) =>
-                                              product_variation.weight ==
-                                              newValue)
-                                          .first;
-                                    });
-                                    // Update selected value when an option is chosen
-                                  },
-                                  items: dropdownItems,
-                                ),
-                                // Adjust the space between text and icon
-                              ],
-                            ),
-                          )
-                        : (selectedVariation?.weight == "")
-                            ? Container()
-                            : Container(
-                                width: MediaQuery.of(context).size.width / 3,
-                                decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    border: Border.all(
-                                      color: Colors
-                                          .black, // Set border color to black
-                                      width: 1.0, // Set border width
-                                    ),
-                                    borderRadius: BorderRadius.all(
-                                        Radius.circular(10.0))),
-                                padding: EdgeInsets.symmetric(vertical: 16.0),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      "Weight: " +
-                                          selectedVariation!.weight +
-                                          " kg",
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: BUTTON_FONT_SIZE,
-                                      ),
-                                    ),
-                                    // Adjust the space between text and icon
-                                  ],
-                                ),
-                              )
+                    hasVariants()
+                        ? CustomButton(buttontext: "Pick an option" + (selectedValue!= null && selectedValue!=""? "\n(selected : ${selectedValue})": ""), onTap: (){
+                          showVariantPickerDialog(cartNotifier);
+                    }, enabled: true, size: ButtonSize.large):Container()
                   ])))
         ],
       ),
     );
   }
-  int getStockQuantity(){
-    if (selectedVariation!=null){
-      return selectedVariation!.stock_quantity;
-    }
-    return  widget.product.stock_quantity;
+
+  bool hasVariants() {
+    return (widget.product.variations != null &&
+        widget.product.variations.length > 0);
   }
 
-  int getSelectedProductId(){
-     if (selectedVariation!=null){
+  int getStockQuantity() {
+    if (selectedVariation != null) {
+      return selectedVariation!.stock_quantity;
+    }
+    return widget.product.stock_quantity;
+  }
+
+  int getStockQuantityOfAllVariations() {
+     int total_stock = widget.product.variations.fold(
+        0,
+        (sum, lineItem) =>
+            sum + (lineItem.stock_quantity));
+      return total_stock + widget.product.stock_quantity;
+  }
+
+  List<ProductVariation> getVariations() {
+    return widget.product.variations;
+  }
+
+  int getSelectedProductId() {
+    if (selectedVariation != null) {
       return selectedVariation!.id;
     }
-    return  widget.product.id;
+    return widget.product.id;
+  }
+
+  void selectVariation(mySelectedVariation) {
+    setState(() {
+      selectedVariation = mySelectedVariation;
+      selectedValue = mySelectedVariation.attributes[0]["option"];
+    });
+  }
+  
+  void showVariantPickerDialog(cartNotifier) {
+    var variations = getVariations();
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: Text('Pick an option'),
+                                    content: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Table(
+                                          border: TableBorder.all(),
+                                          children: [
+                                            TableRow(
+                                              children: [
+                                                TableCell(
+                                                    child: Padding(
+                                                        padding: EdgeInsets.all(
+                                                            10.0),
+                                                        child: Align(
+                                                            alignment: Alignment
+                                                                .centerLeft,
+                                                            child: Text(
+                                                              variations[0]
+                                                                      .attributes[
+                                                                  0]["name"],
+                                                              style: TextStyle(
+                                                                  fontSize: 10,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold),
+                                                            )))),
+                                                TableCell(
+                                                    child: Padding(
+                                                        padding:
+                                                            EdgeInsets.only(
+                                                                top: 10,
+                                                                bottom: 10,
+                                                                right: 5,
+                                                                left: 5),
+                                                        child: Align(
+                                                            alignment: Alignment
+                                                                .center,
+                                                            child: Text(
+                                                              'Price',
+                                                              style: TextStyle(
+                                                                  fontSize: 10,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold),
+                                                            )))),
+                                                TableCell(
+                                                    child: Padding(
+                                                        padding:
+                                                            EdgeInsets.only(
+                                                                top: 10,
+                                                                bottom: 10,
+                                                                right: 5,
+                                                                left: 5),
+                                                        child: Align(
+                                                            alignment: Alignment
+                                                                .center,
+                                                            child: Text('')))),
+                                              ],
+                                            ),
+                                            for (int index = 0;
+                                                index < variations.length;
+                                                index++)
+                                              TableRow(
+                                                children: [
+                                                  TableCell(
+                                                      child: Padding(
+                                                    padding: EdgeInsets.only(
+                                                        top: 10,
+                                                        bottom: 10,
+                                                        right: 5,
+                                                        left: 5),
+                                                    child: Align(
+                                                        alignment: Alignment
+                                                            .centerLeft,
+                                                        child: Text(
+                                                            style: TextStyle(
+                                                                fontSize: 10),
+                                                            ' ${variations[index].attributes[0]["option"]}')),
+                                                  )),
+                                                  TableCell(
+                                                      child: Padding(
+                                                    padding: EdgeInsets.only(
+                                                        top: 10,
+                                                        bottom: 10,
+                                                        right: 5,
+                                                        left: 5),
+                                                    child: Align(
+                                                      alignment:
+                                                          Alignment.centerRight,
+                                                      child: Text(
+                                                        'Rs ${Utils.thousandSeperate(variations[index].sale_price)}/=',
+                                                        textAlign:
+                                                            TextAlign.start,
+                                                        style: TextStyle(
+                                                            fontSize: 10),
+                                                      ),
+                                                    ),
+                                                  )),
+                                                  TableCell(
+                                                      child: Padding(
+                                                    padding: EdgeInsets.only(
+                                                        top: 10,
+                                                        bottom: 10,
+                                                        right: 5,
+                                                        left: 5),
+                                                    child: Align(
+                                                      alignment:
+                                                          Alignment.centerRight,
+                                                      child: CustomButton(
+                                                        size: ButtonSize.small,
+                                                        enabled:variations[
+                                                                        index]
+                                                                    .stock_quantity >
+                                                                0 ,
+                                                        buttontext: variations[
+                                                                        index]
+                                                                    .stock_quantity >
+                                                                0
+                                                            ? 'Select option'
+                                                            : 'Out of stock',
+                                                        onTap: () {
+                                                          selectVariation(
+                                                              variations[
+                                                                  index]);
+                                                          Navigator.of(context)
+                                                              .pop(); // Clo
+                                                                  showAddToCartDialog(cartNotifier);
+
+                                                        },
+                                                      ),
+                                                    ),
+                                                  )),
+                                                ],
+                                              ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                    actions: <Widget>[
+                                      TextButton(
+                                        child: Text('Cancel'),
+                                        onPressed: () {
+                                          Navigator.of(context)
+                                              .pop(); // Close the dialog
+                                        },
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+  
+  }
+  
+  void showAddToCartDialog(cartNotifier) {
+        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            int quantity = 1;
+                            TextEditingController quantityController =
+                                TextEditingController(text: '1');
+
+                            void incrementQuantity() {
+                              setState(() {
+                                if (quantity + 1 > getStockQuantity()) {
+                                  quantity = getStockQuantity();
+                                } else {
+                                  quantity++;
+                                  quantityController.text = quantity.toString();
+                                }
+                              });
+                            }
+
+                            void decrementQuantity() {
+                              if (quantity > 1) {
+                                setState(() {
+                                  quantity--;
+                                  quantityController.text = quantity.toString();
+                                });
+                              }
+                            }
+
+                            return AlertDialog(
+                              title: Text('Add to Cart'),
+                              content: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: <Widget>[
+                                
+                                  Text(
+                                      (selectedValue!= null ? 'Option: ${selectedValue} / ' : "") + 'Available stock : ${getStockQuantity()}', style: TextStyle(fontSize: 12),),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: <Widget>[
+                                      IconButton(
+                                        icon: Icon(Icons.remove),
+                                        onPressed: decrementQuantity,
+                                      ),
+                                      SizedBox(width: 20),
+                                      Expanded(
+                                        child: TextField(
+                                          controller: quantityController,
+                                          textAlign: TextAlign.center,
+                                          keyboardType: TextInputType.number,
+                                          onChanged: (value) {
+                                            quantity = int.tryParse(value) ?? 1;
+                                          },
+                                        ),
+                                      ),
+                                      SizedBox(width: 20),
+                                      IconButton(
+                                        icon: Icon(Icons.add),
+                                        onPressed: incrementQuantity,
+                                      ),
+                                    ],
+                                  ),
+                                                                 ],
+                              ),
+                              actions: <Widget>[
+                                TextButton(
+                                  onPressed: () {
+                                    // Add item to cart with the selected quantity
+                                    Utils.showToast(
+                                        "Adding ${quantity} ${widget.product.name} to your cart.",
+                                        ToastType.done_success);
+                                    cartNotifier
+                                        .addItem(
+                                            getSelectedProductId(), quantity)
+                                        .then((value) {
+                                      Utils.showToast(
+                                          "Successfully added ${quantity} ${widget.product.name} to your cart.",
+                                          ToastType.done_success);
+                                    });
+                                    Navigator.of(context)
+                                        .pop(); // Close the dialog
+                                  },
+                                  child: Text('Add'),
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.of(context)
+                                        .pop(); // Close the dialog
+                                  },
+                                  child: Text('Cancel'),
+                                ),
+                              ],
+                            );
+                          },
+                        );
+
+  }
+}
+
+enum ButtonSize{
+small,
+large
+}
+
+class CustomButton extends StatelessWidget {
+  final String buttontext;
+  final void Function() onTap;
+  bool enabled;
+  ButtonSize size;
+
+  CustomButton({required this.buttontext, required this.onTap, required this.enabled, required this.size});
+  Widget build(BuildContext context) {
+    return GestureDetector(
+        onTap: () {
+          this.onTap();
+        },
+        child: Container(
+          width: MediaQuery.of(context).size.width / 2.7,
+          decoration: BoxDecoration(
+              color: this.enabled ? BUTTON_COLOR_1 : BUTTON_COLOR_1_INACTIVE,
+              border: Border.all(
+                color:this.enabled ? BUTTON_COLOR_1 : BUTTON_COLOR_1_INACTIVE, // Set border color to black
+                width: 1.0, // Set border width
+              ),
+              borderRadius: BorderRadius.all(Radius.circular(5.0))),
+          padding: EdgeInsets.symmetric(vertical: this.size == ButtonSize.small ?  5.0: 15),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                buttontext,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: this.size == ButtonSize.small ?  SMALL_BUTTON_FONT_SIZE : BUTTON_FONT_SIZE,
+                ),
+              ),
+              // Adjust the space between text and icon
+            ],
+          ),
+        ));
   }
 }

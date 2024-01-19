@@ -1,16 +1,10 @@
 import 'package:ecommerce_int2/app_properties.dart';
 import 'package:ecommerce_int2/custom_background.dart';
-import 'package:ecommerce_int2/screens/auth/login_page.dart';
-import 'package:ecommerce_int2/screens/auth/welcome_back_page.dart';
 import 'package:ecommerce_int2/screens/main/main_page.dart';
-import 'package:ecommerce_int2/screens/settings/change_country.dart';
-import 'package:ecommerce_int2/screens/settings/change_password_page.dart';
 import 'package:ecommerce_int2/screens/settings/legal_about_page.dart';
-import 'package:ecommerce_int2/screens/settings/notifications_settings_page.dart';
 import 'package:flutter/material.dart';
 
 import '../../change_notifiers/user_notifier.dart';
-import 'change_language_page.dart';
 import 'package:provider/provider.dart';
 
 class SettingsPage extends StatelessWidget {

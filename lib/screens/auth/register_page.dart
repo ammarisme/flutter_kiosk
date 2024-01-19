@@ -1,21 +1,15 @@
 import 'dart:math';
 
-import 'package:dropdown_search/dropdown_search.dart';
 import 'package:ecommerce_int2/api_services/sms_apis.dart';
 import 'package:ecommerce_int2/api_services/user_apis.dart';
 import 'package:ecommerce_int2/app_properties.dart';
 import 'package:ecommerce_int2/common/utils.dart';
 import 'package:ecommerce_int2/data/data.dart';
 import 'package:ecommerce_int2/models/user.dart';
-import 'package:ecommerce_int2/screens/address/address_form.dart';
-import 'package:ecommerce_int2/screens/address/select_shipping_and_payment_methods.dart';
-import 'package:ecommerce_int2/screens/auth/confirm_otp1_page.dart';
 import 'package:ecommerce_int2/screens/auth/confirm_otp_page.dart';
 import 'package:ecommerce_int2/screens/auth/login_page.dart';
 import 'package:ecommerce_int2/screens/components/ui_components.dart';
 import 'package:ecommerce_int2/screens/main/main_page.dart';
-import 'package:ecommerce_int2/screens/profile_page.dart';
-import 'package:ecommerce_int2/settings.dart';
 import 'package:flutter/material.dart';
 
 class RegisterPage extends StatelessWidget {

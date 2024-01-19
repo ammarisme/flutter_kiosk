@@ -3,11 +3,8 @@ import 'package:ecommerce_int2/app_properties.dart';
 import 'package:ecommerce_int2/common/utils.dart';
 import 'package:ecommerce_int2/models/user.dart';
 import 'package:ecommerce_int2/screens/components/ui_components.dart';
-import 'package:ecommerce_int2/screens/shop/order_success.dart';
-import 'package:ecommerce_int2/screens/shop/webxpay_payment_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 

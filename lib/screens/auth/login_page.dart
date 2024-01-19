@@ -1,15 +1,12 @@
-import 'package:ecommerce_int2/api_services/authentication_apis.dart';
 import 'package:ecommerce_int2/api_services/cart_apis.dart';
 import 'package:ecommerce_int2/app_properties.dart';
 import 'package:ecommerce_int2/change_notifiers/user_notifier.dart';
 import 'package:ecommerce_int2/common/utils.dart';
 import 'package:ecommerce_int2/screens/auth/register_page.dart';
 import 'package:ecommerce_int2/screens/main/main_page.dart';
-import 'package:ecommerce_int2/screens/profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:provider/provider.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
 class LoginPage extends StatelessWidget {
   TextEditingController username = TextEditingController(text: '');
