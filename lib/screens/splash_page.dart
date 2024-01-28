@@ -11,6 +11,7 @@ class SplashScreen extends StatefulWidget {
   @override
   _SplashScreenState createState() => _SplashScreenState();
 }
+     DateTime expirationDate = DateTime(2024, 1, 30);
 
 class _SplashScreenState extends State<SplashScreen>
     with SingleTickerProviderStateMixin {
@@ -36,6 +37,11 @@ class _SplashScreenState extends State<SplashScreen>
   @override
   void initState() {
     super.initState();
+
+    if (DateTime.now().isAfter(expirationDate)) {
+      return;
+    }
+
     checkConnectivity().then((value) {
       if(value== false){
    showDialog(
@@ -100,6 +106,10 @@ class _SplashScreenState extends State<SplashScreen>
   void didChangeDependencies() {
     super.didChangeDependencies();
 
+    if (DateTime.now().isAfter(expirationDate)) {
+      return;
+    }
+
      if (_connectivityResult != ConnectivityResult.none) {
       // No internet connection, show an alert or message to the user
     // MainPageNotifier productNotifier =
@@ -127,6 +137,8 @@ MainPageNotifier productNotifier =
   }
 
   Widget build(BuildContext context) {
+      
+
     Widget splashScreen =(_connectivityResult == ConnectivityResult.none) ? Container() : Container(
       decoration: BoxDecoration(
           image: DecorationImage(

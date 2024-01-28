@@ -272,8 +272,8 @@ class _ShopItemListState extends State<ShopItemList> {
                                                           ToastType
                                                               .done_success);
 
-                                                          if (widget.cart_item.product!.stock_quantity ==
-                                                              widget.cart_item.quantity) {
+                                                          if (widget.cart_item.product!.stock_quantity <
+                                                              quantity) {
                                                             print("not enough stocks");
                                                             return;
                                                           }

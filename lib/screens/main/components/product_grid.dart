@@ -37,12 +37,10 @@ bool _isInit = false;
     super.didChangeDependencies();
     if (!_isInit) {
       _isInit = true;
-      WidgetsBinding.instance!.addPostFrameCallback((_) {
-        print(widget.category.name);
-        ProductAPIs.getProducts(widget.category.id).then((products) {
-          setState(() {
-            widget.products = products;
-          });
+
+      ProductAPIs.getProducts(widget.category.id).then((products) {
+        setState(() {
+          widget.products = products;
         });
       });
     }

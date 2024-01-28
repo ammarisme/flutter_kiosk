@@ -25,19 +25,22 @@ class _CheckOutPageState extends State<CheckOutPage> {
   int cartTotal = 0;
 
   updateCartTotal(){
+    setState(() {
     CartNotifier cartNotifier =
         Provider.of<CartNotifier>(context, listen: false);
-    print(cartNotifier.getTotalBeforeDiscount());
+    cartNotifier.getTotalBeforeDiscount();  
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     CartNotifier cartNotifier =
-        Provider.of<CartNotifier>(context, listen: true);
+        Provider.of<CartNotifier>(context, listen: false);
     return Container(
       child: FutureBuilder<Cart?>(
         future: cartNotifier.getCart(),
         builder: (context, snapshot) {
+          print("check...");
           if (snapshot.connectionState == ConnectionState.waiting) {
             // Show a loading indicator while waiting for the API call
             return Center(
@@ -120,10 +123,10 @@ class _CheckOutPageState extends State<CheckOutPage> {
                               itemBuilder: (_, index) => cart == null
                                   ? Container()
                                   : ShopItemList(
-                                      cartNotifier.cart!.line_items[index],
+                                      cart.line_items[index],
                                       onRemove: () {
-                                        cartNotifier.cart!.line_items
-                                            .remove(cart!.line_items[index]);
+                                        cart.line_items
+                                            .remove(cart.line_items[index]);
                                       },
                                       onAdded:updateCartTotal
                                     ),
