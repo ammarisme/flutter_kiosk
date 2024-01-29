@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:ecommerce_int2/api_services/cart_apis.dart';
 import 'package:ecommerce_int2/app_properties.dart';
 import 'package:ecommerce_int2/change_notifiers/user_notifier.dart';
@@ -38,7 +40,8 @@ class LoginPage extends StatelessWidget {
             if (response.status == true) {
               CartAPIs.getCartNonce(username, this.password.text).then((value) {
                 final storage = FlutterSecureStorage();
-                storage.write(key: "nonce", value: value);
+                storage.write(key: "cart_nonce", value: value);
+                storage.write(key: "auth_header", value: 'Basic ' + base64Encode(utf8.encode('$username'+':'+this.password.text)));
               });
               Utils.showToast("Welcome!", ToastType.done_success);
                Navigator.of(context).push(

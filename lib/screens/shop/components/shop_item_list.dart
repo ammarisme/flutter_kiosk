@@ -118,7 +118,7 @@ class _ShopItemListState extends State<ShopItemList> {
                             child: Padding(
                                 padding: EdgeInsets.only(left: 5),
                                 child: Icon(Icons.delete_sharp,
-                                    size: 16, color: Colors.black)),
+                                    size: 24, color: Colors.black)),
                           ),
                           
                           ShopProductDisplay(

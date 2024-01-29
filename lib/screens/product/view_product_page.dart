@@ -179,7 +179,9 @@ void initState() {
                     ProductOption(
                       _scaffoldKey,
                       product: widget.product,
-                    ) : Container(),
+                    ) : Image.asset(
+'assets/image_loader.gif',
+),
                     description,
                     MoreProducts(product_ids: widget.product.related_ids,)
                   ],

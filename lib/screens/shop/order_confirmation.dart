@@ -3,6 +3,7 @@ import 'package:ecommerce_int2/app_properties.dart';
 import 'package:ecommerce_int2/common/utils.dart';
 import 'package:ecommerce_int2/models/user.dart';
 import 'package:ecommerce_int2/screens/components/ui_components.dart';
+import 'package:ecommerce_int2/screens/main/main_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -19,7 +20,6 @@ class ConfirmYourOrderPage extends StatefulWidget {
 }
 
 class _ConfirmYourOrderPageState extends State<ConfirmYourOrderPage> {
-
   @override
   Widget build(BuildContext context) {
     CartNotifier cartNotifier =
@@ -78,10 +78,10 @@ class _ConfirmYourOrderPageState extends State<ConfirmYourOrderPage> {
                                             2: FixedColumnWidth(100.0),
                                           },
                                           children: List<TableRow>.generate(
-                                              cartNotifier.cart!.line_items.length,
-                                              (index) {
-                                            CartItem item =
-                                                cartNotifier.cart!.line_items[index];
+                                              cartNotifier.cart!.line_items
+                                                  .length, (index) {
+                                            CartItem item = cartNotifier
+                                                .cart!.line_items[index];
                                             return TableRow(
                                               children: <Widget>[
                                                 TableCell(
@@ -122,11 +122,11 @@ class _ConfirmYourOrderPageState extends State<ConfirmYourOrderPage> {
                                                               .center,
                                                       children: <Widget>[
                                                         Text(
-                                                          '${NumberFormat('#,##0.00', 'en_US').format(item.salePrice*item.quantity)}',
+                                                          '${NumberFormat('#,##0.00', 'en_US').format(item.salePrice * item.quantity)}',
                                                         ),
                                                         // First line
                                                         Text(
-                                                          'Discount (-${NumberFormat('#,##0.00', 'en_US').format(item.salePrice*item.quantity*item.linediscount/100)})',
+                                                          'Discount (-${NumberFormat('#,##0.00', 'en_US').format(item.salePrice * item.quantity * item.linediscount / 100)})',
                                                           style: TextStyle(
                                                               fontSize: 10.0,
                                                               color:
@@ -382,25 +382,31 @@ class _ConfirmYourOrderPageState extends State<ConfirmYourOrderPage> {
                               child: ActionButton(
                                 buttonType: ButtonType.enabled_default,
                                 buttonText: 'Confirm',
-                                onTap: ()  {
-                                  Utils.showToast("Placing your order", ToastType.in_progress);
+                                onTap: () {
+                                  Utils.showToast("Placing your order",
+                                      ToastType.in_progress);
                                   cartNotifier.createOrder().then((value) {
                                     CartAPIs.clearTheCart().then((value) {
-                                      if (value.status == true){
+                                      if (value.status == true) {
                                         print("cart is cleared");
+                                        Navigator.of(context).pushReplacement(
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    MainPage()));
                                       }
+                                      Utils.showToast(
+                                          "Your order is confirmed.",
+                                          ToastType.done_success);
                                     });
-                                    Utils.showToast("Your order is confirmed.", ToastType.done_success);
-                                      // ScaffoldMessenger.of(context).showSnackBar(
-                                      //   SnackBar(
-                                      //     content: Text(value?'Order created':"Error: Order creation"),
-                                      //     duration: Duration(seconds: 2), // Duration for how long the snackbar is visible
-                                      //   ),
-                                      // );
-                                      // Navigator.of(context).push(MaterialPageRoute(
-                                      //     builder: (_) => Checkout(receiptNumber: "")));
-                                  }
-                                  );
+                                    // ScaffoldMessenger.of(context).showSnackBar(
+                                    //   SnackBar(
+                                    //     content: Text(value?'Order created':"Error: Order creation"),
+                                    //     duration: Duration(seconds: 2), // Duration for how long the snackbar is visible
+                                    //   ),
+                                    // );
+                                    // Navigator.of(context).push(MaterialPageRoute(
+                                    //     builder: (_) => Checkout(receiptNumber: "")));
+                                  });
                                 },
                               ),
                             )

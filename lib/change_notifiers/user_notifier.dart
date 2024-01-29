@@ -3,6 +3,7 @@
 import 'dart:convert';
 
 import 'package:ecommerce_int2/api_services/authentication_apis.dart';
+import 'package:ecommerce_int2/api_services/cart_apis.dart';
 import 'package:ecommerce_int2/api_services/user_apis.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -49,9 +50,13 @@ class UserNotifier extends ChangeNotifier {
 
   Future<void> logout() async {
     final storage = FlutterSecureStorage();
+    await storage.delete(key: 'jwt');
+    await storage.delete(key: 'cart_nonce');
+    await storage.delete(key: 'auth_header');
     await storage.delete(key: 'user').then((value) {
-                this.logged_in = false;
-        });
+      this.logged_in = false;
+    });
+
     notifyListeners();
   }
 

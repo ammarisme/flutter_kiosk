@@ -81,6 +81,7 @@ flutter:
   - assets/shipping-data.json
   - assets/icons/home.png
   - assets/icons/order_processing.png
+  - assets/image_loader.gif
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.io/assets-and-images/#resolution-aware.

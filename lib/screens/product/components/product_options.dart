@@ -82,22 +82,10 @@ class _ProductOptionState extends State<ProductOption> {
                     width: 2.0,
                   ),
                 ),
-                child: Image.network(widget.product.image, fit: BoxFit.cover,
-                    loadingBuilder: (BuildContext context, Widget child,
-                        ImageChunkEvent? loadingProgress) {
-                  if (loadingProgress == null) {
-                    return child; // Return the actual image widget if the image is fully loaded
-                  } else {
-                    return Center(
-                      child: CircularProgressIndicator(
-                        value: loadingProgress.expectedTotalBytes != null
-                            ? loadingProgress.cumulativeBytesLoaded /
-                                loadingProgress.expectedTotalBytes!
-                            : null,
-                      ),
-                    );
-                  }
-                }),
+                child: FadeInImage.assetNetwork(
+  placeholder: 'assets/image_loader.gif',
+  image: widget.product.image,
+),
               ),
             ),
           ),

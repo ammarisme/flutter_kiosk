@@ -37,6 +37,8 @@ class AuthenticationAPIs {
       // Saving data
       final storage = FlutterSecureStorage();
       await storage.write(key: 'jwt', value: token);
+      await storage.write(key: 'jwt', value: token);
+      await storage.write(key: 'jwt', value: token);
 
       return payload;
     } else {
@@ -66,6 +68,8 @@ class AuthenticationAPIs {
     if (response.statusCode == 200) {
       final storage = FlutterSecureStorage();
       await storage.delete(key: 'jwt');
+      await storage.delete(key: 'cart_nonce');
+      await storage.delete(key: 'auth_header');
       return true;
     } else {
       // Handle error cases here
