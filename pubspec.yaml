@@ -80,6 +80,7 @@ flutter:
   - assets/cities-by-district.json
   - assets/shipping-data.json
   - assets/icons/home.png
+  - assets/icons/loyalty_icon.png
   - assets/icons/order_processing.png
   - assets/image_loader.gif
 

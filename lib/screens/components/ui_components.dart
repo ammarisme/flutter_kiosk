@@ -28,7 +28,7 @@ class ActionButton extends StatelessWidget {
       onTap: this.onTap,
       child: Container(
         height: 40,
-        width: MediaQuery.of(context).size.width / 2,
+        width: MediaQuery.of(context).size.width / 5,
         decoration: BoxDecoration(
             gradient: buttonType == ButtonType.disabled_navigation
                 ? DISABLED_BUTTON_GRADIENTS

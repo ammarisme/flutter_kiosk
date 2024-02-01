@@ -44,10 +44,19 @@ class Cart {
       });
 
   factory Cart.fromJson(Map<String, dynamic> json) {
-    List<CartItem> items = (json['items'] as List<dynamic>)
+    List<CartItem> items =json['items'] !=null? (json['items'] as List<dynamic>)
         .map((item) => CartItem.fromJson(item))
-        .toList();
+        .toList() : [];
+    items =json['line_items'] !=null? (json['line_items'] as List<dynamic>)
+    .map((item) => CartItem.fromJson(item))
+    .toList() : [];
+    Map<String, dynamic> extension = {};
 
+    try{
+      extension = json["extensions"] != null ? json["extensions"] : [];
+    }catch(ex){
+      extension = {};
+    }
     return Cart(
       //for json out
         payment_method: 'cash',
@@ -73,7 +82,7 @@ class Cart {
         paymentRequirements:
             List<String>.from(json['payment_requirements'] ?? []),
         nonce: "", //to update the cart
-        extensions: json["extensions"]
+        extensions: extension
         // extensions: json['extensions'] ?? {},
         );
   }
@@ -90,12 +99,15 @@ class Cart {
       'billing': this.billing.toJson(),
       'shipping': this.shipping.toJson(),
       'line_items': lineItemsJson,
-      'customer_id' : this.user!.id,
+      'customer_id' : this.user!=null ? this.user!.id : "",
       'shipping_lines' : "",//this.shipping_lines,
     };
   }
 
 
+  addItem(carItem){
+    this.line_items.add(carItem);
+  }
 }
 
 

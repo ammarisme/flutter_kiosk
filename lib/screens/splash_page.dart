@@ -17,48 +17,19 @@ class _SplashScreenState extends State<SplashScreen>
     with SingleTickerProviderStateMixin {
   Animation<double>? opacity;
   late AnimationController controller;
-    ConnectivityResult _connectivityResult = ConnectivityResult.none;
-
-
-   Future<bool> checkConnectivity() async {
-    var connectivityResult = await Connectivity().checkConnectivity();
-    setState(() {
-      _connectivityResult = connectivityResult;
-    });
-
-    if (_connectivityResult == ConnectivityResult.none) {
-      // No internet connection, show an alert or message to the user
-     return false;
-    }
-    return true;
-  }
-  bool connection_retry = false;
+ 
 
   @override
   void initState() {
     super.initState();
 
-    if (DateTime.now().isAfter(expirationDate)) {
-      return;
-    }
+    // if (DateTime.now().isAfter(expirationDate)) {
+    //   return;
+    // }
 
-    checkConnectivity().then((value) {
-      if(value== false){
-   showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text('No Internet Connection'),
-            content: Text('Please check your internet connection.'),
-            actions: <Widget>[
-              TextButton(
-                child: Text('Retry'),
-                onPressed: () {
-                  checkConnectivity().then((value) {
-                          if(value==true){
-                            connection_retry = true;
-                    controller = AnimationController(
-        duration: Duration(milliseconds: 2500), vsync: this);
+    
+    controller = AnimationController(
+    duration: Duration(milliseconds: 2500), vsync: this);
     opacity = Tween<double>(begin: 1.0, end: 0.0).animate(controller)
       ..addListener(() {
         setState(() {});
@@ -67,62 +38,16 @@ class _SplashScreenState extends State<SplashScreen>
     controller.forward().then((_) {
       navigationPage();
     });
-                      // Navigator.of(context).pop();
-
-                  }else{
-                    //try again.
-                    connection_retry = true;
-                    
-                    print("No internet connection yet.");
-                  }
-                  });
-                },
-              ),
-            ],
-          );
-        },
-      );
-      }else{
-        setState(() {
-          this.connection_retry = true;
-         controller = AnimationController(
-        duration: Duration(milliseconds: 2500), vsync: this);
-    opacity = Tween<double>(begin: 1.0, end: 0.0).animate(controller)
-      ..addListener(() {
-      });
-      
-    controller.forward().then((_) {
-      navigationPage();
-    });
-        });
-      }
-      
-    
-    });
-  
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
 
-    if (DateTime.now().isAfter(expirationDate)) {
-      return;
-    }
+    // if (DateTime.now().isAfter(expirationDate)) {
+    //   return;
+    // }
 
-     if (_connectivityResult != ConnectivityResult.none) {
-      // No internet connection, show an alert or message to the user
-    // MainPageNotifier productNotifier =
-    //     Provider.of<MainPageNotifier>(context, listen: true);
-
-    // productNotifier.updateProducts();
-    }else {
-MainPageNotifier productNotifier =
-        Provider.of<MainPageNotifier>(context, listen: true);
-
-    productNotifier.updateProducts();
-    }
-    
   }
 
   @override
@@ -139,7 +64,7 @@ MainPageNotifier productNotifier =
   Widget build(BuildContext context) {
       
 
-    Widget splashScreen =(_connectivityResult == ConnectivityResult.none) ? Container() : Container(
+    Widget splashScreen =  Container(
       decoration: BoxDecoration(
           image: DecorationImage(
               image: AssetImage('assets/background.jpg'), fit: BoxFit.cover)),

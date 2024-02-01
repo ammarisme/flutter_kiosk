@@ -1,6 +1,7 @@
 // Define a ProductNotifier class that extends ChangeNotifier
 import 'package:ecommerce_int2/api_services/cart_apis.dart';
 import 'package:ecommerce_int2/api_services/shipping.dart';
+import 'package:ecommerce_int2/models/product.dart';
 import 'package:ecommerce_int2/models/user.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -111,10 +112,14 @@ class CartNotifier extends ChangeNotifier {
     return CartAPIs.getCart();
   }
 
-  Future<void> addItem(product_id, quantity) async {
+  Future<void> addItem(Product product, quantity) async {
     CartAPIs cartAPIs = CartAPIs();
+    CartItem cart_item = CartItem(key: product.id.toString(), product_id: product.id, quantity: quantity, name: product.name,
+    regularPrice: double.parse(product.regular_price),salePrice: double.parse(product.sale_price),
+    currencyCode: "LKR", currencySymbol: "LKR", lineTotalTax: "0", currencyMinorUnit: 0, currencyPrefix: "Rs.", linetotal: double.parse(product.sale_price)*quantity,
+    linediscount: 0, variations: []);
     readCartNonce().then((nonce) {
-        cartAPIs.addItem(product_id, quantity);
+        cartAPIs.addItem(cart_item);
         notifyListeners();
     });
   }

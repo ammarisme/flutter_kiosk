@@ -21,12 +21,16 @@ class CartAPIs {
         //Maintain the cart in the local storage.
         print("user not logged in");
         var value_cart = await storage.read(key: 'local_cart');
-        if (value_cart != null) {
+        if (value_cart == null) {
           var empty_cart_json = json.decode(
               '{"coupons":[],"shipping_rates":[],"shipping_address":{"first_name":"","last_name":"","company":"","address_1":"","address_2":"","city":"","state":"","postcode":"","country":"","phone":""},"billing_address":{"first_name":"","last_name":"","company":"","address_1":"","address_2":"","city":"","state":"","postcode":"","country":"","email":"","phone":""},"items":[],"items_count":0,"items_weight":0,"cross_sells":[],"needs_payment":false,"needs_shipping":false,"has_calculated_shipping":false,"fees":[],"totals":{"total_items":"0","total_items_tax":"0","total_fees":"0","total_fees_tax":"0","total_discount":"0","total_discount_tax":"0","total_shipping":null,"total_shipping_tax":null,"total_price":"0","total_tax":"0","tax_lines":[],"currency_code":"LKR","currency_symbol":"Rs. ","currency_minor_unit":2,"currency_decimal_separator":".","currency_thousand_separator":",","currency_prefix":"Rs. ","currency_suffix":""},"errors":[],"payment_requirements":["products"],"extensions":{}}');
           Cart cart = Cart.fromJson(empty_cart_json);
           return cart;
-        } else {}
+        } else {
+          var cart_json = json.decode(value_cart);
+          Cart cart = Cart.fromJson(cart_json);
+          return cart;
+        }
       } else {
         print("Loading the cart of logged in user");
         //The user has logged in. This is authorized checkout mode.
@@ -90,7 +94,7 @@ class CartAPIs {
     }
   }
 
-  Future<bool> addItem(product_id, quantity) async {
+  Future<bool> addItem(cart_item) async {
     try {
       final storage = FlutterSecureStorage();
       var value_ba = await storage.read(key: 'auth_header');
@@ -99,11 +103,24 @@ class CartAPIs {
         //Maintain the cart in the local storage.
         print("user not logged in");
         var value_cart = await storage.read(key: 'local_cart');
-        if (value_cart != null) {
-
-        } else {
+        if (value_cart == null) {
+          //create a cart
+         var empty_cart_json = json.decode(
+              '{"coupons":[],"shipping_rates":[],"shipping_address":{"first_name":"","last_name":"","company":"","address_1":"","address_2":"","city":"","state":"","postcode":"","country":"","phone":""},"billing_address":{"first_name":"","last_name":"","company":"","address_1":"","address_2":"","city":"","state":"","postcode":"","country":"","email":"","phone":""},"items":[],"items_count":0,"items_weight":0,"cross_sells":[],"needs_payment":false,"needs_shipping":false,"has_calculated_shipping":false,"fees":[],"totals":{"total_items":"0","total_items_tax":"0","total_fees":"0","total_fees_tax":"0","total_discount":"0","total_discount_tax":"0","total_shipping":null,"total_shipping_tax":null,"total_price":"0","total_tax":"0","tax_lines":[],"currency_code":"LKR","currency_symbol":"Rs. ","currency_minor_unit":2,"currency_decimal_separator":".","currency_thousand_separator":",","currency_prefix":"Rs. ","currency_suffix":""},"errors":[],"payment_requirements":["products"],"extensions":{}}');
+         Cart cart = Cart.fromJson(empty_cart_json);
+         cart.addItem(cart_item);
+        await storage.write(key: 'local_cart',value: json.encode(cart.toJson()));
+        return true;
+        }else{
+          //load the cart and add the item
+          var cart_json = json.decode(value_cart);
+          Cart cart = Cart.fromJson(cart_json);
+           cart.addItem(cart_item);
+                   await storage.write(key: 'local_cart',value: json.encode(cart.toJson()));
 
         }
+        return true;
+
       } else {
         print("user is logged in");
         String? nonce = await storage.read(key: 'cart_nonce');
@@ -111,8 +128,8 @@ class CartAPIs {
         final Uri url = Uri.parse(base_url + '/cart/add-item');
 
         Map<String, dynamic> postData = {
-          'id': product_id, //16652, // Replace with your actual ID
-          'quantity': quantity //1, // Replace with your actual quantity
+          'id': cart_item.product_id, //16652, // Replace with your actual ID
+          'quantity': cart_item.quantity //1, // Replace with your actual quantity
         };
 
         String encodedData = json.encode(postData);

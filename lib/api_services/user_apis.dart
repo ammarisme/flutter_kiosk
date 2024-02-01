@@ -40,6 +40,38 @@ class UserAPIs {
     }
   }
 
+   static Future<User?> getUserByUsername(String username) async {
+    print('fetching user........');
+    try {
+      final Uri url = Uri.parse("https://catlitter.lk/wp-json/wc/v3/customers?search=${username}");
+
+      final response = await http.get(
+        url,
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Basic " + Settings.TOKEN
+        },
+      );
+
+      if (response.statusCode == 200) {
+        dynamic data = json.decode(response.body);
+        User user = User.fromJson(data[0]);
+
+        final storage = FlutterSecureStorage();
+        await storage.write(key: 'user', value: response.body);
+        await storage.write(key: "last_logged_in_user", value: user.first_name);
+
+        return user;
+      } else {
+        print('Failed to fetch user info: ${response.statusCode}');
+        return null;
+      }
+    } catch (e) {
+      print('Error fetching user: $e');
+      return null;
+    }
+  }
+
   static Future<APIResponse> getCurrentlyLoggedInUser() async {
     print('fetching user........');
     APIResponse api_response = APIResponse();

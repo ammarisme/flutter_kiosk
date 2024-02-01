@@ -4,7 +4,6 @@ import 'package:ecommerce_int2/change_notifiers/cart_notifiers.dart';
 import 'package:ecommerce_int2/common/utils.dart';
 import 'package:ecommerce_int2/data/data.dart';
 import 'package:ecommerce_int2/models/user.dart';
-import 'package:ecommerce_int2/screens/address/select_shipping_and_payment_methods.dart';
 import 'package:ecommerce_int2/screens/auth/confirm_otp_page.dart';
 import 'package:ecommerce_int2/screens/auth/register_page.dart';
 import 'package:ecommerce_int2/screens/components/ui_components.dart';
@@ -329,8 +328,6 @@ class _AddAddressFormState extends State<AddAddressForm> {
                                 .then((value) {
                               Utils.showToast("Updated customer info!",
                                   ToastType.done_success);
-                              Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (_) => SelectShippingMethodPage(user:user)));
                             });
                           } else {
                             Random random = Random();
@@ -352,10 +349,7 @@ class _AddAddressFormState extends State<AddAddressForm> {
                                                     context,
                                                     listen: false);
                                             cartNotifier.addCustomer(this.user);
-                                            Navigator.of(context).push(
-                                                MaterialPageRoute(
-                                                    builder: (_) =>
-                                                        SelectShippingMethodPage(user:user)));
+                                            
                                           },
                                         )));
                               } else {}

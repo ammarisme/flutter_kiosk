@@ -1,22 +1,40 @@
 import 'package:ecommerce_int2/app_properties.dart';
-import 'package:ecommerce_int2/screens/faq_page.dart';
 import 'package:ecommerce_int2/screens/settings/settings_page.dart';
-import 'package:ecommerce_int2/screens/tracking_page.dart';
 import 'package:flutter/material.dart';
 
 import '../models/user.dart';
 
 class ProfilePage extends StatelessWidget {
   User logged_in_user;
+  Function logout;
 
-  ProfilePage({
-    required this.logged_in_user,
+  ProfilePage( {
+    required this.logged_in_user, required this.logout
   });
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xffF9F9F9),
+       appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0.0,
+        actions: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: CircleAvatar(
+              backgroundColor: Colors.white, // Adjust as needed
+              child: IconButton(
+                icon: Icon(Icons.exit_to_app),
+                color: Colors.black, // Adjust as needed
+                onPressed: () {
+                  this.logout();
+                },
+              ),
+            ),
+          ),
+        ],
+      ),
       body: SafeArea(
         top: true,
         child: SingleChildScrollView(
@@ -36,91 +54,27 @@ class ProfilePage extends StatelessWidget {
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                 ),
-                Container(
-                  margin: EdgeInsets.symmetric(vertical: 16.0),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(8),
-                          topRight: Radius.circular(8),
-                          bottomLeft: Radius.circular(8),
-                          bottomRight: Radius.circular(8)),
-                      color: Colors.white,
-                      boxShadow: [
-                        BoxShadow(
-                            color: THEME_COLOR_3,
-                            blurRadius: 4,
-                            spreadRadius: 1,
-                            offset: Offset(0, 1))
-                      ]),
-                  height: 150,
-                  child: Center(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: <Widget>[
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            IconButton(
-                              icon: Image.asset('assets/icons/truck.png'),
-                              onPressed: () =>
-                                  Navigator.of(context).push(
-                                      MaterialPageRoute(
-                                          builder: (_) => TrackingPage(user: logged_in_user))),
-                            ),
-                            Text(
-                              'Tracking',
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            )
-                          ],
-                        ),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            IconButton(
-                              icon: Image.asset('assets/icons/contact_us.png'),
-                              onPressed: () {},
-                            ),
-                            Text(
-                              'Support',
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            )
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
                 ListTile(
-                  title: Text('Settings'),
-                  subtitle: Text('Privacy and logout'),
+                  title: Text('My past order'),
+                  subtitle: Text('See your past orders & re-order.'),
                   leading: Image.asset(
-                    'assets/icons/settings_icon.png', fit: BoxFit.scaleDown,
+                    'assets/icons/orders_icon.png', fit: BoxFit.scaleDown,
                     width: 30,
                     height: 30,),
                   trailing: Icon(Icons.chevron_right, color: PAGE_BACKGROUND_COLOR),
-                  onTap: () =>
-                      Navigator.of(context).push(
-                          MaterialPageRoute(builder: (_) => SettingsPage())),
+                  onTap: () => {}
+                    
                 ),
-                Divider(),
-                ListTile(
-                  title: Text('Help & Support'),
-                  subtitle: Text('Help center and legal support'),
-                  leading: Image.asset('assets/icons/support.png'),
-                  trailing: Icon(
-                    Icons.chevron_right,
-                    color: PAGE_BACKGROUND_COLOR,
-                  ),
-                ),
-                Divider(),
-                ListTile(
-                  title: Text('FAQ'),
-                  subtitle: Text('Questions and Answer'),
-                  leading: Image.asset('assets/icons/faq.png'),
+                 ListTile(
+                  title: Text('Loyalty & Rewards'),
+                  subtitle: Text('Earn points & save more'),
+                  leading: Image.asset(
+                    'assets/icons/orders_icon.png', fit: BoxFit.scaleDown,
+                    width: 30,
+                    height: 30,),
                   trailing: Icon(Icons.chevron_right, color: PAGE_BACKGROUND_COLOR),
-                  onTap: () =>
-                      Navigator.of(context).push(
-                          MaterialPageRoute(builder: (_) => FaqPage())),
+                  onTap: () =>{}
+                    
                 ),
                 Divider(),
               ],
