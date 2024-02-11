@@ -1,4 +1,5 @@
-import 'package:ecommerce_int2/models/cart.dart';
+import 'package:fluter_kiosk/models/cart.dart';
+import 'package:flutter_wp_woocommerce/models/order.dart';
 
 class Order {
   int id;
@@ -17,6 +18,7 @@ class Order {
   ShippingInfo shipping;
   String payment_method_title;
   String date_completed;
+  List<OrderLineItem> line_items;
   Order(
       {required this.id,
       required this.parent_id,
@@ -33,10 +35,14 @@ class Order {
       required this.customer_id,
       required this.shipping,
       required this.payment_method_title,
-      required this.date_completed});
+      required this.date_completed,
+      required this.line_items});
 
   factory Order.fromJson(Map<String, dynamic> json) {
-    
+    List<OrderLineItem> my_line_items = json['line_items'] !=null? (json['line_items'] as List<dynamic>)
+        .map((item) => OrderLineItem.fromJson(item))
+        .toList() : [];
+
     return Order(
       id: json['id'],
       parent_id: json['parent_id'],
@@ -54,6 +60,49 @@ class Order {
       shipping: ShippingInfo(),
       payment_method_title: json['payment_method_title'],
       date_completed: "",//json['date_completed'],
+      line_items : my_line_items
+    );
+  }
+}
+
+
+
+class OrderLineItem {
+  int id;
+  String name;
+  int product_id;
+  int variation_id;
+  int quantity;
+  double subtotal;
+  double price;
+  String image_url;
+  OrderLineItem(
+      {required this.id,
+      required this.name,
+      required this.product_id,
+      required this.variation_id,
+      required this.quantity,
+      required this.subtotal,
+      required this.price,
+      required this.image_url
+     });
+
+  factory OrderLineItem.fromJson(Map<String, dynamic> json) {
+    double price ;
+    if (json["price"] is int){
+      price = json["price"].toDouble();
+    }else{
+      price = json["price"];
+    }
+    return OrderLineItem(
+      id: json['id'],
+      name: json['name'],
+      product_id: json['product_id'],
+      variation_id: json['variation_id'],
+      quantity: json['quantity'],
+      subtotal: double.parse(json['subtotal']),
+      price: price,
+      image_url: json["image"]!= null ? json["image"]["src"] : ""
     );
   }
 }

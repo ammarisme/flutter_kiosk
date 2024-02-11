@@ -1,15 +1,15 @@
-import 'package:ecommerce_int2/api_services/user_apis.dart';
-import 'package:ecommerce_int2/app_properties.dart';
-import 'package:ecommerce_int2/change_notifiers/cart_notifiers.dart';
-import 'package:ecommerce_int2/common/utils.dart';
-import 'package:ecommerce_int2/data/data.dart';
-import 'package:ecommerce_int2/models/user.dart';
-import 'package:ecommerce_int2/screens/auth/confirm_otp_page.dart';
-import 'package:ecommerce_int2/screens/auth/register_page.dart';
-import 'package:ecommerce_int2/screens/components/ui_components.dart';
+import 'package:fluter_kiosk/api_services/user_apis.dart';
+import 'package:fluter_kiosk/app_properties.dart';
+import 'package:fluter_kiosk/change_notifiers/cart_notifiers.dart';
+import 'package:fluter_kiosk/common/utils.dart';
+import 'package:fluter_kiosk/data/data.dart';
+import 'package:fluter_kiosk/models/user.dart';
+import 'package:fluter_kiosk/screens/auth/confirm_otp_page.dart';
+import 'package:fluter_kiosk/screens/auth/register_page.dart';
+import 'package:fluter_kiosk/screens/components/ui_components.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:ecommerce_int2/api_services/sms_apis.dart';
+import 'package:fluter_kiosk/api_services/sms_apis.dart';
 import 'dart:math';
 
 class AddAddressForm extends StatefulWidget {

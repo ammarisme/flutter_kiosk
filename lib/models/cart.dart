@@ -1,5 +1,5 @@
-import 'package:ecommerce_int2/models/product.dart';
-import 'package:ecommerce_int2/models/user.dart';
+import 'package:fluter_kiosk/models/product.dart';
+import 'package:fluter_kiosk/models/user.dart';
 
 class Cart {
  //for json output

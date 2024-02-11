@@ -1,4 +1,4 @@
-name: ecommerce_int2
+name: fluter_kiosk
 description: It is about a complete ecommerce app for Android and iOS. 
 
 # The following defines the version and build number for your application.
@@ -42,8 +42,9 @@ dependencies:
   jwt_decode:
   flutter_wp_woocommerce:
   dropdown_search:
-  fluttertoast:
+  # fluttertoast:
   connectivity:
+  socket_io_client:
   webxpay_flutter_sdk:
     path: ../webxpay_staging_sample/webxpay_flutter_sdk
   otp_text_field:

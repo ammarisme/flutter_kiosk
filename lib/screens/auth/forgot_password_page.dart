@@ -1,10 +1,10 @@
 import 'dart:math';
 
-import 'package:ecommerce_int2/api_services/sms_apis.dart';
-import 'package:ecommerce_int2/app_properties.dart';
-import 'package:ecommerce_int2/common/utils.dart';
-import 'package:ecommerce_int2/screens/components/ui_components.dart';
-import 'package:ecommerce_int2/screens/settings/change_password_page.dart';
+import 'package:fluter_kiosk/api_services/sms_apis.dart';
+import 'package:fluter_kiosk/app_properties.dart';
+import 'package:fluter_kiosk/common/utils.dart';
+import 'package:fluter_kiosk/screens/components/ui_components.dart';
+import 'package:fluter_kiosk/screens/settings/change_password_page.dart';
 import 'package:flutter/material.dart';
 
 import 'confirm_otp1_page.dart';

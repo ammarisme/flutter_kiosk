@@ -1,6 +1,6 @@
-import 'package:ecommerce_int2/app_properties.dart';
-import 'package:ecommerce_int2/change_notifiers/mainpage_notifier.dart';
-import 'package:ecommerce_int2/screens/main/main_page.dart';
+import 'package:fluter_kiosk/app_properties.dart';
+import 'package:fluter_kiosk/change_notifiers/mainpage_notifier.dart';
+import 'package:fluter_kiosk/screens/main/main_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:connectivity/connectivity.dart';

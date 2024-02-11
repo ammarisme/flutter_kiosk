@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+// import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 
 enum ToastType {
@@ -31,13 +34,34 @@ class Utils {
     return mobileNumber;
 }
 
+static String makeDateStringHumanReadable(dateString){
+  DateTime dateTime = DateTime.parse(dateString);
+  
+  String formattedDate = DateFormat.yMMMMd().add_jm().format(dateTime);
+  
+  return formattedDate;
+   // Output: February 8, 2024 6:10 PM
+}
+
   static showToast(String msg, ToastType type) {
-    Fluttertoast.showToast(
-      msg: msg,
-      toastLength: Toast.LENGTH_SHORT, // Duration of the toast
-      gravity: ToastGravity.BOTTOM, // Location of the toast
-      backgroundColor: Colors.grey,
-      textColor: type == ToastType.done_error ? Colors.red : Colors.white,
-    );
+      // Fluttertoast.showToast(
+    //   msg: msg,
+    //   toastLength: Toast.LENGTH_SHORT, // Duration of the toast
+    //   gravity: ToastGravity.BOTTOM, // Location of the toast
+    //   backgroundColor: Colors.grey,
+    //   textColor: type == ToastType.done_error ? Colors.red : Colors.white,
+    // );
+  }
+
+
+  static saveSettings(settings) async{
+ final storage = FlutterSecureStorage();
+      await storage.write(key: "settings", value:settings);
+  }
+
+  static  Future<String?> getLocalSettings() async {
+    final storage = FlutterSecureStorage();
+    return storage.read(key: "settings");
+    
   }
 }

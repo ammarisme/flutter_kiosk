@@ -1,7 +1,10 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:socket_io_client/src/socket.dart';
 
 class Game extends StatefulWidget {
+  Game(Socket socket);
+
   @override
   _GameState createState() => _GameState();
 }
@@ -173,8 +176,6 @@ class SegmentPainter extends CustomPainter {
 
     textPainter.layout();
     textPainter.paint(canvas, Offset(centerX - textPainter.width / 2, centerY - textPainter.height / 2));
-
-    
   }
 
   @override
@@ -189,7 +190,7 @@ class SegmentPainter extends CustomPainter {
   }
 
   String getText(index) {
-    final List<String> text = ["20%", "", "10%", "", "5%", "", "", "BOGO", "", ""];
+    final List<String> text = ["", "", "", "", "", "", "", "", "", ""];
     final Random random = Random();
     return text[index];
   }

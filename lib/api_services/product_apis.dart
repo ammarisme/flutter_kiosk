@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:ecommerce_int2/models/product_variation.dart';
+import 'package:fluter_kiosk/models/product_variation.dart';
 import 'package:http/http.dart' as http;
 import '../models/category.dart';
 import '../models/product.dart';

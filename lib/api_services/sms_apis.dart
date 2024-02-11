@@ -1,10 +1,16 @@
 import 'dart:convert';
-import 'package:ecommerce_int2/api_services/api_service.dart';
-import 'package:ecommerce_int2/models/api_response.dart';
+import 'package:fluter_kiosk/api_services/api_service.dart';
+import 'package:fluter_kiosk/models/api_response.dart';
 import 'package:http/http.dart' as http;
 
 class SMSAPIs {
   static Future<APIResponse> sendSMS(String phoneNumber, String message) async {
+
+//comment this out in production.
+// APIResponse payload = APIResponse();
+// payload.status = true;
+// return payload;
+
     try {
       final Map<String, String> data = {
         'to': phoneNumber,

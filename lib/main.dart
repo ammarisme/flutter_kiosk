@@ -1,10 +1,10 @@
 import 'dart:async';
 
-import 'package:ecommerce_int2/change_notifiers/cart_notifiers.dart';
-import 'package:ecommerce_int2/change_notifiers/mainpage_notifier.dart';
-import 'package:ecommerce_int2/change_notifiers/product_notifier.dart';
-import 'package:ecommerce_int2/change_notifiers/user_notifier.dart';
-import 'package:ecommerce_int2/screens/splash_page.dart';
+import 'package:fluter_kiosk/change_notifiers/cart_notifiers.dart';
+import 'package:fluter_kiosk/change_notifiers/mainpage_notifier.dart';
+import 'package:fluter_kiosk/change_notifiers/product_notifier.dart';
+import 'package:fluter_kiosk/change_notifiers/user_notifier.dart';
+import 'package:fluter_kiosk/screens/splash_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

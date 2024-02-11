@@ -19,7 +19,7 @@ Flutter is Google’s portable UI toolkit for building beautiful, natively-compi
 <a href="https://youtu.be/aI4AelN8k24"><img src="assets/promotional/youtube.png" title="Shope Flutter e-Commerce" alt="youtube-video" style="height: 30px !important;width: 150px !important;"></a>
 
 ## Download the Android APK
-<a href="https://play.google.com/store/apps/details?id=com.int2.ecommerce_int2"><img src="assets/promotional/google-play-badge.png" title="Shope Flutter e-Commerce" alt="youtube-video" style="height: 30px !important;width: 150px !important;"></a>
+<a href="https://play.google.com/store/apps/details?id=com.int2.fluter_kiosk"><img src="assets/promotional/google-play-badge.png" title="Shope Flutter e-Commerce" alt="youtube-video" style="height: 30px !important;width: 150px !important;"></a>
 
 ## Support me
 If this is template is useful for you and you want to support me [buy me a coffe!](https://www.buymeacoffee.com/SaNhE76x9). This will give me motivation to keep doing more content like this. 

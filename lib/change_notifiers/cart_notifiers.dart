@@ -1,8 +1,8 @@
 // Define a ProductNotifier class that extends ChangeNotifier
-import 'package:ecommerce_int2/api_services/cart_apis.dart';
-import 'package:ecommerce_int2/api_services/shipping.dart';
-import 'package:ecommerce_int2/models/product.dart';
-import 'package:ecommerce_int2/models/user.dart';
+import 'package:fluter_kiosk/api_services/cart_apis.dart';
+import 'package:fluter_kiosk/api_services/shipping.dart';
+import 'package:fluter_kiosk/models/product.dart';
+import 'package:fluter_kiosk/models/user.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 

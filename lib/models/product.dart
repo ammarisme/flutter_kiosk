@@ -1,5 +1,5 @@
-import 'package:ecommerce_int2/models/product_review.dart';
-import 'package:ecommerce_int2/models/product_variation.dart';
+import 'package:fluter_kiosk/models/product_review.dart';
+import 'package:fluter_kiosk/models/product_variation.dart';
 
 part 'product.g.dart';
 

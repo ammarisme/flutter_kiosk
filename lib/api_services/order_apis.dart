@@ -1,8 +1,8 @@
 import 'dart:convert';
-import 'package:ecommerce_int2/api_services/api_service.dart';
-import 'package:ecommerce_int2/models/api_response.dart';
-import 'package:ecommerce_int2/models/order.dart';
-import 'package:ecommerce_int2/settings.dart';
+import 'package:fluter_kiosk/api_services/api_service.dart';
+import 'package:fluter_kiosk/models/api_response.dart';
+import 'package:fluter_kiosk/models/order.dart';
+import 'package:fluter_kiosk/settings.dart';
 import 'package:http/http.dart' as http;
 
 class OrderAPIs {

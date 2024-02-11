@@ -1,7 +1,7 @@
 import 'dart:convert';
-import 'package:ecommerce_int2/api_services/api_service.dart';
-import 'package:ecommerce_int2/models/api_response.dart';
-import 'package:ecommerce_int2/models/user.dart';
+import 'package:fluter_kiosk/api_services/api_service.dart';
+import 'package:fluter_kiosk/models/api_response.dart';
+import 'package:fluter_kiosk/models/user.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 

@@ -1,6 +1,6 @@
-import 'package:ecommerce_int2/app_properties.dart';
-import 'package:ecommerce_int2/screens/auth/login_page.dart';
-import 'package:ecommerce_int2/screens/components/ui_components.dart';
+import 'package:fluter_kiosk/app_properties.dart';
+import 'package:fluter_kiosk/screens/auth/login_page.dart';
+import 'package:fluter_kiosk/screens/components/ui_components.dart';
 import 'package:flutter/material.dart';
 
 class ChangePasswordPage extends StatefulWidget {

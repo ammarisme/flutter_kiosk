@@ -1,12 +1,13 @@
 import 'dart:convert';
 
-import 'package:ecommerce_int2/api_services/cart_apis.dart';
-import 'package:ecommerce_int2/app_properties.dart';
-import 'package:ecommerce_int2/change_notifiers/user_notifier.dart';
-import 'package:ecommerce_int2/common/utils.dart';
-import 'package:ecommerce_int2/screens/auth/register_page.dart';
-import 'package:ecommerce_int2/screens/main/main_page.dart';
+import 'package:fluter_kiosk/api_services/cart_apis.dart';
+import 'package:fluter_kiosk/app_properties.dart';
+import 'package:fluter_kiosk/change_notifiers/user_notifier.dart';
+import 'package:fluter_kiosk/common/utils.dart';
+import 'package:fluter_kiosk/screens/auth/register_page.dart';
+import 'package:fluter_kiosk/screens/main/main_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:provider/provider.dart';
 
@@ -98,6 +99,9 @@ class LoginPage extends StatelessWidget {
         ),
         child:
                          TextField(
+                          inputFormatters: <TextInputFormatter>[
+        FilteringTextInputFormatter.digitsOnly,
+      ],
                             controller: username,
                             style: TextStyle(fontSize: 16.0),
                             decoration: InputDecoration(

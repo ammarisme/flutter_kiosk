@@ -2,9 +2,9 @@
 
 import 'dart:convert';
 
-import 'package:ecommerce_int2/api_services/authentication_apis.dart';
-import 'package:ecommerce_int2/api_services/cart_apis.dart';
-import 'package:ecommerce_int2/api_services/user_apis.dart';
+import 'package:fluter_kiosk/api_services/authentication_apis.dart';
+import 'package:fluter_kiosk/api_services/cart_apis.dart';
+import 'package:fluter_kiosk/api_services/user_apis.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import '../models/user.dart';

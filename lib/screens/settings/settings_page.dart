@@ -1,7 +1,7 @@
-import 'package:ecommerce_int2/app_properties.dart';
-import 'package:ecommerce_int2/custom_background.dart';
-import 'package:ecommerce_int2/screens/main/main_page.dart';
-import 'package:ecommerce_int2/screens/settings/legal_about_page.dart';
+import 'package:fluter_kiosk/app_properties.dart';
+import 'package:fluter_kiosk/custom_background.dart';
+import 'package:fluter_kiosk/screens/main/main_page.dart';
+import 'package:fluter_kiosk/screens/settings/legal_about_page.dart';
 import 'package:flutter/material.dart';
 
 import '../../change_notifiers/user_notifier.dart';

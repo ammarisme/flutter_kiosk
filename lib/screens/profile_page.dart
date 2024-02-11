@@ -1,5 +1,6 @@
-import 'package:ecommerce_int2/app_properties.dart';
-import 'package:ecommerce_int2/screens/settings/settings_page.dart';
+import 'package:fluter_kiosk/app_properties.dart';
+import 'package:fluter_kiosk/screens/myorders.dart';
+import 'package:fluter_kiosk/screens/settings/settings_page.dart';
 import 'package:flutter/material.dart';
 
 import '../models/user.dart';
@@ -62,7 +63,14 @@ class ProfilePage extends StatelessWidget {
                     width: 30,
                     height: 30,),
                   trailing: Icon(Icons.chevron_right, color: PAGE_BACKGROUND_COLOR),
-                  onTap: () => {}
+                  onTap: () => {
+                     Navigator.push(
+  context,
+  MaterialPageRoute(
+    builder: (context) => MyOrdersPage(loggedInUser: logged_in_user),
+  ),
+)
+                  }
                     
                 ),
                  ListTile(

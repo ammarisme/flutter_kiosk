@@ -1,9 +1,9 @@
-import 'package:ecommerce_int2/api_services/authentication_apis.dart';
-import 'package:ecommerce_int2/api_services/user_apis.dart';
-import 'package:ecommerce_int2/app_properties.dart';
-import 'package:ecommerce_int2/common/utils.dart';
-import 'package:ecommerce_int2/models/user.dart';
-import 'package:ecommerce_int2/screens/auth/login_page.dart';
+import 'package:fluter_kiosk/api_services/authentication_apis.dart';
+import 'package:fluter_kiosk/api_services/user_apis.dart';
+import 'package:fluter_kiosk/app_properties.dart';
+import 'package:fluter_kiosk/common/utils.dart';
+import 'package:fluter_kiosk/models/user.dart';
+import 'package:fluter_kiosk/screens/auth/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:otp_text_field/otp_field.dart';
 import 'package:otp_text_field/otp_field_style.dart';
